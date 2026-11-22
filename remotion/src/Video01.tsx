@@ -3,7 +3,7 @@ import { AbsoluteFill, Audio, Sequence, staticFile, useCurrentFrame } from 'remo
 import './fonts';
 import { FPS, MUST, kf, easeOut, clamp, lauroTalk, clerkTalk, pop } from './lib';
 import { Lauro, LauroDefs } from './chars/Lauro';
-import { CuscoRun, CuscoSit, Clerk } from './chars/Others';
+import { CuscoRun, CuscoSit, Clerk, CuscoDefs, ClerkDefs } from './chars/Others';
 import {
   BakeryBG, CounterFG, SPBakeryBG, BasketClose, PartyBG, PartyTableFG, BackyardBG,
   StreetBG, Car, Xis, LancheriaBG, StorefrontBG,
@@ -24,11 +24,18 @@ const shake = (t: number, a: number, b: number, amp: number) =>
 
 type Scene = { a: number; b: number; draw: (t: number, lt: number) => React.ReactNode };
 
+// Lauro is placed by his feet: <Place x y s> → (x,y) = feet position, s = scale.
+// Standard "behind the counter" shot: feet (540,1880) at 0.66 → face center ≈ y 870.
+const FACE_Y = 1880 - 1530 * 0.66;
+
 const suspense = (t: number, lt: number) => (
   <>
-    <Cam z={kf(lt, [[0, 1.85], [3.8, 2.2]])} cy={930}>
+    <Cam z={kf(lt, [[0, 2.3], [3.8, 2.75]])} cy={FACE_Y}>
       <BakeryBG />
-      <Lauro t={t} talk={lauroTalk(t)} expr="squint" />
+      <Place x={540} y={1880} s={0.66}>
+        <Lauro t={t} talk={lauroTalk(t)} expr="squint" />
+      </Place>
+      <CounterFG />
     </Cam>
     <rect width={1080} height={1920} fill="url(#vig)" />
   </>
@@ -39,25 +46,33 @@ const SCENES: Scene[] = [
   { a: 0, b: 3.9, draw: (t, lt) => {
     const s = shake(t, 0, 0.3, 12);
     return (
-      <Cam z={kf(lt, [[0, 1], [3.9, 1.07]])} {...s}>
+      <Cam z={kf(lt, [[0, 1.0], [3.9, 1.14]])} cy={FACE_Y} {...s}>
         <BakeryBG />
-        <Lauro t={t} talk={lauroTalk(t)} expr="shock" browBoost={-10 * (1 - easeOut(lt / 0.3))} />
+        <Place x={540} y={1880} s={0.66}>
+          <Lauro t={t} talk={lauroTalk(t)} expr="shock" browBoost={-6 * (1 - easeOut(lt / 0.3))} />
+        </Place>
         <CounterFG />
       </Cam>
     );
   } },
-  // 2 — São Paulo clerk
+  // 2 — São Paulo clerk (female)
   { a: 3.9, b: 8.6, draw: (t, lt) => {
     const s = shake(t, 6.6, 6.9, 18);
-    const punch = t > 7.7 ? 0.1 * (1 - easeOut((t - 7.7) / 0.25)) + 0.04 : 0;
+    const punch = t > 7.7 ? 0.12 * (1 - easeOut((t - 7.7) / 0.25)) + 0.06 : 0;
     return (
-      <Cam z={1.02 + 0.05 * (lt / 4.7) + punch} {...s}>
+      <Cam z={1.0 + 0.05 * (lt / 4.7) + punch} cy={880} {...s}>
         <SPBakeryBG />
-        <Clerk t={t} lt={lt} talk={clerkTalk(t)} />
-        {[[6.6, 830, 640], [7.7, 230, 560]].map(([tq, x, y]) =>
+        <Place x={540} y={1900} s={0.68}>
+          <Clerk t={t} lt={lt} talk={clerkTalk(t)} />
+        </Place>
+        <rect x={-20} y={1290} width={1120} height={700} fill="#9AA4AA" />
+        <rect x={-20} y={1290} width={1120} height={40} fill="#C4CCD0" />
+        <rect x={60} y={1360} width={960} height={220} rx={10} fill="rgba(210,235,250,.35)" />
+        {[0, 1, 2, 3, 4, 5].map((i) => <ellipse key={i} cx={150 + i * 156} cy={1500} rx={60} ry={34} fill="#C98A3A" />)}
+        {[[6.6, 800, 740], [7.7, 270, 680]].map(([tq, x, y]) =>
           t > tq ? (
             <g key={tq} transform={`translate(${x},${y}) scale(${pop(t, tq)}) rotate(${Math.sin(t * 6) * 9})`}>
-              <text textAnchor="middle" fontFamily="Montserrat" fontWeight={900} fontSize={190} fill="#fff" stroke="#1a1a1a" strokeWidth={16} paintOrder="stroke">?</text>
+              <text textAnchor="middle" fontFamily="Montserrat" fontWeight={900} fontSize={150} fill="#fff" stroke="#1a1a1a" strokeWidth={14} paintOrder="stroke">?</text>
             </g>
           ) : null,
         )}
@@ -66,44 +81,48 @@ const SCENES: Scene[] = [
   } },
   // 3a — laugh / intro
   { a: 8.6, b: 13.4, draw: (t, lt) => (
-    <Cam z={1.05}>
+    <Cam z={1.04} cy={FACE_Y}>
       <BakeryBG />
-      <Lauro t={t} talk={lauroTalk(t)} expr={lt < 1.6 ? 'laugh' : 'talk'} tilt={lt < 1.6 ? -4 + Math.sin(t * 10) * 1.5 : Math.sin(t * 2) * 1} />
+      <Place x={540} y={1880} s={0.66}>
+        <Lauro t={t} talk={lauroTalk(t)} expr={lt < 1.6 ? 'laugh' : 'talk'} tilt={lt < 1.6 ? -4 + Math.sin(t * 10) * 1.5 : Math.sin(t * 2) * 1} />
+      </Place>
       <CounterFG />
     </Cam>
   ) },
   // 3b — "te aprochega"
   { a: 13.4, b: 16.2, draw: (t) => (
-    <Cam z={1.12} cy={1100}>
+    <Cam z={1.08} cy={FACE_Y + 150}>
       <BakeryBG />
-      <Lauro t={t} talk={lauroTalk(t)} expr="smile" arm="wave" armWobble={Math.sin(t * 10) * 28} />
+      <Place x={540} y={1880} s={0.66}>
+        <Lauro t={t} talk={lauroTalk(t)} expr="smile" arm="wave" armWobble={Math.sin(t * 10) * 28} />
+      </Place>
       <CounterFG />
     </Cam>
   ) },
-  // 4 — cacetinho
+  // 4 — cacetinho (insert)
   { a: 16.2, b: 21.9, draw: (t, lt) => (
-    <Cam z={kf(lt, [[0, 1.05], [5.7, 1.15]])}>
+    <Cam z={kf(lt, [[0, 1.0], [5.7, 1.1]])}>
       <BasketClose t={t} lift={kf(lt, [[0.2, 0], [1.4, 1]])} />
     </Cam>
   ) },
   // 5 — negrinho
   { a: 21.9, b: 26.8, draw: (t, lt) => (
-    <Cam z={kf(lt, [[0, 1], [4.9, 1.06]])}>
+    <Cam z={kf(lt, [[0, 1], [4.9, 1.06]])} cy={900}>
       <PartyBG />
-      <Place x={43} y={200} s={0.92}>
-        <Lauro t={t} talk={lauroTalk(t)} expr={lt < 1.2 ? 'delight' : 'smile'} arm="hold" obj="brigadeiro" objLift={kf(lt, [[0, 40], [0.5, -20]])} />
+      <Place x={540} y={1880} s={0.64}>
+        <Lauro t={t} talk={lauroTalk(t)} expr={lt < 1.2 ? 'delight' : 'smile'} arm="hold" obj="brigadeiro" objLift={kf(lt, [[0, 30], [0.5, 0]])} />
       </Place>
       <PartyTableFG />
     </Cam>
   ) },
   // 6 — bergamota (+ toss at 33.7)
-  { a: 26.8, b: 34.7, draw: (t, lt) => {
-    const toss = t > 33.7 && t < 34.35 ? -Math.sin((Math.PI * (t - 33.7)) / 0.65) * 300 : 0;
+  { a: 26.8, b: 34.7, draw: (t) => {
+    const toss = t > 33.7 && t < 34.35 ? -Math.sin((Math.PI * (t - 33.7)) / 0.65) * 320 : 0;
     return (
-      <Cam z={t < 31.9 ? 1 : 1.1} cy={900}>
+      <Cam z={t < 31.9 ? 1 : 1.12} cy={1100}>
         <BackyardBG />
-        <Place x={81} y={330} s={0.85}>
-          <Lauro t={t} talk={lauroTalk(t)} expr={t < 31.9 ? 'talk' : 'smile'} arm="hold" obj="bergamota" objLift={toss} browBoost={-14} />
+        <Place x={400} y={1770} s={0.52}>
+          <Lauro t={t} talk={lauroTalk(t)} expr={t < 31.9 ? 'talk' : 'smile'} arm="hold" obj="bergamota" objLift={toss} browBoost={-4} />
         </Place>
       </Cam>
     );
@@ -112,20 +131,20 @@ const SCENES: Scene[] = [
   { a: 34.7, b: 38.4, draw: (t, lt) => (
     <Cam z={kf(lt, [[0, 1.04], [3.7, 1.0]])}>
       <StreetBG light={t < 37.6 ? 'red' : 'green'} />
-      <Place x={60} y={1760 - 2740 * 0.5} s={0.5}>
-        <Lauro t={t} talk={lauroTalk(t)} expr="talk" arm="pointUp" full />
+      <Place x={420} y={1640} s={0.5}>
+        <Lauro t={t} talk={lauroTalk(t)} expr="talk" arm="pointUp" />
       </Place>
-      <g transform="translate(420,1760) scale(0.55)"><Car color="#3B82C4" /></g>
+      <g transform="translate(200,1790) scale(0.55)"><Car color="#3B82C4" /></g>
     </Cam>
   ) },
   // 8a — xis reveal
   { a: 38.4, b: 44.9, draw: (t, lt) => (
-    <Cam z={kf(lt, [[0, 1.75], [1.8, 1.0]])} cy={1350}>
+    <Cam z={kf(lt, [[0, 1.7], [1.8, 1.0]])} cy={1420}>
       <LancheriaBG />
-      <Place x={216} y={560} s={0.6}>
+      <Place x={540} y={1850} s={0.6}>
         <Lauro t={t} talk={lauroTalk(t)} expr="shock" />
       </Place>
-      <g transform="translate(540,1460) scale(1.2)"><Xis /></g>
+      <g transform="translate(540,1470) scale(1.05)"><Xis /></g>
     </Cam>
   ) },
   // 8b — xis close-up
@@ -137,28 +156,28 @@ const SCENES: Scene[] = [
   ) },
   // 9 — tri
   { a: 49.4, b: 54.6, draw: (t) => (
-    <Cam z={1.02}>
+    <Cam z={1.03} cy={1000}>
       <LancheriaBG />
-      <Place x={27} y={150} s={0.95}>
+      <Place x={540} y={1880} s={0.62}>
         <Lauro t={t} talk={lauroTalk(t)} expr="delight" arm="thumbsUp" armWobble={Math.sin(t * 8) * 6} />
       </Place>
-      <g transform="translate(540,1760) scale(0.85)"><Xis /></g>
+      <g transform="translate(540,1690) scale(0.7)"><Xis /></g>
     </Cam>
   ) },
   // 10 — capaz
   { a: 54.6, b: 62.6, draw: (t) => (
-    <Cam z={t < 59 ? 1.0 : 1.1} cy={1000}>
+    <Cam z={t < 59 ? 1.0 : 1.12} cy={FACE_Y + 120}>
       <BakeryBG />
-      <Lauro t={t} talk={lauroTalk(t)} expr="stern" arm="wag" armWobble={Math.sin(t * 13) * 16} tilt={Math.sin(t * 13) * 2} />
+      <Place x={540} y={1880} s={0.66}>
+        <Lauro t={t} talk={lauroTalk(t)} expr="stern" arm="wag" armWobble={Math.sin(t * 13) * 16} tilt={Math.sin(t * 13) * 2} />
+      </Place>
       <CounterFG />
     </Cam>
   ) },
   // 11 — suspense
   { a: 62.6, b: 66.4, draw: (t, lt) => suspense(t, lt) },
   // 12 — PECHADA freeze (music break)
-  { a: 66.4, b: 68.3, draw: () => (
-    <g filter="url(#desat)">{suspense(66.39, 66.39 - 62.6)}</g>
-  ) },
+  { a: 66.4, b: 68.3, draw: () => <g filter="url(#desat)">{suspense(66.39, 66.39 - 62.6)}</g> },
   // 13 — pechada: cars
   { a: 68.3, b: 74.5, draw: (t, lt) => {
     const bx = kf(t, [[68.3, 470], [68.5, 608], [68.75, 585]]);
@@ -167,13 +186,13 @@ const SCENES: Scene[] = [
     return (
       <Cam z={1.0} {...s}>
         <StreetBG light="red" />
-        <Place x={0} y={1720 - 2740 * 0.45} s={0.45}>
+        <Place x={210} y={1640} s={0.46}>
           <Lauro t={t} talk={lauroTalk(t)} expr={lt < 2.5 ? 'shock' : 'laugh'} arm="pointSide" armWobble={Math.sin(t * 6) * 4} />
         </Place>
-        <g transform={`translate(880,${1760 + (hit && t < 68.9 ? Math.sin(t * 90) * 6 : 0)}) scale(0.8)`}><Car color="#B23A2E" dent={hit} /></g>
-        <g transform={`translate(${bx},1770) scale(0.8)`}><Car color="#2F8F9D" /></g>
+        <g transform={`translate(880,${1770 + (hit && t < 68.9 ? Math.sin(t * 90) * 6 : 0)}) scale(0.8)`}><Car color="#B23A2E" dent={hit} /></g>
+        <g transform={`translate(${bx},1780) scale(0.8)`}><Car color="#2F8F9D" /></g>
         {t > 68.5 && t < 69.1 && (
-          <g transform={`translate(740,1700) scale(${pop(t, 68.5, 0.15)})`}>
+          <g transform={`translate(740,1710) scale(${pop(t, 68.5, 0.15)})`}>
             <path d="M0,-90 L22,-28 L88,-28 L35,10 L55,75 L0,35 L-55,75 L-35,10 L-88,-28 L-22,-28 Z" fill="#FFD43B" stroke="#1a1a1a" strokeWidth={8} />
           </g>
         )}
@@ -182,35 +201,35 @@ const SCENES: Scene[] = [
   } },
   // 14 — Cusco steals the cacetinho
   { a: 74.5, b: 77.5, draw: (t, lt) => (
-    <Cam z={1.0}>
+    <Cam z={1.0} cy={1000}>
       <BakeryBG />
-      <Place x={-170} y={430} s={0.8}>
+      <Place x={300} y={1880} s={0.62}>
         <Lauro t={t} talk={lauroTalk(t)} expr="angry" arm="pointSide" armWobble={Math.sin(t * 9) * 8} />
       </Place>
       <CounterFG />
-      <g transform={`translate(${kf(lt, [[0, 380], [0.8, 540], [2.95, 1150]])},1450) scale(1.05)`}>
+      <g transform={`translate(${kf(lt, [[0, 380], [0.8, 540], [2.95, 1180]])},1395) scale(0.95)`}>
         <CuscoRun t={t} />
       </g>
     </Cam>
   ) },
   // 15 — closing phrase
   { a: 77.5, b: 81.0, draw: (t, lt) => (
-    <Cam z={kf(lt, [[0, 1.0], [3.5, 1.05]])}>
+    <Cam z={kf(lt, [[0, 1.0], [3.5, 1.05]])} cy={1300}>
       <StorefrontBG />
-      <Place x={-60} y={330} s={0.9}>
+      <Place x={420} y={1810} s={0.55}>
         <Lauro t={t} talk={lauroTalk(t)} expr="smile" cuiaRaise={kf(lt, [[0, 0], [0.6, 1]])} />
       </Place>
-      <g transform="translate(860,1650) scale(0.95)"><CuscoSit t={t} /></g>
+      <g transform="translate(820,1820) scale(0.8)"><CuscoSit t={t} /></g>
     </Cam>
   ) },
   // 16 — CTA
   { a: 81.0, b: 89.2, draw: (t) => (
-    <Cam z={1.05} cy={1100}>
+    <Cam z={1.05} cy={1300}>
       <StorefrontBG />
-      <Place x={-60} y={330} s={0.9}>
+      <Place x={420} y={1810} s={0.55}>
         <Lauro t={t} talk={lauroTalk(t)} expr={t > 85.9 ? 'wink' : 'smile'} arm="pointDown" armWobble={Math.sin(t * 7) * 8} />
       </Place>
-      <g transform="translate(860,1650) scale(0.95)"><CuscoSit t={t} chew={false} tiltHead={Math.sin(t * 2) * 12} /></g>
+      <g transform="translate(820,1820) scale(0.8)"><CuscoSit t={t} chew={false} tiltHead={Math.sin(t * 2) * 12} /></g>
     </Cam>
   ) },
 ];
@@ -245,6 +264,8 @@ export const Video01: React.FC = () => {
     <AbsoluteFill style={{ backgroundColor: '#000' }}>
       <svg width={1080} height={1920} viewBox="0 0 1080 1920" style={{ position: 'absolute' }}>
         <LauroDefs />
+        <CuscoDefs />
+        <ClerkDefs />
         <defs>
           <filter id="desat"><feColorMatrix type="saturate" values="0.12" /></filter>
           <radialGradient id="vig" cx="50%" cy="48%" r="65%">
@@ -273,7 +294,7 @@ export const Video01: React.FC = () => {
       <Tag t={t} start={45.9} end={49.4} text="MILHO" x={650} y={760} />
       <Tag t={t} start={46.6} end={49.4} text="ERVILHA" x={330} y={1200} />
       <TPill t={t} start={51.5} end={54.6} k="TRI" v="MUITO 👍" />
-      {tris.map((tr) => <BigText key={tr} t={t} start={tr} end={tr + 0.55} lines={['TRI!']} y={600} size={150} rot={-6} />)}
+      {tris.map((tr) => <BigText key={tr} t={t} start={tr} end={tr + 0.55} lines={['TRI!']} y={980} size={150} rot={-6} />)}
       <TPill t={t} start={59.2} end={62.6} k="CAPAZ!" v="IMAGINA! / DE JEITO NENHUM 🙅" />
       <BigText t={t} start={66.4} end={68.3} lines={['PECHADA?']} y={760} size={170} shake={9} />
       <TPill t={t} start={68.4} end={74.5} k="PECHADA" v="BATIDA DE CARRO 🚗" />

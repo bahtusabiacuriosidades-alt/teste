@@ -239,9 +239,9 @@ export const LancheriaBG: React.FC = () => (
         <rect key={`${r}-${c}`} x={c * 180 + (r % 2) * 90} y={900 + r * 80} width={176} height={76} fill={(r + c) % 2 ? '#E9D7B0' : '#F7EEDB'} />
       )),
     )}
-    <rect x={120} y={570} width={840} height={230} rx={20} fill="#B23A2E" />
-    <text x={540} y={665} textAnchor="middle" fontFamily="Montserrat" fontWeight={900} fontSize={70} fill="#fff">LANCHERIA</text>
-    <text x={540} y={755} textAnchor="middle" fontFamily="Montserrat" fontWeight={800} fontSize={48} fill={MUST}>XIS • CACHORRO • À LA MINUTA</text>
+    <rect x={170} y={560} width={740} height={180} rx={18} fill="#B23A2E" />
+    <text x={540} y={640} textAnchor="middle" fontFamily="Montserrat" fontWeight={900} fontSize={62} fill="#fff">LANCHERIA</text>
+    <text x={540} y={710} textAnchor="middle" fontFamily="Montserrat" fontWeight={800} fontSize={38} fill={MUST}>XIS • CACHORRO • À LA MINUTA</text>
     <rect x={-20} y={1500} width={1120} height={440} fill="#C2463A" />
     <rect x={-20} y={1500} width={1120} height={36} fill="#E35B4D" />
   </g>
