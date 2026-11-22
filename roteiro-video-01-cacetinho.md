@@ -1,287 +1,328 @@
 # Vídeo #001: "Pede um cacetinho em São Paulo pra ver"
 
 **Série:** Bah, tu sabia? · **Categoria:** 🗣️ DICIONÁRIO GAÚCHO
-**Duração-alvo:** cerca de 51 s · **Ritmo:** cerca de 190 palavras/min · **Formato:** 9:16 (1080×1920)
-**Personagens:** Lauro (narrador) e Cusco (participação), seguindo a bíblia em `bah-tu-sabia-personagens-e-formato.md`
+**Duração-alvo:** cerca de 1:25 (entre 1:00 e 1:30) · **Formato:** 9:16 (1080×1920)
+**Vozes:** ElevenLabs (ver seção 1) · **Personagens:** Lauro (narrador), Cusco e o atendente paulista (só uma fala)
 
 ---
 
-## 1. Trilha de fundo (já pronta)
+## 1. Vozes no ElevenLabs
+
+### Modelo recomendado
+| Modelo | Quando usar |
+|---|---|
+| **Eleven v3** ⭐ | Primeira opção. É o mais expressivo e entende **tags de emoção** entre colchetes (`[excited]`, `[laughs]`, `[whispers]`…). É o que dá o "BAH!" com vida. |
+| **Multilingual v2** | Alternativa, se o v3 variar demais o sotaque entre um trecho e outro. É mais estável e menos teatral. Nesse caso, use a **versão sem tags** do texto (seção 4). |
+
+### Voz do Lauro: como conseguir
+1. **Melhor resultado:** clonar uma **voz gaúcha real**, a sua ou a de alguém que **autorize** (Instant Voice Clone, com 1 a 3 min de áudio limpo, falando animado). Sotaque de verdade não tem como ser imitado.
+2. **Biblioteca de vozes (Voice Library):** filtre por *Portuguese / Brazilian* e busque termos como "gaúcho", "sulista", "southern Brazil", "Rio Grande do Sul". Escolha uma voz masculina grave, quente e animada.
+3. **Voice Design** (criar voz a partir de descrição): cole este texto.
+   ```
+   A 38-year-old man from Rio Grande do Sul, southern Brazil, speaking Brazilian
+   Portuguese with a strong, authentic gaúcho accent and melodic southern intonation.
+   Warm, friendly baritone voice, charismatic storyteller, energetic and playful,
+   quick pace, smiles while talking, sounds like a good-humored countryman telling
+   curiosities to friends around a fire. Clear, close-mic studio quality.
+   ```
+   Gere 3 ou 4 opções, escolha a que fala "Bah" e "tchê" mais natural e **salve como "Lauro"**. Use sempre essa mesma voz em todos os vídeos.
+
+### Perfil da voz (o "personagem" da fala)
+- **Energia:** alta no gancho e no pedido final, média nas explicações. Ele **sorri enquanto fala**.
+- **Velocidade:** um pouco acelerada (cerca de 170 palavras/min), sem soar corrido.
+- **Tom:** amigo contando novidade na roda de chimarrão. Nunca professor, nunca locutor de rádio.
+- **Momentos especiais:** "pechada" **sussurrada**, com suspense, e a risada logo depois.
+
+### Configurações sugeridas
+> Os nomes e as opções podem mudar no ElevenLabs. Use como ponto de partida e ajuste de ouvido.
+
+| Ajuste | Eleven v3 | Multilingual v2 |
+|---|---|---|
+| Estabilidade (Stability) | **Natural** (use **Creative** se quiser mais emoção; pode variar mais) | **35–45%** |
+| Similaridade (Similarity) | — | **75–85%** |
+| Exagero de estilo (Style) | — | **20–35%** |
+| Speaker boost | — | **Ligado** |
+| Velocidade (se disponível) | 1.05–1.10 | 1.05–1.10 |
+
+### Voz do atendente paulista (só uma fala)
+Escolha outra voz masculina jovem, com **sotaque paulistano**, e configure com **estabilidade baixa** para sair mais espantada. Fala: `[confused] Oi?! Cacetinho?!`
+
+### Latido do Cusco
+Use o gerador de **Sound Effects** do ElevenLabs:
+`a single short happy bark from a medium-sized mutt dog, playful, close mic`
+Gere também: `quick dog paws running on a tiled floor, 2 seconds`
+
+### Dicas de geração
+- **Gere em 4 blocos** (marcados na seção 3), não frase por frase. Assim a entonação fica contínua. Se um trecho sair ruim, gere de novo só aquele bloco.
+- Use **as mesmas configurações** em todos os blocos e em todos os vídeos.
+- **Pausas:** reticências (`…`) dão pausa curta. Um ponto final seguido de nova linha dá uma respiração.
+- **Pronúncia:** se o modelo errar alguma palavra, troque só no texto enviado ao ElevenLabs (a legenda continua certa):
+  - `xis`, se ler como "x", escreva **"xís"**
+  - `Bah`, se sair "bá" curto demais, escreva **"Baaah"**
+  - `tchê` costuma sair certo. Se não sair, escreva **"tchêê"**
+- Exporte em **MP3 44.1 kHz** e mire a voz em cerca de **−14 LUFS** (padrão das redes).
+
+---
+
+## 2. Trilha de fundo
 
 | Arquivo | Uso |
 |---|---|
-| `audio/fundo_video01_cacetinho.mp3` | **Fundo deste vídeo**, já cortado e baixo (51,6 s, −31 LUFS) |
-| `audio/fundo_generico_60s.mp3` | Fundo padrão para outros vídeos (59 s, começa limpo e termina no acorde final) |
-| `audio/trilha_completa_fundo_baixo.mp3` | Música inteira já baixa, para cortar à vontade (158 s) |
-| `audio/final_acorde.mp3` | Só o acorde final (3 s), para fechar qualquer vídeo |
+| `audio/fundo_video01_cacetinho_85s.mp3` | **Fundo deste vídeo** (85,2 s, −31 LUFS, cerca de 17 dB abaixo da voz) |
+| `audio/fundo_generico_60s.mp3` | Fundo padrão de 60 s |
+| `audio/trilha_completa_fundo_baixo.mp3` | Música inteira já baixa (158 s) |
+| `audio/final_acorde.mp3` | Só o acorde final (3 s) |
 
-**Como o fundo do #001 foi montado:**
-- Trecho da música de **1:25,9 até 2:14,5**, mais o **acorde final** da música (2:34,8–2:37,8), emendados no tempo da batida.
-- A música tem uma **parada rápida (breque)**. Posicionei o corte para o breque cair em **0:30,0 do vídeo**, logo antes da palavra **"pechada"** (a virada do roteiro). É a música "segurando a respiração" junto com o narrador.
-- O **acorde final** cai em **0:48,6** e fecha o vídeo junto com "quem fala mais estranho".
-- O volume está em **−31 LUFS**. Com a voz em torno de **−14 LUFS** (padrão TikTok/Reels), a música fica cerca de **17 dB abaixo**: dá para ouvir, mas não compete. Não precisa abaixar mais. Se a voz for gravada mais baixa, abaixe a música proporcionalmente.
-- **Se a locução ficar mais rápida ou mais lenta**, arraste o arquivo na linha do tempo até o breque (o "buraco" visível na forma de onda, por volta de 0:30) ficar logo antes de "pechada". Corte o que sobrar e mantenha o acorde final no "estranho".
-
-**Mapa da música (para os próximos vídeos):** cerca de 100 BPM, ritmo constante.
-- **0:00,2:** começo limpo, ótimo para o gancho.
-- **0:20,0** e **1:56,0:** breques, bons para a virada.
-- **2:34,3:** pausa.
-- **2:34,9–2:37,8:** acorde final.
-
-> ⚠️ A música foi enviada como "uso livre". Confira na fonte original se é preciso dar crédito na descrição.
+- O **breque** (parada da música) está em **1:01,9** e deve cair logo antes de **"pechada"**.
+- O **acorde final** começa em **1:22,2** e deve cair em "quem fala mais estranho".
+- Se a locução do ElevenLabs sair mais longa ou mais curta, arraste a música até o breque ficar antes de "pechada" e reposicione o acorde no final com `final_acorde.mp3`.
+- 💡 **Mais fácil:** depois de gerar as falas, me manda os MP3 que eu alinho a música no tempo exato e devolvo o áudio do vídeo já mixado.
 
 ---
 
-## 2. Blocos fixos (colar no prompt de toda cena)
+## 3. Falas e cenas
 
-**[LAURO]**
-```
-Lauro, a 38-year-old gaucho man from southern Brazil, 3D animated feature film style,
-slightly large head, big expressive brown eyes, thick bushy brown mustache with tips
-slightly down, light stubble, thick eyebrows, warm tan skin, broad shoulders, small belly.
-Wears: flat wide-brim black felt hat with braided brown leather chin strap, mustard-yellow
-neckerchief tied with a knot in front, off-white long-sleeve shirt with sleeves rolled to
-the elbows, open dark coffee-brown leather vest, wide black leather belt with small pockets
-and round silver buckle, charcoal-grey baggy bombacha trousers with pleated sides gathered
-at the ankle, tall black leather boots. Holds a dark brown gourd cuia with ornate silver
-rim and straight silver bombilla in his RIGHT hand.
-```
+**HUD fixo:** `BAH, TU SABIA? · #001` e `🗣️ DICIONÁRIO GAÚCHO` no canto superior esquerdo.
+**Legenda:** uma palavra por vez, branca. Palavras gaúchas em amarelo-mostarda `#D9A021`.
+**Tempos** estimados para cerca de 170 palavras/min. Depois de gerar o áudio, ajuste os cortes à fala real.
 
-**[CUSCO]**
-```
-Cusco, a medium-sized Brazilian caramel mutt dog, 3D animated feature film style, short
-smooth caramel fur, slightly darker muzzle, black nose, big honey-brown eyes, RIGHT ear
-standing up and LEFT ear folded forward, white crooked heart-shaped patch on the chest,
-tail curled up over the back, tiny mustard-yellow neckerchief.
-```
-
-**Sufixo de toda cena:** `vertical 9:16 composition, cinematic warm lighting, high detail, no text, no watermark`
-**Negativo:** `knife, weapon, extra fingers, cuia in left hand, red neckerchief, text, logo, watermark`
-
-> Use a imagem mestre do turnaround como **referência de personagem** em todas as gerações.
+> Os prompts de imagem usam os blocos **[LAURO]** e **[CUSCO]** e o sufixo da bíblia (`bah-tu-sabia-personagens-e-formato.md`):
+> sufixo `vertical 9:16 composition, cinematic warm lighting, high detail, no text, no watermark`.
 
 ---
 
-## 3. Roteiro cena a cena
+### 🎙️ BLOCO A (Lauro), cenas 1 e 3 a 5
 
-**HUD fixo o vídeo inteiro:** no canto superior esquerdo, `BAH, TU SABIA? · #001` e logo abaixo `🗣️ DICIONÁRIO GAÚCHO`.
-**Legenda:** uma palavra por vez, branca com sombra. As palavras gaúchas vão em **amarelo-mostarda `#D9A021`**: *bah, tchê, cacetinho, negrinho, bergamota, sinaleira, xis, pechada, Cusco*.
-
----
-
-### CENA 1 · 0:00–0:03,2 · GANCHO
-**Fala:** "**Bah, tu sabia** que se tu pedir um negrinho e dois cacetinhos…"
-**Tela:** `BAH, TU SABIA?` grande no centro durante 1 s.
-**Efeito sonoro:** "plim" da bomba na cuia junto com o "Bah" (não antes).
+#### CENA 1 · 0:00–0:03,5 · GANCHO
+**Fala (v3):** `[excited] Bah, tu sabia que se tu pedir um negrinho e dois cacetinhos numa padaria de São Paulo…`
+**Tela:** `BAH, TU SABIA?` grande por 1 s. **Efeito sonoro:** "plim" da bomba na cuia junto com o "Bah".
 **Imagem:**
 ```
-[LAURO] standing in front of the glass display counter of a cozy traditional bakery in
-Porto Alegre, baskets of crusty golden French rolls behind him, chest-up close framing,
-shocked "wow" expression: wide eyes, raised eyebrows, mouth open in an O shape, cuia held
-at chest height. + sufixo
+[LAURO] in front of the glass display counter of a cozy traditional bakery in Porto
+Alegre, baskets of crusty golden French rolls behind him, chest-up close framing,
+shocked "wow" expression: wide eyes, raised eyebrows, mouth open in an O, cuia at chest
+height. + sufixo
 ```
-**Animação:** sobrancelhas sobem rápido, a câmera se aproxima um pouco, vapor saindo da cuia.
+**Animação:** sobrancelhas sobem e a câmera se aproxima um pouco.
 
----
-
-### CENA 2 · 0:03,2–0:05,5 · O CHOQUE
-**Fala:** "…em São Paulo, vão te olhar torto?"
-**Tela:** pílula `📍 SÃO PAULO`.
-**Efeito sonoro:** disco arranhando, curto.
+#### CENA 2 · 0:03,5–0:09,0 · O CHOQUE
+**Fala (Lauro, continua):** `…vão te olhar muito torto?`
+**Fala (ATENDENTE, voz paulista):** `[confused] Oi?! Cacetinho?!`
+**Tela:** pílula `📍 SÃO PAULO`. **Efeito sonoro:** disco arranhando antes do "Oi?!".
 **Imagem:**
 ```
 A young bakery clerk in a busy São Paulo padaria, white cap and white apron, holding an
-empty paper bag, extremely confused expression, one eyebrow raised, head tilted, city
-buildings visible through the window behind, 3D animated feature film style. + sufixo
+empty paper bag, extremely confused face, one eyebrow raised, head tilted, city
+buildings through the window. 3D animated feature film style. + sufixo
 ```
-**Animação:** inclina a cabeça e pisca devagar.
+**Animação:** inclina a cabeça e a boca mexe no "Oi?!".
 
----
-
-### CENA 3 · 0:05,5–0:09,8 · APRESENTAÇÃO
-**Fala:** "Pois é, **tchê**. Aqui no Rio Grande a gente fala diferente. Deixa eu traduzir."
-**Tela:** —
+#### CENA 3 · 0:09,0–0:17,4 · APRESENTAÇÃO
+**Fala:** `[laughs] Pois é, tchê! Aqui no Rio Grande do Sul a gente tem um dicionário só nosso. Então te aprochega, que eu vou traduzir.`
+**Tela:** pílula `TE APROCHEGA = CHEGA MAIS`
 **Imagem:**
 ```
-[LAURO] medium shot inside the Porto Alegre bakery, explaining with a confident half
-smile, left hand open toward the camera, cuia in right hand. + sufixo
+[LAURO] medium shot inside the Porto Alegre bakery, laughing then explaining with a
+confident half smile, LEFT hand waving the viewer closer, cuia in RIGHT hand. + sufixo
 ```
-**Animação:** gesto com a mão esquerda, leve balanço do corpo.
+**Animação:** ri, depois faz o gesto de "vem cá".
 
----
-
-### CENA 4 · 0:09,8–0:12,8 · TRADUÇÃO 1
-**Fala:** "**Cacetinho** é o pão francês. Aquele quentinho, de casquinha."
-**Tela:** pílula `CACETINHO = PÃO FRANCÊS 🥖`
-**Efeito sonoro:** "whoosh" na entrada e "ding" quando a pílula aparece (repetir nas cenas 4 a 8).
+#### CENA 4 · 0:17,4–0:23,4 · CACETINHO
+**Fala:** `Cacetinho é o pão francês. Aquele quentinho, de casquinha, que a gente compra de manhã cedo.`
+**Tela:** `CACETINHO = PÃO FRANCÊS 🥖`. **Efeito sonoro:** "whoosh" e "ding" (repetir em cada tradução).
 **Imagem:**
 ```
 Close-up of a wicker basket full of steaming golden crusty Brazilian French rolls on a
-bakery counter, [LAURO]'s LEFT hand lifting one roll, warm morning light. + sufixo
+bakery counter at early morning, [LAURO]'s LEFT hand lifting one roll. + sufixo
 ```
-**Animação:** vapor subindo e a mão levantando o pão.
+**Animação:** vapor subindo e a mão pegando o pão.
 
----
-
-### CENA 5 · 0:12,8–0:16,0 · TRADUÇÃO 2
-**Fala:** "**Negrinho** é o brigadeiro. Sim, aquele de festa de aniversário."
-**Tela:** pílula `NEGRINHO = BRIGADEIRO 🍫`
+#### CENA 5 · 0:23,4–0:27,3 · NEGRINHO
+**Fala:** `Negrinho é o brigadeiro. Sim, aquele mesmo, da festa de aniversário.`
+**Tela:** `NEGRINHO = BRIGADEIRO 🍫`
 **Imagem:**
 ```
-[LAURO] at a colorful kids birthday party table full of chocolate brigadeiros in little
-paper cups, balloons in the background, holding one brigadeiro up to the camera with his
-LEFT hand, delighted expression. + sufixo
+[LAURO] at a colorful kids birthday party table full of chocolate brigadeiros in paper
+cups, balloons behind, holding one brigadeiro up to the camera with his LEFT hand,
+delighted. + sufixo
 ```
-**Animação:** ele aproxima o docinho da câmera.
 
 ---
 
-### CENA 6 · 0:16,0–0:20,0 · TRADUÇÃO 3
-**Fala:** "**Bergamota** é a tangerina. Ou mexerica. Ou poncã. Depende de onde tu é."
-**Tela:** pílula `BERGAMOTA = TANGERINA / MEXERICA / PONCÃ 🍊`
+### 🎙️ BLOCO B (Lauro), cenas 6 a 10
+
+#### CENA 6 · 0:27,3–0:34,0 · BERGAMOTA
+**Fala:** `Bergamota é a tangerina. Ou mexerica. Ou poncã. Depende de onde tu é… mas aqui é bergamota e pronto.`
+**Tela:** `BERGAMOTA = TANGERINA / MEXERICA / PONCÃ 🍊`
 **Imagem:**
 ```
 [LAURO] in a sunny backyard in southern Brazil under a tree full of ripe tangerines,
 holding one tangerine in his LEFT hand, amused raised eyebrow. + sufixo
 ```
-**Animação:** ele joga a bergamota para cima e pega de volta.
+**Animação:** joga a bergamota para cima e pega de volta no "e pronto".
 
----
-
-### CENA 7 · 0:20,0–0:22,7 · TRADUÇÃO 4
-**Fala:** "**Sinaleira** é o semáforo. O farol, pros paulistas."
-**Tela:** pílula `SINALEIRA = SEMÁFORO 🚦`
+#### CENA 7 · 0:34,0–0:36,8 · SINALEIRA
+**Fala:** `Sinaleira é o semáforo. Pros paulistas, o farol.`
+**Tela:** `SINALEIRA = SEMÁFORO 🚦`
 **Imagem:**
 ```
-[LAURO] standing on a sidewalk in downtown Porto Alegre next to a traffic light showing
-red, pointing up at it with his LEFT hand, cars waiting, old colorful buildings. + sufixo
+[LAURO] on a sidewalk in downtown Porto Alegre next to a traffic light showing red,
+pointing up at it with his LEFT hand, cars waiting, old colorful buildings. + sufixo
 ```
-**Animação:** o sinal muda de vermelho para verde.
 
----
-
-### CENA 8 · 0:22,7–0:28,3 · TRADUÇÃO 5 (com exagero)
-**Fala:** "E **xis** é o sanduíche. Mas não qualquer um: o xis gaúcho é do tamanho de um prato."
-**Tela:** pílula `XIS = SANDUÍCHE (GIGANTE) 🍔`
+#### CENA 8 · 0:36,8–0:47,0 · XIS
+**Fala:** `E xis é o sanduíche. Mas não qualquer sanduíche, tchê: o xis gaúcho é do tamanho de um prato! Tem ovo, tem milho, tem ervilha… [laughs] é janta pra dois.`
+**Tela:** `XIS = SANDUÍCHE (GIGANTE) 🍔`. Depois, etiquetas pequenas surgindo: `• OVO` `• MILHO` `• ERVILHA`
 **Imagem:**
 ```
 A giant Brazilian gaucho "xis" sandwich as big as a dinner plate: pressed round bun
 overflowing with fried egg, beef patty, ham, cheese, corn, green peas, lettuce, tomato
 and mayonnaise, on a table at a simple lancheria, [LAURO] behind it with wide eyes,
-both comically small next to the sandwich. + sufixo
+comically small next to the sandwich. + sufixo
 ```
-**Animação:** a câmera recua devagar para revelar o tamanho do sanduíche.
+**Animação:** a câmera recua devagar revelando o tamanho. Corte para um close do recheio em "ovo, milho, ervilha".
+
+#### CENA 9 · 0:47,0–0:51,9 · TRI
+**Fala:** `E quando uma coisa é muito boa, é tri. Tri bom, tri legal, tri gostoso.`
+**Tela:** `TRI = MUITO 👍` (o "tri" aparece 3 vezes, uma em cada palavra)
+**Imagem:**
+```
+[LAURO] sitting at the lancheria table taking a big bite of the giant xis sandwich,
+eyes closed in delight, giving a thumbs up with his LEFT hand. + sufixo
+```
+
+#### CENA 10 · 0:51,9–0:57,9 · CAPAZ
+**Fala:** `Agora, se alguém te disser "capaz!"… não é elogio, não. "Capaz" quer dizer "imagina", "de jeito nenhum".`
+**Tela:** `CAPAZ! = IMAGINA! / DE JEITO NENHUM 🙅`
+**Imagem:**
+```
+[LAURO] medium shot, playful stern face, wagging the index finger of his LEFT hand
+side to side meaning "no way", cuia in RIGHT hand, bakery background. + sufixo
+```
+**Animação:** dedo balançando e cabeça dizendo "não".
 
 ---
 
-### CENA 9 · 0:28,3–0:30,0 · SUSPENSE
-**Fala:** "Mas a que mais confunde é essa…"
-**Tela:** —
+### 🎙️ BLOCO C (Lauro), cenas 11 a 14 (a virada)
+
+#### CENA 11 · 0:57,9–1:01,8 · SUSPENSE
+**Fala:** `[mischievously] Mas a palavra que mais confunde quem vem de fora é essa…`
 **Imagem:**
 ```
-[LAURO] extreme close-up, suspicious squint with one eye half closed, mustache crooked,
+[LAURO] extreme close-up, suspicious squint with one eye half closed, crooked mustache,
 dramatic side lighting, blurred bakery background. + sufixo
 ```
 **Animação:** aproximação lenta e dramática.
 
----
+#### CENA 12 · 1:01,8–1:03,3 · VIRADA (no breque da música)
+**Fala:** `[whispers] pechada.`
+**Tela:** congela o quadro da cena 11, tira um pouco da cor e mostra `PECHADA?` enorme em mostarda, tremendo.
+**Efeito sonoro:** nenhum. O breque da música faz o silêncio.
 
-### CENA 10 · 0:30,0–0:31,5 · VIRADA (no breque da música)
-**Fala:** "…**PECHADA**."
-**Tela:** congela o último quadro da cena 9, tira um pouco da cor e mostra `PECHADA?` enorme em amarelo-mostarda, com leve tremor.
-**Efeito sonoro:** nenhum. Deixe o breque da música fazer o silêncio.
-**Imagem:** reaproveitar o quadro da cena 9 (não precisa gerar).
-
----
-
-### CENA 11 · 0:31,5–0:35,5 · EXPLICAÇÃO COM PIADA
-**Fala:** "**Pechada** é batida de carro. 'Bah, dei uma pechada na sinaleira.' Entendeu?"
-**Tela:** pílula `PECHADA = BATIDA DE CARRO 🚗💥`
-**Efeito sonoro:** "tóin" de batidinha leve e uma buzina curta.
+#### CENA 13 · 1:03,3–1:07,9 · PECHADA
+**Fala:** `[laughs] Pechada é batida de carro! "Bah, dei uma pechada na sinaleira." Entendeu agora?`
+**Tela:** `PECHADA = BATIDA DE CARRO 🚗💥`. **Efeito sonoro:** "tóin" de batidinha leve e buzina curta.
 **Imagem:**
 ```
 Two small old cars in a very light comedic fender bender at a red traffic light in
-Porto Alegre, tiny dent, nobody hurt, [LAURO] standing beside the cars with his LEFT
-hand on top of his hat in disbelief, the other driver shrugging. + sufixo
+Porto Alegre, tiny dent, nobody hurt, [LAURO] beside them with his LEFT hand on top of
+his hat in disbelief, the other driver shrugging. + sufixo
 ```
-**Animação:** o carro de trás encosta de leve e os dois carros balançam.
 
----
-
-### CENA 12 · 0:35,5–0:39,5 · CUSCO
-**Fala:** "Ô, **Cusco**! Esse cacetinho não é teu!"
-**Tela:** selo no fim da cena: `🐕 O CUSCO APROVOU`
-**Efeito sonoro:** latido curto e patinhas correndo.
+#### CENA 14 · 1:07,9–1:11,5 · CUSCO
+**Fala:** `[surprised] Ô, Cusco! Larga esse cacetinho que não é teu!`
+**Efeito sonoro:** latido feliz e patinhas correndo (ElevenLabs Sound Effects).
+**Tela:** selo `🐕 O CUSCO APROVOU`
 **Imagem:**
 ```
 [CUSCO] snatching a golden French roll from a bakery basket with his mouth and running
 away happily, ears flapping, [LAURO] in the background outraged, pointing at the dog
 with his LEFT hand. + sufixo
 ```
-**Animação:** o cachorro corre e sai do quadro; a orelha dobrada balança.
 
 ---
 
-### CENA 13 · 0:39,5–0:43,0 · FRASE DE EFEITO
-**Fala:** "Aqui a gente não fala errado, **tchê**. A gente fala **gaúcho**."
-**Tela:** a frase inteira aparece em destaque, em duas linhas, no lugar da legenda de uma palavra.
+### 🎙️ BLOCO D (Lauro), cenas 15 e 16 (fechamento)
+
+#### CENA 15 · 1:11,5–1:15,4 · FRASE DE EFEITO
+**Fala:** `[warmly] Aqui a gente não fala errado, tchê. A gente fala gaúcho.`
+**Tela:** a frase inteira em destaque, em duas linhas.
 **Imagem:**
 ```
 [LAURO] outside the bakery at golden hour, proud smile, raising the cuia with his RIGHT
 hand like a toast, [CUSCO] sitting at his feet happily chewing the French roll. + sufixo
 ```
-**Animação:** ele ergue a cuia e o Cusco abana o rabo.
+
+#### CENA 16 · 1:15,4–1:25,2 · PEDIDO DE COMENTÁRIO + FIM
+**Fala:** `[excited] Agora comenta aí: como é que chama o pão francês na tua cidade? Quero ver quem fala mais estranho! E segue pra mais bah!`
+**Tela:** `COMO CHAMA NA TUA CIDADE? 👇`, depois `SEGUE PRA MAIS BAH! 🧉`
+**Música:** o acorde final entra em cerca de 1:22,2, no "estranho".
+**Imagem:**
+```
+[LAURO] outside the bakery at golden hour, winking and pointing down with his LEFT
+hand, cuia in RIGHT hand, [CUSCO] at his feet tilting his head at the camera. + sufixo
+```
 
 ---
 
-### CENA 14 · 0:43,0–0:51,5 · PEDIDO DE COMENTÁRIO + FIM
-**Fala:** "Comenta aí: como é que chama o pão francês na tua cidade? Quero ver quem fala mais estranho."
-**Tela:** pílula `COMO CHAMA NA TUA CIDADE? 👇`. No fim, `SEGUE PRA MAIS BAH! 🧉`
-**Música:** o acorde final entra em 0:48,6, junto com "estranho".
-**Imagem:** mesmo cenário da cena 13, Lauro apontando para baixo com a mão esquerda e piscando.
+## 4. Textos prontos para colar no ElevenLabs
+
+### Versão Eleven v3 (com tags)
+
+**Bloco A (Lauro)**
 ```
-[LAURO] outside the bakery at golden hour, winking at the camera and pointing down with
-his LEFT hand, cuia in RIGHT hand, [CUSCO] at his feet looking at the camera. + sufixo
+[excited] Bah, tu sabia que se tu pedir um negrinho e dois cacetinhos numa padaria de São Paulo… vão te olhar muito torto?
 ```
-**Animação:** ele pisca e aponta para baixo, e o Cusco inclina a cabeça.
+**Atendente (outra voz)**
+```
+[confused] Oi?! Cacetinho?!
+```
+**Bloco A, continuação (Lauro)**
+```
+[laughs] Pois é, tchê! Aqui no Rio Grande do Sul a gente tem um dicionário só nosso. Então te aprochega, que eu vou traduzir.
+Cacetinho é o pão francês. Aquele quentinho, de casquinha, que a gente compra de manhã cedo.
+Negrinho é o brigadeiro. Sim, aquele mesmo, da festa de aniversário.
+```
+**Bloco B (Lauro)**
+```
+Bergamota é a tangerina. Ou mexerica. Ou poncã. Depende de onde tu é… mas aqui é bergamota e pronto.
+Sinaleira é o semáforo. Pros paulistas, o farol.
+E xis é o sanduíche. Mas não qualquer sanduíche, tchê: o xis gaúcho é do tamanho de um prato! Tem ovo, tem milho, tem ervilha… [laughs] é janta pra dois.
+E quando uma coisa é muito boa, é tri. Tri bom, tri legal, tri gostoso.
+Agora, se alguém te disser "capaz!"… não é elogio, não. "Capaz" quer dizer "imagina", "de jeito nenhum".
+```
+**Bloco C (Lauro)**
+```
+[mischievously] Mas a palavra que mais confunde quem vem de fora é essa…
+[whispers] pechada.
+[laughs] Pechada é batida de carro! "Bah, dei uma pechada na sinaleira." Entendeu agora?
+[surprised] Ô, Cusco! Larga esse cacetinho que não é teu!
+```
+**Bloco D (Lauro)**
+```
+[warmly] Aqui a gente não fala errado, tchê. A gente fala gaúcho.
+[excited] Agora comenta aí: como é que chama o pão francês na tua cidade? Quero ver quem fala mais estranho! E segue pra mais bah!
+```
 
----
+### Versão Multilingual v2 (sem tags)
+Use o mesmo texto **sem nada entre colchetes**. A emoção vem da pontuação: use `!` no gancho e no final, e `…` antes de "pechada". Gere "pechada." sozinho, com estabilidade mais alta, para soar mais baixo e misterioso.
 
-## 4. Locução completa (para gravar de uma vez)
-
-> Bah, tu sabia que se tu pedir um negrinho e dois cacetinhos em São Paulo, vão te olhar torto?
-> Pois é, tchê. Aqui no Rio Grande a gente fala diferente. Deixa eu traduzir.
-> Cacetinho é o pão francês. Aquele quentinho, de casquinha.
-> Negrinho é o brigadeiro. Sim, aquele de festa de aniversário.
-> Bergamota é a tangerina. Ou mexerica. Ou poncã. Depende de onde tu é.
-> Sinaleira é o semáforo. O farol, pros paulistas.
-> E xis é o sanduíche. Mas não qualquer um: o xis gaúcho é do tamanho de um prato.
-> Mas a que mais confunde é essa… *(pausa curta)* pechada.
-> Pechada é batida de carro. "Bah, dei uma pechada na sinaleira." Entendeu?
-> Ô, Cusco! Esse cacetinho não é teu!
-> Aqui a gente não fala errado, tchê. A gente fala gaúcho.
-> Comenta aí: como é que chama o pão francês na tua cidade? Quero ver quem fala mais estranho.
-
-*(Cerca de 145 palavras. Grave com energia, sotaque natural e sorriso na voz. Na edição, corte as respirações e deixe só a pausa antes de "pechada".)*
+*(Cerca de 230 palavras no total, o que dá aproximadamente 1:20 a 1:28 de áudio.)*
 
 ---
 
 ## 5. Publicação
-
-- **Capa (primeiro quadro ou thumbnail):** Lauro com a cara de "BAH!" e o texto `PÃO FRANCÊS AQUI É CACETINHO?!`
+- **Capa:** Lauro com a cara de "BAH!" e o texto `PÃO FRANCÊS AQUI É CACETINHO?!`
 - **Legenda do post:** `Pede um cacetinho em SP pra ver o que acontece 😂🧉 Como chama na tua cidade?`
 - **Hashtags:** `#bahtusabia #riograndedosul #gaucho #dicionariogaucho #rs #curiosidades #cacetinho`
-- **Comentário fixado:** `E aí… bolacha ou biscoito? 👀`, para puxar uma segunda discussão.
-- **Rótulo de IA:** ative "conteúdo gerado por IA" se a plataforma pedir.
-
----
+- **Comentário fixado:** `E aí… bolacha ou biscoito? 👀`
+- **Rótulo:** ative "conteúdo gerado por IA" (imagem e voz são de IA).
 
 ## 6. Checklist de edição
 - [ ] A primeira coisa falada é "Bah, tu sabia".
-- [ ] O HUD `#001` e a categoria aparecem do início ao fim.
+- [ ] O vídeo fica entre 1:00 e 1:30.
+- [ ] O breque da música cai logo antes de "pechada" e o acorde final no "estranho".
+- [ ] A voz está em cerca de −14 LUFS e a música cerca de 17 dB abaixo.
+- [ ] Nenhum plano passa de 4 s sem mudar algo. Nas falas longas (cenas 3 e 8), use dois planos.
 - [ ] As palavras gaúchas estão em mostarda na legenda.
-- [ ] Nenhum plano passa de 4 s sem mudar algo (corte, aproximação ou pílula).
-- [ ] O breque da música cai logo antes de "pechada".
-- [ ] O acorde final cai no "estranho".
-- [ ] A cuia está sempre na mão direita do Lauro em todas as cenas.
-- [ ] O Cusco aparece com a orelha certa (direita em pé) e o coração no peito.
+- [ ] A cuia está sempre na mão direita do Lauro. O Cusco tem a orelha direita em pé e o coração no peito.
