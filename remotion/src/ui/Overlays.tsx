@@ -80,7 +80,7 @@ export const Stamp: React.FC<{ t: number; start: number; end: number; text: stri
   );
 };
 
-export const Captions: React.FC<{ t: number; hidden: boolean }> = ({ t, hidden }) => {
+export const Captions: React.FC<{ t: number; hidden: boolean; y?: number }> = ({ t, hidden, y = 1405 }) => {
   if (hidden) return null;
   const i = WORDS.findIndex((w, idx) => {
     const next = WORDS[idx + 1]?.s ?? w.e + 0.5;
@@ -90,7 +90,7 @@ export const Captions: React.FC<{ t: number; hidden: boolean }> = ({ t, hidden }
   const w = WORDS[i];
   const s = 1 + 0.18 * (1 - easeOut((t - w.s) / 0.09));
   return (
-    <div style={{ position: 'absolute', left: 0, right: 0, top: 1405, textAlign: 'center' }}>
+    <div style={{ position: 'absolute', left: 0, right: 0, top: y, textAlign: 'center' }}>
       <span style={{ display: 'inline-block', transform: `scale(${s})`, fontFamily: font, fontWeight: 900, fontSize: 108, color: isGaucho(w.w) ? MUST : '#fff', WebkitTextStroke: '20px rgba(0,0,0,.92)', paintOrder: 'stroke fill', textShadow: '0 8px 18px rgba(0,0,0,.45)' }}>
         {w.w}
       </span>

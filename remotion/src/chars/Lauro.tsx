@@ -19,9 +19,9 @@ const POSES: Record<ArmPose, [number, number]> = {
   pointSide: [-88, 0],
   pointDown: [-30, -15],
 };
-const HAND: Record<ArmPose, 'open' | 'point' | 'thumb' | 'grip'> = {
-  down: 'open', wave: 'open', hold: 'grip', pointUp: 'point', thumbsUp: 'thumb',
-  wag: 'point', pointSide: 'point', pointDown: 'point',
+const HAND: Record<ArmPose, 'open'> = {
+  down: 'open', wave: 'open', hold: 'open', pointUp: 'open', thumbsUp: 'open',
+  wag: 'open', pointSide: 'open', pointDown: 'open',
 };
 
 export const LauroDefs = () => (
@@ -120,17 +120,23 @@ export const Obj: React.FC<{ kind: HeldObj }> = ({ kind }) => {
   return null;
 };
 
-/** semi-realistic hand. axis points along +y (finger direction) */
-const Hand: React.FC<{ kind: 'open' | 'point' | 'thumb' | 'grip' }> = ({ kind }) => (
-  <g>
-    {kind === 'point' && <rect x={-8} y={20} width={16} height={58} rx={8} fill="#D29A70" />}
-    {kind === 'thumb' && <rect x={-10} y={18} width={20} height={48} rx={10} fill="#D29A70" />}
-    {kind === 'open' && [-14, -4, 6, 15].map((x, i) => <rect key={i} x={x - 5} y={22} width={10} height={40 - Math.abs(i - 1.5) * 5} rx={5} fill="#D29A70" />)}
-    <ellipse cx={0} cy={14} rx={kind === 'open' ? 24 : 26} ry={30} fill="url(#lSkin)" />
-    {kind !== 'thumb' && <ellipse cx={-22} cy={4} rx={9} ry={20} fill="#C98F62" transform="rotate(25 -22 4)" />}
-    {(kind === 'point' || kind === 'thumb' || kind === 'grip') && (
-      <path d="M-14,26 h28 M-14,34 h28" stroke="rgba(120,70,40,.35)" strokeWidth={2.5} />
-    )}
+/** semi-realistic five-finger hand. Axis points along +y (toward the fingertips). */
+const FINGERS: [number, number, number][] = [[-18, 44, -13], [-6, 54, -4], [6, 51, 4], [18, 40, 13]];
+const Hand: React.FC<{ kind: 'open' }> = () => (
+  <g transform="translate(0,-4) scale(1.45)">
+    {FINGERS.map(([x, len, rot], i) => (
+      <g key={i} transform={`rotate(${rot} ${x} 40)`}>
+        <rect x={x - 6.5} y={34} width={13} height={len} rx={6.5} fill="#D29A70" stroke="rgba(120,70,40,.35)" strokeWidth={1.2} />
+        <ellipse cx={x} cy={36 + len - 5} rx={3.6} ry={3} fill="rgba(255,230,210,.55)" />
+        <path d={`M${x - 4},${52 + len * 0.25} h8`} stroke="rgba(120,70,40,.35)" strokeWidth={1.6} />
+      </g>
+    ))}
+    <g transform="translate(-23,12) rotate(52)">
+      <rect x={-7.5} y={0} width={15} height={42} rx={7.5} fill="#C98F62" stroke="rgba(120,70,40,.35)" strokeWidth={1.2} />
+      <ellipse cx={0} cy={37} rx={4} ry={3.2} fill="rgba(255,230,210,.5)" />
+    </g>
+    <rect x={-25} y={-4} width={50} height={48} rx={18} fill="url(#lSkin)" />
+    <path d="M-18,38 C-8,42 8,42 20,38" stroke="rgba(120,70,40,.3)" strokeWidth={2} fill="none" />
   </g>
 );
 

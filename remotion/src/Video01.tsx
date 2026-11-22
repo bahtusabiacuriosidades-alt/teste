@@ -6,7 +6,7 @@ import { Lauro, LauroDefs } from './chars/Lauro';
 import { CuscoRun, CuscoSit, Clerk, CuscoDefs, ClerkDefs } from './chars/Others';
 import {
   BakeryBG, CounterFG, SPBakeryBG, BasketClose, PartyBG, PartyTableFG, BackyardBG,
-  StreetBG, Car, Xis, LancheriaBG, StorefrontBG,
+  StreetBG, TrafficLight, Car, Xis, LancheriaBG, StorefrontBG,
 } from './scenes/Backgrounds';
 import { HUD, TPill, Tag, BigText, Phrase, Stamp, Captions } from './ui/Overlays';
 
@@ -127,14 +127,15 @@ const SCENES: Scene[] = [
       </Cam>
     );
   } },
-  // 7 — sinaleira
+  // 7 — sinaleira (street with perspective; Lauro on the near sidewalk)
   { a: 34.7, b: 38.4, draw: (t, lt) => (
-    <Cam z={kf(lt, [[0, 1.04], [3.7, 1.0]])}>
-      <StreetBG light={t < 37.6 ? 'red' : 'green'} />
-      <Place x={420} y={1640} s={0.5}>
+    <Cam z={kf(lt, [[0, 1.18], [3.7, 1.1]])} cx={620} cy={1400}>
+      <StreetBG />
+      <g transform="translate(330,1400) scale(1.25)"><Car color="#3B82C4" /></g>
+      <g transform="translate(860,1880)"><TrafficLight light={t < 37.6 ? 'red' : 'green'} /></g>
+      <Place x={560} y={1880} s={0.3}>
         <Lauro t={t} talk={lauroTalk(t)} expr="talk" arm="pointUp" />
       </Place>
-      <g transform="translate(200,1790) scale(0.55)"><Car color="#3B82C4" /></g>
     </Cam>
   ) },
   // 8a — xis reveal
@@ -178,24 +179,25 @@ const SCENES: Scene[] = [
   { a: 62.6, b: 66.4, draw: (t, lt) => suspense(t, lt) },
   // 12 — PECHADA freeze (music break)
   { a: 66.4, b: 68.3, draw: () => <g filter="url(#desat)">{suspense(66.39, 66.39 - 62.6)}</g> },
-  // 13 — pechada: cars
+  // 13 — pechada: cars crash on the road, Lauro reacts from the near sidewalk
   { a: 68.3, b: 74.5, draw: (t, lt) => {
-    const bx = kf(t, [[68.3, 470], [68.5, 608], [68.75, 585]]);
+    const bx = kf(t, [[68.3, 60], [68.5, 372], [68.75, 340]]);
     const hit = t > 68.5;
     const s = shake(t, 68.5, 68.9, 16);
     return (
-      <Cam z={1.0} {...s}>
-        <StreetBG light="red" />
-        <Place x={210} y={1640} s={0.46}>
-          <Lauro t={t} talk={lauroTalk(t)} expr={lt < 2.5 ? 'shock' : 'laugh'} arm="pointSide" armWobble={Math.sin(t * 6) * 4} />
-        </Place>
-        <g transform={`translate(880,${1770 + (hit && t < 68.9 ? Math.sin(t * 90) * 6 : 0)}) scale(0.8)`}><Car color="#B23A2E" dent={hit} /></g>
-        <g transform={`translate(${bx},1780) scale(0.8)`}><Car color="#2F8F9D" /></g>
+      <Cam z={1.08} cx={540} cy={1500} {...s}>
+        <StreetBG />
+        <g transform="translate(960,1880)"><TrafficLight light="red" /></g>
+        <g transform={`translate(860,${1450 + (hit && t < 68.9 ? Math.sin(t * 90) * 6 : 0)}) scale(1.45)`}><Car color="#B23A2E" dent={hit} /></g>
+        <g transform={`translate(${bx},1460) scale(1.45)`}><Car color="#2F8F9D" /></g>
         {t > 68.5 && t < 69.1 && (
-          <g transform={`translate(740,1710) scale(${pop(t, 68.5, 0.15)})`}>
+          <g transform={`translate(615,1390) scale(${pop(t, 68.5, 0.15)})`}>
             <path d="M0,-90 L22,-28 L88,-28 L35,10 L55,75 L0,35 L-55,75 L-35,10 L-88,-28 L-22,-28 Z" fill="#FFD43B" stroke="#1a1a1a" strokeWidth={8} />
           </g>
         )}
+        <Place x={150} y={1890} s={0.3}>
+          <Lauro t={t} talk={lauroTalk(t)} expr={lt < 2.5 ? 'shock' : 'laugh'} arm="pointSide" armWobble={Math.sin(t * 6) * 4} />
+        </Place>
       </Cam>
     );
   } },
@@ -306,7 +308,7 @@ export const Video01: React.FC = () => {
           <div style={{ transform: `scale(${pop(t, 87.0)})`, background: MUST, color: '#1E1B18', borderRadius: 40, padding: '16px 36px', fontFamily: 'Montserrat, "Noto Color Emoji"', fontWeight: 900, fontSize: 50, boxShadow: '0 8px 20px rgba(0,0,0,.3)' }}>SEGUE PRA MAIS BAH! 🧉</div>
         </div>
       )}
-      <Captions t={t} hidden={hideCaps} />
+      <Captions t={t} hidden={hideCaps} y={(t >= 34.7 && t < 38.4) || (t >= 68.3 && t < 74.5) ? 960 : 1405} />
 
       {flash > 0 && <AbsoluteFill style={{ backgroundColor: `rgba(255,255,255,${flash})` }} />}
       {t > 88.7 && <AbsoluteFill style={{ backgroundColor: `rgba(0,0,0,${clamp((t - 88.7) / 0.45)})` }} />}

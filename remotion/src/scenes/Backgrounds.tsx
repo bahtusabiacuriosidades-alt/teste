@@ -170,32 +170,64 @@ export const BackyardBG: React.FC = () => (
   </g>
 );
 
-export const StreetBG: React.FC<{ light: 'red' | 'green' }> = ({ light }) => (
+/** Street with perspective: buildings across the road (far), road, near sidewalk.
+ *  Scale reference: a person on the near sidewalk ≈ 530px tall (Lauro at s=0.3). */
+export const StreetBG: React.FC = () => {
+  const B: [number, number, number, string][] = [
+    [-20, 230, 4, '#E9C46A'], [210, 220, 5, '#F4A261'], [430, 230, 3, '#8AB17D'], [660, 210, 5, '#E76F51'], [870, 230, 4, '#A8DADC'],
+  ];
+  const base = 1200, fh = 150;
+  return (
+    <g>
+      <defs><linearGradient id="ssky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#8CC9EC" /><stop offset="1" stopColor="#E3F2FA" /></linearGradient></defs>
+      <rect width={1080} height={1920} fill="url(#ssky)" />
+      <ellipse cx={220} cy={300} rx={140} ry={50} fill="#fff" opacity={0.8} />
+      <ellipse cx={830} cy={220} rx={170} ry={60} fill="#fff" opacity={0.7} />
+      {B.map(([x, w, fl, c], i) => {
+        const top = base - fl * fh - 40;
+        return (
+          <g key={i}>
+            <rect x={x} y={top} width={w} height={base - top} fill={c} />
+            <rect x={x - 6} y={top - 16} width={w + 12} height={22} fill="rgba(0,0,0,.2)" />
+            {Array.from({ length: fl - 1 }).map((_, r) =>
+              [0, 1, 2].map((cc) => (
+                <g key={`${r}${cc}`}>
+                  <rect x={x + 22 + cc * ((w - 30) / 3)} y={top + 50 + r * fh} width={(w - 30) / 3 - 22} height={88} rx={20} fill="#F8F4EC" stroke="rgba(0,0,0,.22)" strokeWidth={4} />
+                  <rect x={x + 22 + cc * ((w - 30) / 3)} y={top + 50 + r * fh + 88} width={(w - 30) / 3 - 22} height={8} fill="rgba(0,0,0,.18)" />
+                </g>
+              )),
+            )}
+            {/* ground floor shop */}
+            <rect x={x + 10} y={base - 150} width={w - 20} height={18} fill="rgba(0,0,0,.25)" />
+            <path d={`M${x + 14},${base - 132} h${w - 28} l-14,34 h${-(w - 56)} Z`} fill={i % 2 ? '#2F6B3A' : '#B23A2E'} />
+            <rect x={x + 24} y={base - 92} width={w * 0.45} height={92} fill="#7FB5D0" opacity={0.75} />
+            <rect x={x + w * 0.62} y={base - 120} width={w * 0.26} height={120} fill="#5A3A24" />
+          </g>
+        );
+      })}
+      <rect x={0} y={1200} width={1080} height={50} fill="#BDB5A6" />
+      <rect x={0} y={1246} width={1080} height={10} fill="#8E877A" />
+      <rect x={0} y={1256} width={1080} height={450} fill="#55595E" />
+      {Array.from({ length: 6 }).map((_, i) => <rect key={i} x={i * 200 + 30} y={1470} width={120} height={14} fill="#E9E5DA" />)}
+      <rect x={0} y={1700} width={1080} height={14} fill="#8E877A" />
+      <rect x={0} y={1714} width={1080} height={210} fill="#C9C1B2" />
+      {Array.from({ length: 9 }).map((_, i) => <line key={i} x1={i * 130} y1={1714} x2={i * 130 - 60} y2={1920} stroke="rgba(0,0,0,.12)" strokeWidth={3} />)}
+      <line x1={0} y1={1810} x2={1080} y2={1810} stroke="rgba(0,0,0,.1)" strokeWidth={3} />
+    </g>
+  );
+};
+
+/** traffic light standing on the near sidewalk (base at y=0, ≈ 1000px tall) */
+export const TrafficLight: React.FC<{ light: 'red' | 'green' }> = ({ light }) => (
   <g>
-    <defs><linearGradient id="ssky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#8CC9EC" /><stop offset="1" stopColor="#E3F2FA" /></linearGradient></defs>
-    <rect width={1080} height={1920} fill="url(#ssky)" />
-    {[[0, 520, 260, '#E9C46A'], [250, 420, 230, '#F4A261'], [470, 560, 220, '#8AB17D'], [680, 460, 220, '#E76F51'], [890, 540, 220, '#A8DADC']].map(([x, y, w, c], i) => (
-      <g key={i}>
-        <rect x={x as number} y={y as number} width={w as number} height={1500 - (y as number)} fill={c as string} />
-        <rect x={(x as number) - 8} y={(y as number) - 30} width={(w as number) + 16} height={36} fill="rgba(0,0,0,.18)" />
-        {Array.from({ length: 5 }).map((_, r) =>
-          [0, 1].map((cc) => (
-            <rect key={`${r}${cc}`} x={(x as number) + 35 + cc * ((w as number) / 2)} y={(y as number) + 60 + r * 170} width={(w as number) / 2 - 70} height={110} rx={50} fill="#F8F4EC" stroke="rgba(0,0,0,.2)" strokeWidth={6} />
-          )),
-        )}
-      </g>
-    ))}
-    <rect x={0} y={1500} width={1080} height={160} fill="#BDB5A6" />
-    <rect x={0} y={1650} width={1080} height={270} fill="#55595E" />
-    {Array.from({ length: 6 }).map((_, i) => <rect key={i} x={i * 200 + 40} y={1780} width={110} height={16} fill="#E9E5DA" />)}
-    {/* traffic light (right) */}
-    <rect x={905} y={760} width={26} height={760} fill="#3A3F44" />
-    <rect x={850} y={560} width={136} height={330} rx={24} fill="#2A2E32" />
-    <circle cx={918} cy={630} r={42} fill={light === 'red' ? '#FF3B30' : '#5a1c18'} />
-    <circle cx={918} cy={725} r={42} fill="#5a4a14" />
-    <circle cx={918} cy={820} r={42} fill={light === 'green' ? '#34C759' : '#173d22'} />
-    {light === 'red' && <circle cx={918} cy={630} r={80} fill="rgba(255,59,48,.25)" />}
-    {light === 'green' && <circle cx={918} cy={820} r={80} fill="rgba(52,199,89,.25)" />}
+    <ellipse cx={0} cy={0} rx={60} ry={12} fill="rgba(0,0,0,.2)" />
+    <rect x={-11} y={-760} width={22} height={760} fill="#3A3F44" />
+    <rect x={-52} y={-1000} width={104} height={250} rx={18} fill="#2A2E32" />
+    <circle cx={0} cy={-950} r={30} fill={light === 'red' ? '#FF3B30' : '#5a1c18'} />
+    <circle cx={0} cy={-876} r={30} fill="#5a4a14" />
+    <circle cx={0} cy={-802} r={30} fill={light === 'green' ? '#34C759' : '#173d22'} />
+    {light === 'red' && <circle cx={0} cy={-950} r={58} fill="rgba(255,59,48,.25)" />}
+    {light === 'green' && <circle cx={0} cy={-802} r={58} fill="rgba(52,199,89,.25)" />}
   </g>
 );
 
