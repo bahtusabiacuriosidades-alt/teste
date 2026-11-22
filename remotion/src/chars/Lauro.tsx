@@ -182,10 +182,25 @@ export const Lauro: React.FC<{
   tilt?: number;
   browBoost?: number;
   shadow?: boolean;
-}> = ({ t, talk, expr = 'talk', arm = 'down', armWobble = 0, obj = 'none', objLift = 0, cuiaRaise = 0, tilt = 0, browBoost = 0, shadow = true }) => {
+  /** 0..1 — walking cycle on/off */
+  walk?: number;
+  /** body lean in degrees (pivot at the feet) */
+  lean?: number;
+  /** vertical jump in local units */
+  hop?: number;
+}> = ({ t, talk, expr = 'talk', arm = 'down', armWobble = 0, obj = 'none', objLift = 0, cuiaRaise = 0, tilt = 0, browBoost = 0, shadow = true, walk = 0, lean = 0, hop = 0 }) => {
   const m = Math.max(0, Math.min(1, talk));
   const blink = t % 3.9 > 3.78;
   const breathe = Math.sin(t * 2.2) * 3;
+  // ----- body motion -----
+  const stepPh = t * 7;
+  const bob = -Math.abs(Math.sin(stepPh)) * 22 * walk;
+  const sway = Math.sin(t * 1.4) * 1.3 + Math.sin(stepPh) * 2.2 * walk + lean;
+  const talkNow = Math.max(0, Math.min(1, talk));
+  const nod = Math.sin(t * 3.1) * 1.6 + talkNow * Math.sin(t * 9) * 2.4;
+  const armSwing = Math.sin(stepPh) * 16 * walk + Math.sin(t * 2) * 3;
+  const footL = -Math.max(0, Math.sin(stepPh)) * 40 * walk;
+  const footR = -Math.max(0, -Math.sin(stepPh)) * 40 * walk;
 
   // ----- face parameters -----
   let o = 1, browL = 0, browR = 0, rotL = 0, rotR = 0;
@@ -236,9 +251,9 @@ export const Lauro: React.FC<{
 
   // ----- left arm (viewer right) -----
   const [a1, a2b] = POSES[arm];
-  const a2 = a2b + armWobble;
+  const a2 = a2b + armWobble + (arm === 'down' ? armSwing * 0.5 : 0);
   const leftArm = (
-    <g transform={`translate(205,${-1292 + breathe}) rotate(${a1})`}>
+    <g transform={`translate(205,${-1292 + breathe}) rotate(${a1 + (arm === 'down' ? armSwing : 0)})`}>
       <rect x={-36} y={-10} width={72} height={280} rx={36} fill="url(#lSleeve)" />
       <path d="M-20,60 q10,40 0,90 M18,90 q-8,30 2,70" stroke="rgba(150,140,125,.5)" strokeWidth={3} fill="none" />
       <rect x={-38} y={240} width={76} height={34} rx={12} fill="#E5DFD3" />
@@ -267,7 +282,7 @@ export const Lauro: React.FC<{
     return <path key={k} d={`M${sx},${sy} c14,-18 -14,-36 0,-56`} stroke="#fff" strokeOpacity={0.5 * (1 - ph)} strokeWidth={5} fill="none" strokeLinecap="round" />;
   });
   const rightArm = (
-    <g transform={`translate(-205,${-1292 + breathe}) rotate(${r1})`}>
+    <g transform={`translate(-205,${-1292 + breathe}) rotate(${r1 - armSwing * 0.4})`}>
       <rect x={-36} y={-10} width={72} height={280} rx={36} fill="url(#lSleeve)" />
       <path d="M-18,70 q10,40 0,90" stroke="rgba(150,140,125,.5)" strokeWidth={3} fill="none" />
       <rect x={-38} y={240} width={76} height={34} rx={12} fill="#E5DFD3" />
@@ -294,7 +309,8 @@ export const Lauro: React.FC<{
 
   return (
     <g>
-      {shadow && <ellipse cx={0} cy={0} rx={280} ry={42} fill="rgba(0,0,0,.22)" />}
+      {shadow && <ellipse cx={0} cy={0} rx={280 - hop * 0.15} ry={42 - hop * 0.02} fill="rgba(0,0,0,.22)" />}
+      <g transform={`translate(0,${-hop + bob}) rotate(${sway} 0 0)`}>
       {/* bombacha */}
       <path d="M-192,-905 C-262,-700 -272,-420 -202,-262 C-172,-202 -122,-186 -96,-182 L-30,-182 C-20,-400 -10,-600 0,-640 C10,-600 20,-400 30,-182 L96,-182 C122,-186 172,-202 202,-262 C272,-420 262,-700 192,-905 Z" fill="url(#lBom)" />
       {[-1, 1].map((sd) => (
@@ -305,8 +321,8 @@ export const Lauro: React.FC<{
         </g>
       ))}
       {/* boots */}
-      <path d="M-152,-200 L-38,-200 L-34,-40 C-34,-12 -58,0 -88,0 L-190,0 C-206,0 -210,-22 -190,-36 L-152,-62 Z" fill="url(#lBoot)" />
-      <path d="M38,-200 L152,-200 L152,-62 L190,-36 C210,-22 206,0 190,0 L88,0 C58,0 34,-12 34,-40 Z" fill="url(#lBoot)" />
+      <path transform={`translate(0,${footL})`} d="M-152,-200 L-38,-200 L-34,-40 C-34,-12 -58,0 -88,0 L-190,0 C-206,0 -210,-22 -190,-36 L-152,-62 Z" fill="url(#lBoot)" />
+      <path transform={`translate(0,${footR})`} d="M38,-200 L152,-200 L152,-62 L190,-36 C210,-22 206,0 190,0 L88,0 C58,0 34,-12 34,-40 Z" fill="url(#lBoot)" />
       <path d="M-148,-190 h106 M42,-190 h106" stroke="#3a332c" strokeWidth={6} />
       {/* torso */}
       <g transform={`translate(0,${breathe})`}>
@@ -337,7 +353,7 @@ export const Lauro: React.FC<{
       </g>
       {leftArm}
       {/* head */}
-      <g transform={`translate(0,${breathe}) rotate(${tilt} 0 -1450)`}>
+      <g transform={`translate(0,${breathe}) rotate(${tilt + nod} 0 -1420)`}>
         {[-1, 1].map((sd) => (
           <g key={sd} transform={`scale(${sd},1)`}>
             <ellipse cx={-103} cy={-1525} rx={18} ry={34} fill="#C98F62" />
@@ -381,6 +397,7 @@ export const Lauro: React.FC<{
         <ellipse cx={0} cy={-1653} rx={226} ry={24} fill="#2C2824" />
       </g>
       {rightArm}
+      </g>
     </g>
   );
 };

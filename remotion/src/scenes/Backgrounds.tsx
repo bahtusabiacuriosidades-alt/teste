@@ -244,9 +244,18 @@ export const Car: React.FC<{ color: string; dent?: boolean; flip?: boolean }> = 
   </g>
 );
 
-export const Xis: React.FC = () => (
+export const Plate: React.FC = () => (
   <g>
-    <ellipse cx={0} cy={150} rx={430} ry={70} fill="#E6D3B3" />
+    <ellipse cx={0} cy={18} rx={470} ry={70} fill="rgba(0,0,0,.18)" />
+    <ellipse cx={0} cy={0} rx={460} ry={72} fill="#F4F1EA" />
+    <ellipse cx={0} cy={-4} rx={360} ry={50} fill="#E8E3D8" />
+    <ellipse cx={0} cy={-6} rx={330} ry={42} fill="#F7F4EE" />
+  </g>
+);
+
+export const Xis: React.FC<{ plate?: boolean }> = ({ plate = true }) => (
+  <g>
+    {plate && <ellipse cx={0} cy={150} rx={430} ry={70} fill="#E6D3B3" />}
     <ellipse cx={0} cy={110} rx={390} ry={60} fill="#D9A55A" />
     <path d="M-400,60 Q-300,10 -200,60 T0,60 T200,60 T400,60 L400,90 L-400,90 Z" fill="#5DAA3C" />
     <rect x={-380} y={30} width={760} height={34} rx={14} fill="#6B3A1E" />
