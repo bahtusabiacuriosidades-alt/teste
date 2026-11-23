@@ -1,4 +1,4 @@
-# Vídeo #002: "Tu sabe cevar um mate?"
+# Vídeo #003: "Tu sabe cevar um mate?"
 
 **Série:** Bah, tu sabia? · **Categoria:** 🧉 CULTURA · **Duração-alvo:** cerca de 1:20 a 1:30
 **Base de enredo:** o vídeo de referência sobre o charque ("engenharia do sertão"). Usamos a **estrutura narrativa**, não o conteúdo nem o visual.
@@ -36,7 +36,7 @@
 Mesma mecânica (simulação em 2ª pessoa, cadeia de problemas, revelação, virada histórica e "parabéns"), com tema e visual nossos, e o Lauro e o Cusco em cena. O "tu" substitui o "você", porque é assim que o gaúcho fala.
 
 ### Identidade na tela
-- HUD de sempre: `BAH, TU SABIA? · #002` + `🧉 CULTURA`
+- HUD de sempre: `BAH, TU SABIA? · #003` + `🧉 CULTURA`
 - **Etiqueta de etapa** (nossa): `🧉 CEVANDO O MATE · PASSO 1/5` … `5/5`
 - **Problema** em pílula vermelha (`❌ PÓ ENTOPE A BOMBA`) e **solução** em pílula verde (`✅ SACODE COM A MÃO`)
 - Medidor no canto: um **"MATÔMETRO"** de 0 a 100% que sobe a cada passo certo e cai com cada erro. É o nosso equivalente da recompensa de jogo.

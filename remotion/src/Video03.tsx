@@ -6,12 +6,12 @@ import { Lauro, LauroDefs } from './chars/Lauro';
 import { CuscoSit, CuscoDefs } from './chars/Others';
 import { GalpaoBG, Fogao, Chaleira, ErvaPack, CuiaIcon, CuiaCut, Thermo, MapScene, Confetti } from './scenes/Mate';
 import { HUD, BigText, Stamp, Captions } from './ui/Overlays';
-import rms02 from './data/v02/rms.json';
-import words02 from './data/v02/words.json';
+import rms03 from './data/v03/rms.json';
+import words03 from './data/v03/words.json';
 
-export const DURATION_02 = 81.0;
-const talk = makeVoice(rms02 as number[]);
-const WORDS02 = words02 as Word[];
+export const DURATION_03 = 81.0;
+const talk = makeVoice(rms03 as number[]);
+const WORDS03 = words03 as Word[];
 const FONT = 'Montserrat, "Noto Color Emoji", sans-serif';
 
 /* ---------------- helpers ---------------- */
@@ -321,7 +321,7 @@ const SFX: [string, number, number][] = [
   ['ding', 75.35, 0.25],
 ];
 
-export const Video02: React.FC = () => {
+export const Video03: React.FC = () => {
   const frame = useCurrentFrame();
   const t = frame / FPS;
   const sc = SCENES.find((s) => t >= s.a && t < s.b) ?? SCENES[SCENES.length - 1];
@@ -341,7 +341,7 @@ export const Video02: React.FC = () => {
         {sc.draw(t, lt)}
       </svg>
 
-      <HUD num="#002" cat="🧉 CULTURA" />
+      <HUD num="#003" cat="🧉 CULTURA" />
       <Matometro t={t} />
       <StepChip t={t} />
       <BigText t={t} start={0} end={1.5} lines={['BAH, TU', 'SABIA?']} y={330} size={120} />
@@ -363,13 +363,13 @@ export const Video02: React.FC = () => {
       <BigText t={t} start={71.5} end={75.2} lines={['PARABÉNS,', 'TCHÊ! 🎉']} y={330} size={100} rot={-3} />
       <Stamp t={t} start={74.2} end={75.2} text="🐕 O CUSCO APROVOU" x={330} y={720} />
       <Chip t={t} a={75.35} b={81.1} text="MANDA PRO AMIGO QUE FERVE A ÁGUA 🔥" kind="warn" y={430} />
-      <Captions t={t} hidden={hideCaps} words={WORDS02} />
+      <Captions t={t} hidden={hideCaps} words={WORDS03} />
 
       {flash > 0 && <AbsoluteFill style={{ backgroundColor: `rgba(255,255,255,${flash})` }} />}
       {t > 80.55 && <AbsoluteFill style={{ backgroundColor: `rgba(0,0,0,${clamp((t - 80.55) / 0.45)})` }} />}
 
-      <Audio src={staticFile('audio/video02_voz.mp3')} />
-      <Audio src={staticFile('audio/video02_musica.mp3')} />
+      <Audio src={staticFile('audio/video03_voz.mp3')} />
+      <Audio src={staticFile('audio/video03_musica.mp3')} />
       {SFX.map(([name, at, vol], i) => (
         <Sequence key={i} from={Math.max(0, Math.round(at * FPS))} durationInFrames={Math.round(5.5 * FPS)} layout="none">
           <Audio src={staticFile(`sfx/${name}.wav`)} volume={vol} />

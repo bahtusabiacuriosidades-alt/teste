@@ -1,4 +1,4 @@
-# Vídeo #003: "Como ajudar Tupanciretã do jeito certo"
+# Vídeo #002: "Como ajudar Tupanciretã do jeito certo"
 
 **Série:** Bah, tu sabia? · **Categoria:** 🤝 SOLIDARIEDADE · **Duração-alvo:** cerca de 1:05 a 1:15
 **Tom:** sério e acolhedor. **Sem piada, sem matômetro, sem efeitos cômicos.** O Lauro fala calmo e firme, como quem está pedindo ajuda para um vizinho.
@@ -54,7 +54,7 @@ Compartilha esse vídeo. Informação certa também é ajuda.
 - **Sem fotos reais** de vítimas ou destruição. Só ilustração simples, para não explorar a tragédia.
 - **Música:** a trilha gaúcha bem mais baixa que o normal, ou só o acorde final no "obrigado". Sem efeitos cômicos (sem boing, latido de piada ou carimbo). Só sons suaves de transição.
 - **Cusco:** quieto ao lado do Lauro o tempo todo. No final, dá a pata.
-- **HUD:** `BAH, TU SABIA? · #003` e `🤝 SOLIDARIEDADE`.
+- **HUD:** `BAH, TU SABIA? · #002` e `🤝 SOLIDARIEDADE`.
 
 ---
 
