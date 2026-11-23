@@ -234,7 +234,7 @@ export const Thermo: React.FC<{ temp: number; good?: boolean }> = ({ temp, good 
 /* ------------------------------------------------------------------ */
 const RS = 'M60,170 L150,110 L260,90 L380,70 L470,95 L560,130 L640,190 L600,300 L540,420 L470,520 L400,610 L335,700 L290,640 L230,600 L170,560 L120,500 L60,420 L30,330 L20,250 Z';
 
-export const MapScene: React.FC<{ t: number; guaranis: number; reducoes: number; ruins: number; pin: number; zoom: number }> = ({ t, guaranis, reducoes, ruins, pin, zoom }) => (
+export const MapScene: React.FC<{ t: number; guaranis: number; reducoes: number; ruins: number; pin: number; zoom: number; pinX?: number; pinY?: number; neighbours?: boolean }> = ({ t, guaranis, reducoes, ruins, pin, zoom, pinX = 150, pinY = 180, neighbours = true }) => (
   <g>
     <rect width={1080} height={1920} fill="#EFE2C4" />
     {Array.from({ length: 22 }).map((_, i) => <line key={i} x1={0} y1={i * 90} x2={1080} y2={i * 90} stroke="rgba(120,90,40,.08)" strokeWidth={3} />)}
@@ -242,8 +242,8 @@ export const MapScene: React.FC<{ t: number; guaranis: number; reducoes: number;
     <g transform={`translate(540,1000) scale(${zoom}) translate(-540,-1000)`}>
       <g transform="translate(220,640)">
         {/* neighbours (west) */}
-        <path d="M-200,0 L60,170 L20,250 L30,330 L60,420 L-200,520 Z" fill="#E3D3AE" />
-        <text x={-150} y={300} fontFamily="Montserrat" fontWeight={800} fontSize={30} fill="rgba(90,70,30,.55)">ARGENTINA</text>
+        {neighbours && <path d="M-200,0 L60,170 L20,250 L30,330 L60,420 L-200,520 Z" fill="#E3D3AE" />}
+        {neighbours && <text x={-150} y={300} fontFamily="Montserrat" fontWeight={800} fontSize={30} fill="rgba(90,70,30,.55)">ARGENTINA</text>}
         {/* guarani region */}
         {guaranis > 0 && <ellipse cx={90} cy={190} rx={250 * guaranis} ry={170 * guaranis} fill="rgba(47,107,58,.28)" stroke="#2F6B3A" strokeWidth={6} strokeDasharray="14 10" />}
         {/* RS */}
@@ -273,7 +273,7 @@ export const MapScene: React.FC<{ t: number; guaranis: number; reducoes: number;
         )}
         {/* pin */}
         {pin > 0 && (
-          <g transform={`translate(150,180) scale(${pin}) translate(0,${-Math.abs(Math.sin(t * 4)) * 10})`}>
+          <g transform={`translate(${pinX},${pinY}) scale(${pin}) translate(0,${-Math.abs(Math.sin(t * 4)) * 10})`}>
             <path d="M0,0 C-40,-50 -40,-110 0,-110 C40,-110 40,-50 0,0 Z" fill="#B23A2E" />
             <circle cx={0} cy={-75} r={14} fill="#fff" />
           </g>

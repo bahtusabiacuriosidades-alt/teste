@@ -5,7 +5,8 @@
   "scripts": {
     "studio": "remotion studio",
     "render:01": "remotion render src/index.ts Video01 out/video01_bah_tu_sabia.mp4 --browser-executable=/opt/pw-browsers/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell",
-    "render:03": "remotion render src/index.ts Video03 out/video03_chimarrao.mp4 --browser-executable=/opt/pw-browsers/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell"
+    "render:03": "remotion render src/index.ts Video03 out/video03_chimarrao.mp4 --browser-executable=/opt/pw-browsers/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell",
+    "render:02": "remotion render src/index.ts Video02 out/video02_tupancireta.mp4 --browser-executable=/opt/pw-browsers/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell"
   },
   "dependencies": {
     "@remotion/cli": "4.0.545",

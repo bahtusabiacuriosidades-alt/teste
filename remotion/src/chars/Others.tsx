@@ -79,7 +79,7 @@ export const CuscoRun: React.FC<{ t: number; bread?: boolean }> = ({ t, bread = 
 };
 
 /** Cusco sitting, front view (origin ≈ paws on the ground) */
-export const CuscoSit: React.FC<{ t: number; chew?: boolean; tiltHead?: number }> = ({ t, chew = true, tiltHead = 0 }) => {
+export const CuscoSit: React.FC<{ t: number; chew?: boolean; tiltHead?: number; paw?: number }> = ({ t, chew = true, tiltHead = 0, paw = 0 }) => {
   const jaw = chew ? Math.abs(Math.sin(t * 9)) * 7 : 0;
   const wag = Math.sin(t * 14) * 22;
   return (
@@ -90,9 +90,11 @@ export const CuscoSit: React.FC<{ t: number; chew?: boolean; tiltHead?: number }
       <ellipse cx={80} cy={-50} rx={70} ry={58} fill="#B07338" />
       <path d="M-100,-20 C-120,-140 -90,-250 0,-262 C90,-250 120,-140 100,-20 Z" fill="url(#cFur)" />
       <rect x={-58} y={-150} width={40} height={150} rx={20} fill={CAR} />
-      <rect x={18} y={-150} width={40} height={150} rx={20} fill={CAR} />
+      <g transform={`rotate(${-95 * paw} 38 -140)`}>
+        <rect x={18} y={-150} width={40} height={150} rx={20} fill={CAR} />
+        <ellipse cx={40} cy={-4} rx={30} ry={13} fill="#B8783A" />
+      </g>
       <ellipse cx={-36} cy={-4} rx={30} ry={13} fill="#B8783A" />
-      <ellipse cx={40} cy={-4} rx={30} ry={13} fill="#B8783A" />
       <path d="M-46,-8 v-10 M-36,-6 v-12 M30,-8 v-10 M42,-6 v-12" stroke="#8A5A2B" strokeWidth={3} />
       <Heart x={0} y={-200} s={1.05} />
       <path d="M-78,-262 C-30,-230 30,-230 78,-262 L0,-150 Z" fill="url(#cMust)" />

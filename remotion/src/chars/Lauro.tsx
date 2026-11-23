@@ -5,7 +5,7 @@ import React from 'react';
  * Local coordinates: feet at (0,0), y grows downward, hat top ≈ y -1765.
  * The cuia is ALWAYS in his right hand (viewer's left).
  */
-export type Expr = 'talk' | 'shock' | 'laugh' | 'smile' | 'squint' | 'stern' | 'angry' | 'wink' | 'delight';
+export type Expr = 'talk' | 'shock' | 'laugh' | 'smile' | 'squint' | 'stern' | 'angry' | 'wink' | 'delight' | 'sad';
 export type ArmPose = 'down' | 'wave' | 'hold' | 'pointUp' | 'thumbsUp' | 'wag' | 'pointSide' | 'pointDown';
 export type HeldObj = 'none' | 'brigadeiro' | 'bergamota' | 'roll';
 
@@ -213,6 +213,7 @@ export const Lauro: React.FC<{
     case 'stern': o = 0.8; browL = 2; browR = -8; rotL = -12; rotR = 4; break;
     case 'angry': o = 1.05; browL = browR = 5; rotL = rotR = -16; break;
     case 'wink': closedR = true; browL = -6; browR = 3; break;
+    case 'sad': o = 0.85; browL = browR = -6; rotL = rotR = 13; break;
   }
   browL += browBoost; browR += browBoost;
   if (blink && !closedL) o = 0.08;
