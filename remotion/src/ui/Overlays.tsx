@@ -1,16 +1,16 @@
 import React from 'react';
-import { MUST, WORDS, isGaucho, pop, easeOut, clamp } from '../lib';
+import { MUST, WORDS, isGaucho, pop, easeOut, clamp, Word } from '../lib';
 
 const font = 'Montserrat, "Noto Color Emoji", sans-serif';
 
-export const HUD: React.FC = () => (
+export const HUD: React.FC<{ num?: string; cat?: string }> = ({ num = '#001', cat = '🗣️ DICIONÁRIO GAÚCHO' }) => (
   <div style={{ position: 'absolute', left: 48, top: 150, fontFamily: font }}>
     <div style={{ display: 'inline-block', background: 'rgba(20,16,12,.75)', borderRadius: 14, padding: '10px 22px', fontWeight: 900, fontSize: 34, color: '#fff' }}>
-      <span style={{ color: MUST }}>BAH, TU SABIA?</span> · #001
+      <span style={{ color: MUST }}>BAH, TU SABIA?</span> · {num}
     </div>
     <div style={{ marginTop: 12 }}>
       <span style={{ display: 'inline-block', background: 'rgba(255,255,255,.95)', borderRadius: 30, padding: '8px 20px', fontWeight: 900, fontSize: 26, color: '#2A2420', boxShadow: '0 5px 14px rgba(0,0,0,.2)' }}>
-        🗣️ DICIONÁRIO GAÚCHO
+        {cat}
       </span>
     </div>
   </div>
@@ -80,14 +80,14 @@ export const Stamp: React.FC<{ t: number; start: number; end: number; text: stri
   );
 };
 
-export const Captions: React.FC<{ t: number; hidden: boolean; y?: number }> = ({ t, hidden, y = 1405 }) => {
+export const Captions: React.FC<{ t: number; hidden: boolean; y?: number; words?: Word[] }> = ({ t, hidden, y = 1405, words = WORDS }) => {
   if (hidden) return null;
-  const i = WORDS.findIndex((w, idx) => {
-    const next = WORDS[idx + 1]?.s ?? w.e + 0.5;
+  const i = words.findIndex((w, idx) => {
+    const next = words[idx + 1]?.s ?? w.e + 0.5;
     return t >= w.s && t < Math.min(next, Math.max(w.e + 0.15, w.s + 0.18));
   });
   if (i < 0) return null;
-  const w = WORDS[i];
+  const w = words[i];
   const s = 1 + 0.18 * (1 - easeOut((t - w.s) / 0.09));
   return (
     <div style={{ position: 'absolute', left: 0, right: 0, top: y, textAlign: 'center' }}>

@@ -45,6 +45,9 @@ export type Word = { w: string; s: number; e: number };
 export const WORDS = wordsData as Word[];
 export const GAUCHO = new Set([
   'bah', 'tchê', 'aprochega', 'cacetinho', 'cacetinhos', 'negrinho', 'bergamota',
-  'sinaleira', 'xis', 'tri', 'capaz', 'pechada', 'cusco', 'gaúcho',
+  'sinaleira', 'xis', 'tri', 'capaz', 'pechada', 'cusco', 'gaúcho', 'chimarrão', 'cuia', 'erva', 'mate', 'cevar', 'morrinho',
 ]);
+/** per-video voice level (0..1) from an rms array sampled at FPS */
+export const makeVoice = (r: number[]) => (t: number) => r[Math.floor(t * FPS)] ?? 0;
+
 export const isGaucho = (w: string) => GAUCHO.has(w.toLowerCase().replace(/[?!.,"]/g, ''));
