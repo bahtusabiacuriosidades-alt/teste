@@ -3,8 +3,8 @@ import { MUST, WORDS, isGaucho, pop, easeOut, clamp, Word } from '../lib';
 
 const font = 'Montserrat, "Noto Color Emoji", sans-serif';
 
-export const HUD: React.FC<{ num?: string; cat?: string }> = ({ num = '#001', cat = '🗣️ DICIONÁRIO GAÚCHO' }) => (
-  <div style={{ position: 'absolute', left: 48, top: 150, fontFamily: font }}>
+export const HUD: React.FC<{ num?: string; cat?: string; top?: number; left?: number }> = ({ num = '#001', cat = '🗣️ DICIONÁRIO GAÚCHO', top = 150, left = 48 }) => (
+  <div style={{ position: 'absolute', left, top, fontFamily: font }}>
     <div style={{ display: 'inline-block', background: 'rgba(20,16,12,.75)', borderRadius: 14, padding: '10px 22px', fontWeight: 900, fontSize: 34, color: '#fff' }}>
       <span style={{ color: MUST }}>BAH, TU SABIA?</span> · {num}
     </div>
@@ -80,7 +80,7 @@ export const Stamp: React.FC<{ t: number; start: number; end: number; text: stri
   );
 };
 
-export const Captions: React.FC<{ t: number; hidden: boolean; y?: number; words?: Word[] }> = ({ t, hidden, y = 1405, words = WORDS }) => {
+export const Captions: React.FC<{ t: number; hidden: boolean; y?: number; words?: Word[]; size?: number; left?: number; right?: number }> = ({ t, hidden, y = 1405, words = WORDS, size = 108, left = 0, right = 0 }) => {
   if (hidden) return null;
   const i = words.findIndex((w, idx) => {
     const next = words[idx + 1]?.s ?? w.e + 0.5;
@@ -90,8 +90,8 @@ export const Captions: React.FC<{ t: number; hidden: boolean; y?: number; words?
   const w = words[i];
   const s = 1 + 0.18 * (1 - easeOut((t - w.s) / 0.09));
   return (
-    <div style={{ position: 'absolute', left: 0, right: 0, top: y, textAlign: 'center' }}>
-      <span style={{ display: 'inline-block', transform: `scale(${s})`, fontFamily: font, fontWeight: 900, fontSize: 108, color: isGaucho(w.w) ? MUST : '#fff', WebkitTextStroke: '20px rgba(0,0,0,.92)', paintOrder: 'stroke fill', textShadow: '0 8px 18px rgba(0,0,0,.45)' }}>
+    <div style={{ position: 'absolute', left, right, top: y, textAlign: 'center' }}>
+      <span style={{ display: 'inline-block', transform: `scale(${s})`, fontFamily: font, fontWeight: 900, fontSize: size, color: isGaucho(w.w) ? MUST : '#fff', WebkitTextStroke: `${Math.round(size * 0.185)}px rgba(0,0,0,.92)`, paintOrder: 'stroke fill', textShadow: '0 8px 18px rgba(0,0,0,.45)' }}>
         {w.w}
       </span>
     </div>
