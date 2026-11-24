@@ -127,10 +127,10 @@ const CHIPS: [number, number, string, 'info' | 'warn' | 'bad' | 'good'][] = [
 ];
 
 const SFX: [string, number, number][] = [
-  ['plim', 0.0, 0.3], ['scratch', 3.0, 0.3],
+  ['plim', 0.0, 0.3], ['bolafura', 3.0, 0.55],
   ...CUTS.map((c) => ['whoosh', c - 0.12, 0.16] as [string, number, number]),
   ...CHAPTERS.slice(1).map((c) => ['ding', c.a, 0.22] as [string, number, number]),
-  ['erro', 32.8, 0.22], ['carimbo', 49.3, 0.4], ['pop', 55.3, 0.25], ['boing', 72.2, 0.25],
+  ['bolafura', 32.8, 0.5], ['carimbo', 49.3, 0.4], ['pop', 55.3, 0.25], ['boing', 72.2, 0.25],
   ['carimbo', 93.0, 0.35], ['aplauso', 99.8, 0.3], ['latido', 105.3, 0.3],
   ['pop', 148.9, 0.3], ['pop', 183.4, 0.25], ['pop', 188.1, 0.25], ['aplauso', 201.7, 0.35], ['aplauso', 207.3, 0.3],
   ['pop', 215.6, 0.22], ['pop', 217.5, 0.22], ['pop', 220.3, 0.22],

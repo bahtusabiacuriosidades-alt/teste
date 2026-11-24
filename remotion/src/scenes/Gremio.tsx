@@ -376,3 +376,64 @@ export const StageTitle: React.FC<{ t: number; at: number; kicker: string; title
     </StageFrame>
   );
 };
+
+/* 1909 · first Gre-Nal: sepia field, wooden scoreboard "? × ?" that reveals the score,
+   two flags, and Cusco crossing the pitch, looking at both sides, then celebrating. */
+const Flag: React.FC<{ t: number; x: number; c: string; stripes?: boolean }> = ({ t, x, c, stripes }) => (
+  <g transform={`translate(${x},120)`}>
+    <rect x={-6} y={-260} width={12} height={300} fill="#5A4A38" />
+    {Array.from({ length: 6 }).map((_, i) => {
+      const w = (k: number) => Math.sin(t * 4 + k / 30) * 10;
+      const x0 = i * 26, x1 = (i + 1) * 26;
+      const fill = stripes ? [BLUE, BLACK, '#F4F4F4'][i % 3] : i % 2 ? '#F4F4F4' : c;
+      return <path key={i} d={`M${x0},${-255 + w(x0)} L${x1},${-255 + w(x1)} L${x1},${-150 + w(x1)} L${x0},${-150 + w(x0)} Z`} fill={stripes ? fill : c} />;
+    })}
+  </g>
+);
+export const StageGrenal1909: React.FC<{ t: number; a: number; labelT: number; revealT: number; home?: string; away?: string; hs?: number; as?: number; run: (t: number) => React.ReactNode; sit: (t: number, tilt: number) => React.ReactNode }> = ({ t, a, labelT, revealT, home = 'GRÊMIO', away = 'INTER', hs = 10, as = 0, run, sit }) => {
+  const lt = t - a;
+  const arriveT = a + 1.5;
+  const cx = t < arriveT ? kf(t, [[a, -620], [arriveT, 0]]) : t < revealT + 0.45 ? 0 : kf(t, [[revealT + 0.45, 0], [revealT + 1.4, 700]]);
+  const look = t >= arriveT && t < revealT ? (Math.sin((t - arriveT) * 3.2) > 0 ? 22 : -22) : 0;
+  const hop = t > revealT && t < revealT + 0.45 ? Math.sin(((t - revealT) / 0.45) * Math.PI) * 120 : 0;
+  const reveal = pop(t, revealT, 0.3);
+  return (
+    <StageFrame fill={SEPIA_BG}>
+      <rect x={-500} y={0} width={1000} height={500} fill="#B7A06A" />
+      <rect x={-500} y={-130} width={1000} height={130} fill="#C9B184" />
+      {Array.from({ length: 18 }).map((_, i) => <circle key={i} cx={-470 + i * 55} cy={-70 + (i % 2) * 22} r={18} fill="#7A6444" />)}
+      <line x1={-500} y1={0} x2={500} y2={0} stroke="#F4EEE2" strokeWidth={6} />
+      <Flag t={t} x={-400} c={BLUE} stripes />
+      <Flag t={t} x={300} c="#C62828" />
+      {/* wooden scoreboard */}
+      <g transform="translate(0,-300)" fontFamily="Montserrat" fontWeight={900} textAnchor="middle">
+        <rect x={-380} y={-130} width={760} height={260} rx={18} fill="#6B4E2E" stroke="#3E2A16" strokeWidth={10} />
+        <text x={-210} y={-60} fontSize={44} fill="#F4EEE2">{home}</text>
+        <text x={210} y={-60} fontSize={44} fill="#F4EEE2">{away}</text>
+        <text x={0} y={70} fontSize={90} fill="#F4EEE2">×</text>
+        {t < revealT ? (
+          <g fill="#F4EEE2" opacity={0.55 + 0.45 * Math.abs(Math.sin(t * 4))}>
+            <text x={-210} y={80} fontSize={130}>?</text>
+            <text x={210} y={80} fontSize={130}>?</text>
+          </g>
+        ) : (
+          <g transform={`scale(${reveal})`}>
+            <text x={-210} y={80} fontSize={140} fill={MUST}>{hs}</text>
+            <text x={210} y={80} fontSize={140} fill="#F4EEE2">{as}</text>
+          </g>
+        )}
+      </g>
+      {t > labelT && (
+        <g transform={`translate(0,-70) scale(${pop(t, labelT)})`}>
+          <rect x={-250} y={-46} width={500} height={92} rx={46} fill={MUST} />
+          <text x={0} y={18} textAnchor="middle" fontFamily="Montserrat" fontWeight={900} fontSize={48} fill="#1E1B18">1º GRE-NAL · 1909</text>
+        </g>
+      )}
+      {/* Cusco */}
+      <g transform={`translate(${cx},${330 - hop})`}>
+        {t < arriveT || t > revealT + 0.45 ? <g transform="scale(0.62)">{run(t)}</g> : <g transform="translate(0,120) scale(0.62)">{sit(t, look)}</g>}
+      </g>
+      {lt > 0 && <rect x={-500} y={-500} width={1000} height={1000} fill="rgba(120,80,30,.15)" />}
+    </StageFrame>
+  );
+};

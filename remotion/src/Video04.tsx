@@ -3,9 +3,9 @@ import { AbsoluteFill, Audio, Sequence, staticFile, useCurrentFrame } from 'remo
 import './fonts';
 import { FPS, MUST, kf, clamp, pop, makeVoice, Word } from './lib';
 import { Lauro, LauroDefs } from './chars/Lauro';
-import { CuscoSit, CuscoDefs } from './chars/Others';
+import { CuscoSit, CuscoRun, CuscoDefs } from './chars/Others';
 import { Confetti } from './scenes/Mate';
-import { BLUE, BLACK, OldBall, StageMatch, StageCandido, StageCalendar, StageJersey, StageWorld, Scoreboard, StagePitch7 } from './scenes/Gremio';
+import { BLUE, BLACK, OldBall, StageMatch, StageCandido, StageCalendar, StageJersey, StageWorld, Scoreboard, StagePitch7, StageGrenal1909 } from './scenes/Gremio';
 import { HUD, BigText, Captions } from './ui/Overlays';
 import rms04 from './data/v04/rms.json';
 import words04 from './data/v04/words.json';
@@ -54,7 +54,7 @@ const SCENES: Scene[] = [
     <><StripesBG t={t} /><Stage><Scoreboard t={t} at={48.8} home="GRÊMIO" away="HAMBURGO" hs={2} as={1} label="⚽⚽ RENATO" awayC="#2A2A2A" /></Stage><Confetti t={t} start={49.4} /></>
   ) },
   { a: 51.9, b: 59.9, draw: (t) => (
-    <><StripesBG t={t} /><Stage><Scoreboard t={t} at={56.0} home="GRÊMIO" away="INTER" hs={10} as={0} label="1º GRE-NAL · 1909" sepia awayC="#C62828" /></Stage></>
+    <><StripesBG t={t} /><Stage><StageGrenal1909 t={t} a={51.9} labelT={54.4} revealT={56.0} run={(tt) => <CuscoRun t={tt} bread={false} />} sit={(tt, tilt) => <CuscoSit t={tt} chew={false} tiltHead={tilt} />} /></Stage></>
   ) },
   { a: 59.9, b: 67.6, draw: (t) => (<><StripesBG t={t} /><Stage><StagePitch7 t={t} saveT={63.4} goalT={65.3} /></Stage></>) },
   { a: 67.6, b: 71.4, draw: (t, lt) => (
@@ -91,11 +91,11 @@ const Chip: React.FC<{ t: number; a: number; b: number; text: string; kind?: 'ba
 };
 
 const SFX: [string, number, number][] = [
-  ['plim', 0.0, 0.3], ['scratch', 2.95, 0.3], ['whoosh', 3.0, 0.25],
+  ['plim', 0.0, 0.3], ['bolafura', 2.95, 0.55],
   ...CUTS.map((c) => ['whoosh', c - 0.12, 0.2] as [string, number, number]),
-  ['erro', 12.0, 0.25], ['pop', 14.6, 0.3], ['carimbo', 23.6, 0.45], ['pop', 33.3, 0.3],
+  ['bolafura', 12.0, 0.5], ['patinhas', 51.95, 0.35], ['latido', 54.0, 0.3], ['latido', 56.1, 0.35], ['pop', 14.6, 0.3], ['carimbo', 23.6, 0.45], ['pop', 33.3, 0.3],
   ['boing', 34.9, 0.3], ['ding', 39.6, 0.25], ['whoosh', 42.1, 0.3], ['ding', 47.9, 0.3],
-  ['aplauso', 49.0, 0.35], ['pop', 49.4, 0.3], ['carimbo', 56.0, 0.4],
+  ['aplauso', 49.0, 0.35], ['pop', 49.4, 0.3], ['pop', 54.4, 0.3], ['carimbo', 56.0, 0.4],
   ['acerto', 63.4, 0.3], ['aplauso', 65.3, 0.4],
   ['aplauso', 69.1, 0.35], ['latido', 74.8, 0.35],
 ];
