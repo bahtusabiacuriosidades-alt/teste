@@ -13,6 +13,7 @@ Vídeos curtos (Reels/TikTok/Shorts) e longos (YouTube) sobre **cultura, dança,
 
 ## Personagens (bíblia completa em `bah-tu-sabia-personagens-e-formato.md`)
 - **Lauro:** gaúcho de cerca de 38 anos, chapéu preto de aba larga com barbicacho, **lenço amarelo-mostarda `#D9A021`**, camisa branca arregaçada, colete marrom, guaiaca com fivela de prata, bombacha cinza com favos, botas pretas. **A cuia fica sempre na mão direita** (lado esquerdo da tela). Componente: `remotion/src/chars/Lauro.tsx` (expressões: talk, shock, laugh, smile, squint, stern, angry, wink, delight, sad; poses: down, wave, hold, pointUp, thumbsUp, wag, pointSide, pointDown; props: walk, hop, lean, cuiaRaise, scarf).
+- **Piá** (a partir do #005): guri de uns 10 anos, sobrinho do Lauro, gremista provocador, boné azul para trás e camiseta listrada sem escudo. Voz infantil masculina.
 - **Cusco:** vira-lata caramelo, **orelha direita em pé e esquerda dobrada**, mancha branca em forma de coração no peito, mini lenço mostarda. Aparece em cerca de 1 de cada 3 cenas, como alívio cômico ou reação. `CuscoRun` e `CuscoSit` (paw, tiltHead, chew) em `chars/Others.tsx`.
 
 ## Preferências do usuário (aprendidas na prática)
@@ -22,6 +23,7 @@ Vídeos curtos (Reels/TikTok/Shorts) e longos (YouTube) sobre **cultura, dança,
 - **Nada de "tela vazia":** se a fala demora a chegar no ponto, colocar algo acontecendo (ex.: o Cusco atravessando).
 - **Escala coerente:** pessoa nunca do tamanho de prédio (usar perspectiva).
 - **Efeitos sonoros em toda ação** (ex.: bola furando, latido, carimbo) e **música de fundo baixa** em todos os vídeos.
+- **Câmera em movimento** com `src/camera.tsx` (`<Cam shots punches>`): no máximo um movimento por fala, respiração leve entre os movimentos e punch só em impacto. Movimentado, sem cansar.
 - Gosta de **animações "de virada"** (ex.: o xis cresce no "do tamanho de um prato").
 - Gênero dos personagens secundários **segue a voz** do áudio (ex.: atendente com voz feminina = mulher).
 
@@ -40,6 +42,7 @@ Vídeos curtos (Reels/TikTok/Shorts) e longos (YouTube) sobre **cultura, dança,
    pip install faster-whisper librosa
    python3 tools/preparar_audio.py --id vXX --voz /caminho/audio.mp3 --acorde <seg_final> [--breque <seg_da_virada>] [--musica-lufs -35]
    ```
+   Com dois personagens gravados separados (`01_L.mp3`, `02_P.mp3`…), rode antes `python3 tools/montar_dialogo.py --id vXX --pasta /caminho/falas` e use `out/tmp_vXX/dialogo.mp3` como `--voz`; ele também gera `src/data/vXX/falas.json` (quem fala quando).
    Isso gera `public/audio/vXX_voz.mp3`, `public/audio/vXX_musica.mp3`, `src/data/vXX/words.json` e `src/data/vXX/rms.json`. **Conferir e corrigir as palavras da legenda.**
 4. Criar `src/VideoXX.tsx` (copiar o mais parecido: `Video03.tsx` para passo a passo, `Video04.tsx` para história, `Video04L.tsx` para YouTube horizontal, `Video02.tsx` para tom sério) e registrar em `src/Root.tsx`.
 5. Testar com quadros isolados (`npx remotion still … --frame=N --scale=0.3`), olhar e corrigir sobreposições.

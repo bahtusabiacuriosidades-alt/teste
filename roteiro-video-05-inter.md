@@ -167,3 +167,38 @@ Mas a história do Inter também tem tombo. Em dezembro de 2016, pela primeira v
 ## Versão com participante: o Piá
 **Piá:** guri de uns 10 anos, sobrinho do Lauro, gremista provocador e curioso. Voz infantil masculina no ElevenLabs. Ele interrompe com perguntas e provocações leves e, no fim, admite o empate. Personagem fictício (não é depoimento real).
 O texto completo dessa versão foi enviado no chat. No ElevenLabs, usar o modo de diálogo (Text to Dialogue, v3) com duas vozes, ou gerar as falas do Piá separadas.
+
+### Gravação separada (Lauro e Piá)
+Cada fala é um arquivo com número e inicial: `01_L.mp3`, `02_P.mp3`… O número segue a ordem do roteiro. Para juntar:
+```bash
+python3 tools/montar_dialogo.py --id v05 --pasta /caminho/falas
+python3 tools/preparar_audio.py --id v05 --voz out/tmp_v05/dialogo.mp3 --acorde <seg_final>
+```
+O `falas.json` diz quem fala em cada trecho (boca do Lauro × boca do Piá).
+
+---
+
+## Plano de câmera (curto)
+Componente `remotion/src/camera.tsx` (`<Cam shots=[…] punches=[…]>`).
+**Regras anticansaço:** no máximo **um movimento por fala**; entre movimentos a câmera "respira" (deriva de poucos pixels); zoom entre 1.0 e 1.35; **punch** (soquinho de zoom) só em impacto; nada de tremida contínua. Cenas de placar e mapa: câmera quase parada, o movimento vem do conteúdo.
+
+| # | Fala | Câmera | Lauro / Piá / Cusco |
+|---|---|---|---|
+| 1 | "Bah, tu sabia…" | Começa **fechada no Lauro** (1.3) e **abre** para o geral no fim da frase, revelando o portão `SÓCIOS` | Lauro entra **andando** da esquerda e para no portão; o Cusco fareja o portão |
+| 2 | Piá: "Sério, tio?" | **Pan rápido** para a direita: o Piá aparece encostado num muro | Piá dá um **pulinho** e cruza os braços |
+| 3 | 1909, os Poppe | **Travelling lateral** acompanhando o trem no mapa SP → POA (câmera segue o trem com atraso suave) | Lauro aponta o mapa (`pointSide`) |
+| 4 | Piá: "E aí?" | Corte seco para o Piá (médio) | Piá inclina a cabeça |
+| 5 | Fundação + aberto a todos | **Push-in** lento no calendário; **punch** no carimbo `FUNDADO`; depois **abre** quando o portão se abre e entra a turma | Lauro **caminha** junto com a turma pelo portão; câmera acompanha (follow) |
+| 6 | Piá: "dez a zero!" | **Zoom de virada**: fecha rápido no placar `10 × 0` | Piá ri; o Cusco tapa os olhos com a pata |
+| 7 | "Mas segura…" / Rolo Compressor | **Whip-pan** (giro rápido com borrão) para a esquerda, entrando o rolo compressor; câmera **acompanha o rolo** achatando o 10 × 0; **punch** no achatamento | Lauro dá um **pulinho** de comemoração |
+| 8 | Piá: "Seis?!" | Pequeno **zoom-in** no Piá (1.0 → 1.15) | Piá de boca aberta |
+| 9 | Beira-Rio + anos 70 | **Grua** (sobe na vertical) acompanhando o estádio subindo tijolo por tijolo; depois **push-in** nas três estrelas, um punch em cada estrela | O Cusco **corre** carregando um tijolo na boca; Lauro balança a cuia |
+| 10 | Piá: "Nenhum?" | Corte para o Piá, plano fixo | Piá conta nos dedos (5 dedos!) |
+| 11 | 2006 / Barcelona / 2010 / Clube do Povo | **Travelling** pelo mapa POA → Japão; câmera parada no placar; **punch** no gol; depois **abre** para o geral no "Clube do Povo" com confete | Lauro **pula** com o cachecol; o Cusco pula junto |
+| 12 | Piá: "o empate tá feito" | **Two-shot**: câmera recua para mostrar o Lauro e o Piá lado a lado | Piá dá de ombros, sorrindo |
+| 13 | Comenta aí | **Push-in** leve no Lauro e no Cusco sentado entre os dois cachecóis | Lauro aponta para baixo (comentários); o Cusco abana o rabo |
+
+**Longo (16:9):** mesma lógica, mais calma: um movimento a cada 6 a 10 s, travellings mais lentos (ease de 1.5 a 2 s), punch só nos gols (1975, 2006, 2010) e no carimbo da fundação. O Lauro anda pelo cenário entre capítulos e a câmera o acompanha; o Piá fica no canto direito e ganha corte seco quando fala.
+
+### Piá (visual)
+Guri de uns 10 anos, boné azul virado para trás, camiseta listrada azul/preta/branca **sem escudo**, bermuda, tênis. Mesmo estilo semi-realista do Lauro, com proporções de criança (mais ou menos na altura do peito do Lauro). Voz infantil masculina, então o personagem é menino.
