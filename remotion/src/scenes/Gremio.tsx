@@ -359,14 +359,14 @@ const wrap = (txt: string, max = 16) => {
   }
   return best;
 };
-export const StageTitle: React.FC<{ t: number; at: number; kicker: string; title: string }> = ({ t, at, kicker, title }) => {
+export const StageTitle: React.FC<{ t: number; at: number; kicker: string; title: string; bg?: string; stripes?: string[] }> = ({ t, at, kicker, title, bg = BLUE, stripes = [BLACK, '#F4F4F4'] }) => {
   const lines = wrap(title);
   const longest = Math.max(...lines.map((l) => l.length));
   const fs = Math.min(110, 860 / (0.66 * longest));
   const kfs = Math.min(56, 860 / (0.62 * kicker.length));
   return (
-    <StageFrame fill={BLUE}>
-      {Array.from({ length: 12 }).map((_, i) => <rect key={i} x={-500 + i * 90} y={-500} width={30} height={1000} fill={i % 2 ? BLACK : '#F4F4F4'} opacity={0.18} />)}
+    <StageFrame fill={bg}>
+      {Array.from({ length: 12 }).map((_, i) => <rect key={i} x={-500 + i * 90} y={-500} width={30} height={1000} fill={stripes[i % stripes.length]} opacity={0.18} />)}
       <g transform={`scale(${pop(t, at, 0.3)})`} fontFamily="Montserrat" fontWeight={900} textAnchor="middle">
         <text x={0} y={-40 - (lines.length - 1) * fs * 0.55} fontSize={kfs} fill={MUST}>{kicker}</text>
         {lines.map((l, i) => (

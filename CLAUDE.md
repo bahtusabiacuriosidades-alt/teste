@@ -43,9 +43,10 @@ Vídeos curtos (Reels/TikTok/Shorts) e longos (YouTube) sobre **cultura, dança,
    pip install faster-whisper librosa
    python3 tools/preparar_audio.py --id vXX --voz /caminho/audio.mp3 --acorde <seg_final> [--breque <seg_da_virada>] [--musica-lufs -35]
    ```
+   Se o usuário mandar **um arquivo só** com todas as falas em sequência (como no #005), corte com `tools/separar_falas.py --voz … --words … --spec tools/spec/vXX.json --saida pasta/` (o spec lista o início de cada fala na ordem do áudio) e depois use o `montar_dialogo.py`. Se o Piá vier na voz do Lauro, use `--agudo P=4`.
    Com dois personagens gravados separados (`01_L.mp3`, `02_P.mp3`…), rode antes `python3 tools/montar_dialogo.py --id vXX --pasta /caminho/falas` e use `out/tmp_vXX/dialogo.mp3` como `--voz`; ele também gera `src/data/vXX/falas.json` (quem fala quando).
    Isso gera `public/audio/vXX_voz.mp3`, `public/audio/vXX_musica.mp3`, `src/data/vXX/words.json` e `src/data/vXX/rms.json`. **Conferir e corrigir as palavras da legenda.**
-4. Criar `src/VideoXX.tsx` (copiar o mais parecido: `Video03.tsx` para passo a passo, `Video04.tsx` para história, `Video04L.tsx` para YouTube horizontal, `Video02.tsx` para tom sério) e registrar em `src/Root.tsx`.
+4. Criar `src/VideoXX.tsx` (com câmera e mais de um personagem: `Video05.tsx` vertical e `Video05L.tsx` horizontal; ou copiar o mais parecido: `Video03.tsx` para passo a passo, `Video04.tsx` para história, `Video04L.tsx` para YouTube horizontal, `Video02.tsx` para tom sério) e registrar em `src/Root.tsx`.
 5. Testar com quadros isolados (`npx remotion still … --frame=N --scale=0.3`), olhar e corrigir sobreposições.
 6. Renderizar:
    ```bash
@@ -71,6 +72,6 @@ Vídeos curtos (Reels/TikTok/Shorts) e longos (YouTube) sobre **cultura, dança,
 | #003 | Tu sabe cevar um mate? | `videos/video03_chimarrao.mp4` · `Video03.tsx` | pronto |
 | #004 | História do Grêmio (curto + YouTube) | `videos/video04_gremio_curto.mp4`, `videos/video04_gremio_youtube.mp4` · `Video04.tsx`, `Video04L.tsx` | pronto |
 | teaser | "Grêmio venceu a votação" (10 s) | `videos/teaser04_gremio_venceu.mp4` · `Teaser04.tsx` | pronto |
-| #005 | **História do Inter** (curto + YouTube) | `roteiro-video-05-inter.md` | roteiro pronto, aguardando MP3 do ElevenLabs |
+| #005 | História do Inter (curto + YouTube), com o Piá | `videos/video05_inter_curto.mp4`, `videos/video05_inter_youtube.mp4` · `Video05.tsx`, `Video05L.tsx` | pronto |
 
 Outros: stories em `stories/` (Tupanciretã e enquete Inter × Grêmio). Roteiros em `roteiro-video-*.md`. Análise dos vídeos de referência em `engenharia-reversa-videos.md` e `roteiro-video-03-chimarrao.md` (seção 1).

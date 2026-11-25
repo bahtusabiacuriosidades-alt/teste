@@ -409,3 +409,127 @@ export const ScarfProp: React.FC<{ kind: 'inter' | 'gremio' }> = ({ kind }) => (
     {Array.from({ length: 6 }).map((_, i) => <line key={i} x1={-34 + i * 13} y1={200} x2={-34 + i * 13} y2={230} stroke="#F4F4F4" strokeWidth={5} />)}
   </g>
 );
+
+/* ---------- Card: Estádio dos Eucaliptos (1931, Menino Deus) ---------- */
+export const StageEucaliptos: React.FC<{ t: number; at: number }> = ({ t, at }) => {
+  const k = easeOut(clamp((t - at) / 1.2));
+  return (
+    <StageFrame fill="#CFE3EE">
+      <rect x={-500} y={120} width={1000} height={380} fill="#6E9A45" />
+      {/* eucaliptos balançando */}
+      {[-430, -330, 330, 440].map((x, i) => (
+        <g key={i} transform={`translate(${x},130) rotate(${Math.sin(t * 1.5 + i) * 2})`}>
+          <rect x={-10} y={-420} width={20} height={420} fill="#C9B8A0" />
+          <ellipse cx={0} cy={-420} rx={70} ry={140} fill="#5F8A5A" />
+          <ellipse cx={-30} cy={-330} rx={50} ry={90} fill="#6E9A68" />
+        </g>
+      ))}
+      {/* arquibancada de madeira subindo */}
+      <g transform={`translate(0,130) scale(1,${k})`}>
+        {Array.from({ length: 5 }).map((_, r) => (
+          <rect key={r} x={-260 + r * 12} y={-60 - r * 50} width={520 - r * 24} height={50} fill={r % 2 ? '#8A5A34' : '#9C6A3E'} stroke="#5A3A20" strokeWidth={4} />
+        ))}
+        <rect x={-270} y={-330} width={540} height={24} fill={RED} />
+        <path d="M-280,-330 L0,-400 L280,-330 Z" fill="#7A2A22" />
+      </g>
+      <g transform={`translate(0,330) scale(${pop(t, at + 0.8)})`}>
+        <rect x={-330} y={-50} width={660} height={100} rx={50} fill={MUST} />
+        <text x={0} y={18} textAnchor="middle" fontFamily={F} fontWeight={900} fontSize={46} fill="#1E1B18">EUCALIPTOS · 1931</text>
+      </g>
+    </StageFrame>
+  );
+};
+
+/* ---------- Card: Saci (figura genérica do folclore, NÃO o mascote oficial) ---------- */
+export const StageSaci: React.FC<{ t: number; at: number }> = ({ t, at }) => {
+  const hop = Math.abs(Math.sin(t * 4)) * 70;
+  const x = Math.sin(t * 0.9) * 200;
+  const sp = (t * 6) % (Math.PI * 2);
+  return (
+    <StageFrame fill="#2E4A2E">
+      <rect x={-500} y={180} width={1000} height={320} fill="#4E6E36" />
+      {/* redemoinho */}
+      {[0, 1, 2].map((k) => <ellipse key={k} cx={x} cy={170 - k * 60} rx={150 - k * 30} ry={24} fill="none" stroke="#D9C9A0" strokeWidth={6} opacity={0.35} transform={`rotate(${Math.sin(sp + k) * 8} ${x} ${170 - k * 60})`} />)}
+      <g transform={`translate(${x},${170 - hop}) scale(${pop(t, at, 0.3)})`}>
+        <ellipse cx={0} cy={hop + 6} rx={70} ry={12} fill="rgba(0,0,0,.3)" />
+        {/* uma perna só */}
+        <rect x={-14} y={-150} width={28} height={150} rx={12} fill="#5A3624" />
+        <ellipse cx={8} cy={-4} rx={30} ry={12} fill="#4A2A1A" />
+        <rect x={-60} y={-200} width={120} height={70} rx={20} fill="#C62828" />
+        <path d="M-56,-330 Q-66,-250 -50,-196 L50,-196 Q66,-250 56,-330 Q0,-350 -56,-330 Z" fill="#5A3624" />
+        <rect x={-88} y={-330} width={28} height={130} rx={14} fill="#5A3624" transform={`rotate(${20 + Math.sin(t * 8) * 20} -74 -330)`} />
+        <rect x={60} y={-330} width={28} height={130} rx={14} fill="#5A3624" transform={`rotate(${-20 - Math.sin(t * 8) * 20} 74 -330)`} />
+        <ellipse cx={0} cy={-390} rx={56} ry={62} fill="#6A4430" />
+        <circle cx={-20} cy={-396} r={7} fill="#fff" /><circle cx={20} cy={-396} r={7} fill="#fff" />
+        <circle cx={-18} cy={-395} r={4} fill="#120A05" /><circle cx={22} cy={-395} r={4} fill="#120A05" />
+        <path d="M-24,-364 Q0,-344 24,-364" stroke="#2A1408" strokeWidth={5} fill="none" strokeLinecap="round" />
+        {/* gorro vermelho */}
+        <path d="M-58,-420 Q-50,-500 40,-520 Q90,-526 110,-490 Q60,-480 58,-420 Z" fill="#C62828" />
+        <circle cx={110} cy={-490} r={14} fill="#F4F4F4" />
+      </g>
+      <g transform="translate(0,-380)">
+        <rect x={-260} y={-46} width={520} height={92} rx={46} fill={MUST} />
+        <text x={0} y={16} textAnchor="middle" fontFamily={F} fontWeight={900} fontSize={44} fill="#1E1B18">FOLCLORE · SACI</text>
+      </g>
+    </StageFrame>
+  );
+};
+
+/* ---------- Card: o gol do Mundial 2006, visto de cima (bonequinhos genéricos) ---------- */
+export const StageGoal: React.FC<{ t: number; stealT: number; passT: number; goalT: number }> = ({ t, stealT, passT, goalT }) => {
+  const BAR = '#1D3D8F';
+  const ball = t < stealT ? { x: kf(t, [[stealT - 2.5, -150], [stealT, 40]]), y: -40 }
+    : t < passT ? { x: kf(t, [[stealT, 40], [passT, 120]]), y: kf(t, [[stealT, -40], [passT, 60]]) }
+    : t < passT + 0.5 ? { x: kf(t, [[passT, 120], [passT + 0.5, 250]]), y: kf(t, [[passT, 60], [passT + 0.5, -120]]) }
+    : t < goalT ? { x: kf(t, [[passT + 0.5, 250], [goalT - 0.25, 320]]), y: kf(t, [[passT + 0.5, -120], [goalT - 0.25, -170]]) }
+    : { x: kf(t, [[goalT - 0.25, 320], [goalT + 0.15, 450]]), y: kf(t, [[goalT - 0.25, -170], [goalT + 0.15, -10]]) };
+  const p = (x: number, y: number, c: string, k: number, label?: string) => (
+    <g key={k} transform={`translate(${x},${y})`}>
+      <circle r={26} fill={c} stroke="#fff" strokeWidth={5} />
+      {label && <text y={-40} textAnchor="middle" fontFamily={F} fontWeight={900} fontSize={30} fill="#fff" stroke="#1E1B18" strokeWidth={6} paintOrder="stroke">{label}</text>}
+    </g>
+  );
+  const iar = { x: t < stealT ? kf(t, [[stealT - 2, -40], [stealT, 40]]) : kf(t, [[stealT, 40], [passT, 110]]), y: t < stealT ? -40 : kf(t, [[stealT, -40], [passT, 50]]) };
+  const gab = { x: kf(t, [[passT - 1, 160], [goalT - 0.3, 300]]), y: kf(t, [[passT - 1, -60], [goalT - 0.3, -160]]) };
+  return (
+    <StageFrame fill="#3E8E3E">
+      {Array.from({ length: 8 }).map((_, i) => <rect key={i} x={-500 + i * 125} y={-500} width={62} height={1000} fill="#4A9A48" />)}
+      <rect x={-460} y={-420} width={920} height={840} fill="none" stroke="#fff" strokeWidth={6} />
+      <line x1={0} y1={-420} x2={0} y2={420} stroke="#fff" strokeWidth={6} />
+      <circle r={110} fill="none" stroke="#fff" strokeWidth={6} />
+      <rect x={300} y={-200} width={160} height={400} fill="none" stroke="#fff" strokeWidth={6} />
+      <rect x={460} y={-80} width={30} height={160} fill="rgba(255,255,255,.5)" stroke="#fff" strokeWidth={4} />
+      {[[-200, 200], [-260, -180], [180, 230], [380, 0]].map(([x, y], i) => p(x + Math.sin(t + i) * 10, y, BAR, 10 + i))}
+      {p(t < stealT ? kf(t, [[stealT - 2.5, -150], [stealT, 30]]) : 30 + Math.sin(t) * 6, t < stealT ? -40 : -40, BAR, 20)}
+      {[[-300, 120], [-120, 260]].map(([x, y], i) => p(x + Math.sin(t * 1.3 + i) * 12, y, RED, 30 + i))}
+      {p(iar.x, iar.y, RED, 40, t > stealT - 0.5 && t < passT + 1 ? 'IARLEY' : undefined)}
+      {p(gab.x, gab.y, RED, 41, t > passT - 0.5 ? 'GABIRU' : undefined)}
+      <circle cx={ball.x} cy={ball.y} r={13} fill="#fff" stroke="#1E1B18" strokeWidth={4} />
+      {t > goalT && (
+        <g transform={`translate(0,-300) scale(${pop(t, goalT, 0.3)}) rotate(-6)`}>
+          <text textAnchor="middle" fontFamily={F} fontWeight={900} fontSize={150} fill={MUST} stroke="#1E1B18" strokeWidth={14} paintOrder="stroke">GOOOL!</text>
+        </g>
+      )}
+    </StageFrame>
+  );
+};
+
+/* ---------- Card: a queda (Série B) e a volta (Série A) ---------- */
+export const StageDrop: React.FC<{ t: number; downT: number; upT: number }> = ({ t, downT, upT }) => {
+  const d = easeOut(clamp((t - downT) / 0.6));
+  const u = easeOut(clamp((t - upT) / 0.6));
+  const y = 220 * d - 380 * u;
+  return (
+    <StageFrame fill="#1E2A36">
+      <rect x={-380} y={-360} width={760} height={150} rx={20} fill={u > 0 ? '#2E7D32' : 'rgba(255,255,255,.12)'} />
+      <text x={0} y={-262} textAnchor="middle" fontFamily={F} fontWeight={900} fontSize={84} fill="#fff">SÉRIE A</text>
+      <rect x={-380} y={210} width={760} height={150} rx={20} fill={d > 0 && u < 1 ? RED : 'rgba(255,255,255,.12)'} />
+      <text x={0} y={308} textAnchor="middle" fontFamily={F} fontWeight={900} fontSize={84} fill="#fff">SÉRIE B</text>
+      <g transform={`translate(0,${y - 80})`}>
+        <path d={u > 0.5 ? 'M0,-110 L90,0 L35,0 L35,110 L-35,110 L-35,0 L-90,0 Z' : 'M0,110 L90,0 L35,0 L35,-110 L-35,-110 L-35,0 L-90,0 Z'} fill={u > 0.5 ? '#43A047' : RED} stroke="#fff" strokeWidth={8} />
+      </g>
+      {d > 0 && <text x={-330} y={-60} fontFamily={F} fontWeight={900} fontSize={56} fill="#fff" opacity={1 - u}>2016</text>}
+      {u > 0 && <text x={330} y={-60} textAnchor="end" fontFamily={F} fontWeight={900} fontSize={56} fill="#fff">2017</text>}
+    </StageFrame>
+  );
+};

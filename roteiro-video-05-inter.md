@@ -202,3 +202,27 @@ Componente `remotion/src/camera.tsx` (`<Cam shots=[…] punches=[…]>`).
 
 ### Piá (visual)
 Guri de uns 10 anos, boné azul virado para trás, camiseta listrada azul/preta/branca **sem escudo**, bermuda, tênis. Mesmo estilo semi-realista do Lauro, com proporções de criança (mais ou menos na altura do peito do Lauro). Voz infantil masculina, então o personagem é menino.
+
+---
+
+## Publicação (vídeos prontos)
+- Curto: `videos/video05_inter_curto.mp4` (1:27, 1080×1920)
+- Longo: `videos/video05_inter_youtube.mp4` (5:40, 1920×1080)
+- O áudio veio num arquivo só por versão (todas as falas do Lauro e depois as do Piá, na voz do Lauro). Ele foi cortado com `tools/separar_falas.py` (specs em `remotion/tools/spec/`), intercalado com `tools/montar_dialogo.py` e o Piá ficou 4 semitons mais agudo (`--agudo P=4`).
+
+### Capítulos do YouTube (tempos reais)
+```
+0:00 Três irmãos sem time
+0:24 1909: nasce o Internacional
+0:54 Um nome que é um convite
+1:15 O primeiro Gre-Nal
+1:35 Eucaliptos e o Rolo Compressor
+2:13 O Saci e o Clube do Povo
+2:34 Beira-Rio: o estádio que a torcida construiu
+3:08 Anos 70: Figueroa, Falcão e o invicto
+3:42 Copa do Brasil 1992
+3:49 2006: a América e o mundo
+4:27 Sul-Americana, Recopa e o bi da América
+4:44 A queda de 2016 e a volta
+5:07 Por que "Clube do Povo"?
+```
