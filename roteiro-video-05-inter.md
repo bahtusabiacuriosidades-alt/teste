@@ -220,8 +220,7 @@ Guri de uns 10 anos, boné azul virado para trás, camiseta listrada azul/preta/
 2:13 O Saci e o Clube do Povo
 2:34 Beira-Rio: o estádio que a torcida construiu
 3:08 Anos 70: Figueroa, Falcão e o invicto
-3:42 Copa do Brasil 1992
-3:49 2006: a América e o mundo
+3:42 Copa do Brasil 1992 e 2006: a América e o mundo
 4:27 Sul-Americana, Recopa e o bi da América
 4:44 A queda de 2016 e a volta
 5:07 Por que "Clube do Povo"?

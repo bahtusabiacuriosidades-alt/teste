@@ -43,7 +43,8 @@ Vídeos curtos (Reels/TikTok/Shorts) e longos (YouTube) sobre **cultura, dança,
    pip install faster-whisper librosa
    python3 tools/preparar_audio.py --id vXX --voz /caminho/audio.mp3 --acorde <seg_final> [--breque <seg_da_virada>] [--musica-lufs -35]
    ```
-   Se o usuário mandar **um arquivo só** com todas as falas em sequência (como no #005), corte com `tools/separar_falas.py --voz … --words … --spec tools/spec/vXX.json --saida pasta/` (o spec lista o início de cada fala na ordem do áudio) e depois use o `montar_dialogo.py`. Se o Piá vier na voz do Lauro, use `--agudo P=4`.
+   Se o usuário mandar **um arquivo só** com todas as falas em sequência (como no #005), corte com `tools/separar_falas.py --voz … --words … --spec tools/spec/vXX.json --saida pasta/` (o spec lista o início de cada fala na ordem do áudio) e depois use o `montar_dialogo.py`. Se o Piá vier na voz do Lauro, use `--agudo P=3` (método "natural", tipo fita; o rubberband soou robótico). Para trocar só a voz de um vídeo já renderizado, use `--igualar falas_antigo.json`, renderize só o áudio (`--codec=wav`) e junte com a imagem antiga no ffmpeg.
+   Vídeo acima de 100 MB não sobe pro GitHub: recomprimir com x264 2-pass a cerca de 2000 kbps.
    Com dois personagens gravados separados (`01_L.mp3`, `02_P.mp3`…), rode antes `python3 tools/montar_dialogo.py --id vXX --pasta /caminho/falas` e use `out/tmp_vXX/dialogo.mp3` como `--voz`; ele também gera `src/data/vXX/falas.json` (quem fala quando).
    Isso gera `public/audio/vXX_voz.mp3`, `public/audio/vXX_musica.mp3`, `src/data/vXX/words.json` e `src/data/vXX/rms.json`. **Conferir e corrigir as palavras da legenda.**
 4. Criar `src/VideoXX.tsx` (com câmera e mais de um personagem: `Video05.tsx` vertical e `Video05L.tsx` horizontal; ou copiar o mais parecido: `Video03.tsx` para passo a passo, `Video04.tsx` para história, `Video04L.tsx` para YouTube horizontal, `Video02.tsx` para tom sério) e registrar em `src/Root.tsx`.
@@ -53,7 +54,7 @@ Vídeos curtos (Reels/TikTok/Shorts) e longos (YouTube) sobre **cultura, dança,
    npx remotion render src/index.ts VideoXX out/arquivo.mp4 --browser-executable=/opt/pw-browsers/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell --concurrency=4 --crf=20
    ```
    Depois ajustar o volume final para **cerca de −14 LUFS** (ffmpeg `volume=+xdB,alimiter`) e salvar em `videos/`.
-7. Enviar legendas (Instagram, TikTok, YouTube) e o primeiro comentário para fixar.
+7. Enviar legendas (Instagram, TikTok, YouTube) e o primeiro comentário para fixar. Salvar em `legendas-video-XX-tema.md`. Capítulos do YouTube: cada um com **10 s ou mais** (senão o YouTube ignora).
 
 ## Padrões visuais
 - Selo do canal (HUD): `BAH, TU SABIA? · #NNN` + categoria (componente `HUD` em `src/ui/Overlays.tsx`).
