@@ -36,6 +36,7 @@ Vídeos curtos (Reels/TikTok/Shorts) e longos (YouTube) sobre **cultura, dança,
 
 ## Fluxo de produção de um vídeo novo
 1. Pesquisar o tema (WebSearch) e escrever o roteiro em `roteiro-video-XX-tema.md`: falas com tempo, tela, texto para o ElevenLabs com tags `[excited]`, `[laughs]`… e a lista do que conferir.
+   **Formato padrão para mandar o texto do ElevenLabs no chat:** um bloco de código por personagem e por versão (ex.: `CURTO · LAURO`, `CURTO · PIÁ`, `LONGO · LAURO`, `LONGO · PIÁ`), **só o texto com as tags de fala** (`[excited]`, `[laughs]`…), um parágrafo por fala, na ordem. **Sem números, sem `01_L`, sem títulos de capítulo dentro do bloco.** Com um personagem só, um bloco por versão.
 2. O usuário gera a locução no ElevenLabs e manda o MP3.
 3. Rodar a preparação do áudio (dentro de `remotion/`):
    ```bash
