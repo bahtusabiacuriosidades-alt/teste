@@ -28,8 +28,11 @@ def main():
     ap.add_argument('--id', required=True)
     ap.add_argument('--pasta', required=True)
     ap.add_argument('--pausa', type=float, default=0.30, help='silêncio entre falas (s)')
+    ap.add_argument('--metodo', default='natural', choices=['natural', 'rubberband'], help='natural = acelera como fita e devolve a duração (soa menos robótico)')
     ap.add_argument('--agudo', default='', help='deixa a voz de um personagem mais aguda, ex.: P=4 (semitons). Útil quando o Piá foi gerado na voz do Lauro')
+    ap.add_argument('--igualar', default='', help='falas.json antigo: força cada fala a ter a mesma duração de antes (mantém a sincronia de um vídeo já montado)')
     a = ap.parse_args()
+    alvo = {f['n']: f['e'] - f['s'] for f in json.load(open(a.igualar))} if a.igualar else {}
 
     arqs = []
     for p in glob.glob(os.path.join(a.pasta, '*')):
@@ -55,11 +58,19 @@ def main():
     agudo = dict((k.upper(), float(v)) for k, v in (x.split('=') for x in a.agudo.split(',') if x))
     for i, (n, quem, p) in enumerate(arqs):
         o = os.path.join(tmp, f'f{n:03d}.wav')
-        tom = f'rubberband=pitch={2 ** (agudo[quem] / 12):.4f}:formant=shifted,' if quem in agudo else ''
+        tom = ''
+        if quem in agudo:
+            r = 2 ** (agudo[quem] / 12)
+            tom = (f'aresample=48000,asetrate={48000 * r:.0f},aresample=48000,atempo={1 / r:.5f},' if a.metodo == 'natural'
+                   else f'rubberband=pitch={r:.4f}:formant=shifted:pitchq=quality,')
         subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', p, '-af',
-                        tom + 'silenceremove=start_periods=1:start_threshold=-45dB,areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse,loudnorm=I=-16:TP=-2,aresample=48000',
+                        'silenceremove=start_periods=1:start_threshold=-45dB,areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse,' + tom + 'loudnorm=I=-16:TP=-2,aresample=48000',
                         '-ac', '1', '-ar', '48000', o], check=True)
         d = dur(o)
+        if n in alvo and abs(d - alvo[n]) > 0.01:
+            o2 = o.replace('.wav', '_ig.wav')
+            subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', o, '-af', f'atempo={d / alvo[n]:.5f},apad,atrim=0:{alvo[n]:.3f}', '-ar', '48000', o2], check=True)
+            o, d = o2, dur(o2)
         falas.append({'n': n, 'quem': quem, 's': round(t, 2), 'e': round(t + d, 2)})
         partes.append(o)
         t += d
@@ -74,6 +85,7 @@ def main():
     json.dump(falas, open(os.path.join(ROOT, 'src', 'data', a.id, 'falas.json'), 'w'), ensure_ascii=False)
     print(f'{len(falas)} falas, {t:.1f}s -> {saida}')
     for f in falas:
+        if os.environ.get('QUIET'): break
         print(f"{f['n']:02d} {f['quem']} {f['s']:6.2f}–{f['e']:6.2f}")
 
 
