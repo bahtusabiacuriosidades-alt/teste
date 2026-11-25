@@ -54,7 +54,8 @@ Vídeos curtos (Reels/TikTok/Shorts) e longos (YouTube) sobre **cultura, dança,
    npx remotion render src/index.ts VideoXX out/arquivo.mp4 --browser-executable=/opt/pw-browsers/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell --concurrency=4 --crf=20
    ```
    Depois ajustar o volume final para **cerca de −14 LUFS** (ffmpeg `volume=+xdB,alimiter`) e salvar em `videos/`.
-7. Enviar legendas (Instagram, TikTok, YouTube) e o primeiro comentário para fixar. Salvar em `legendas-video-XX-tema.md`. Capítulos do YouTube: cada um com **10 s ou mais** (senão o YouTube ignora).
+7. Thumbnail do YouTube (vídeo longo): `src/Thumbs.tsx` (Stills `ThumbGremio`, `ThumbInter`), estilo chamativo (texto gigante com contorno e degradê, Lauro em close, emojis, borda neon). Exportar com `npx remotion still src/index.ts ThumbXX ../thumbnails/thumbXX.jpg --image-format=jpeg --jpeg-quality=92 --scale=1.5` (1920×1080, menos de 2 MB).
+8. Enviar legendas (Instagram, TikTok, YouTube) e o primeiro comentário para fixar. Salvar em `legendas-video-XX-tema.md`. Capítulos do YouTube: cada um com **10 s ou mais** (senão o YouTube ignora).
 
 ## Padrões visuais
 - Selo do canal (HUD): `BAH, TU SABIA? · #NNN` + categoria (componente `HUD` em `src/ui/Overlays.tsx`).

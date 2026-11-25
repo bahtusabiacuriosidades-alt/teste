@@ -11,6 +11,7 @@ import { Teaser04, DURATION_T04 } from './Teaser04';
 import { FPS } from './lib';
 import { Story02 } from './Story02';
 import { StoryGrenal } from './StoryGrenal';
+import { ThumbGremio, ThumbInter } from './Thumbs';
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -25,6 +26,8 @@ export const RemotionRoot: React.FC = () => (
     <Still id="Story02" component={Story02} width={1080} height={1920} />
     <Still id="Story02Limpo" component={Story02} width={1080} height={1920} defaultProps={{ placeholder: false }} />
     <Still id="StoryGrenal" component={StoryGrenal} width={1080} height={1920} />
+    <Still id="ThumbGremio" component={ThumbGremio} width={1280} height={720} />
+    <Still id="ThumbInter" component={ThumbInter} width={1280} height={720} />
     <Still id="StoryGrenalLimpo" component={StoryGrenal} width={1080} height={1920} defaultProps={{ placeholder: false }} />
   </>
 );
