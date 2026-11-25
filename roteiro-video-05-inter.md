@@ -161,3 +161,9 @@ Mas a história do Inter também tem tombo. Em dezembro de 2016, pela primeira v
 - Trivela: [40 anos do Brasileirão invicto](https://trivela.com.br/brasil/campeonato-brasileiro/os-40-anos-do-brasileirao-invicto-a-epopeia-do-inter-que-se-reinventou-para-uma-conquista-irrepreensivel/), [1º Brasileiro, 1975](https://trivela.com.br/brasil/ha-40-anos-inter-conquistava-seu-1o-brasileiro-e-revolucionava-o-jeito-de-pensar-o-jogo-no-pais/), [rebaixamento 2016](https://trivela.com.br/brasil/o-ultimo-ato-de-uma-queda-anunciada-depois-de-tantos-erros-o-inter-esta-rebaixado/)
 - [Goal: por que o Saci é mascote do Inter](https://www.goal.com/br/not%C3%ADcias/por-que-o-saci-perere-e-mascote-do-internacional/1kr0k97r42ji31y27a2lsfm4th)
 - [Metrópoles: Inter rebaixado (11/12/2016)](https://www.metropoles.com/esportes/futebol/internacional-so-empata-com-o-fluminense-e-esta-rebaixado-a-serie-b) · [Gazeta Esportiva: acesso 2017](https://www.gazetaesportiva.com/times/internacional/emocionado-dourado-diz-ter-tirado-um-peso-com-acesso-do-inter/)
+
+---
+
+## Versão com participante: o Piá
+**Piá:** guri de uns 10 anos, sobrinho do Lauro, gremista provocador e curioso. Voz infantil masculina no ElevenLabs. Ele interrompe com perguntas e provocações leves e, no fim, admite o empate. Personagem fictício (não é depoimento real).
+O texto completo dessa versão foi enviado no chat. No ElevenLabs, usar o modo de diálogo (Text to Dialogue, v3) com duas vozes, ou gerar as falas do Piá separadas.
