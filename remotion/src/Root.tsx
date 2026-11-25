@@ -4,6 +4,7 @@ import { Video01, DURATION_S } from './Video01';
 import { Video02, DURATION_02 } from './Video02';
 import { Video03, DURATION_03 } from './Video03';
 import { Video04, DURATION_04 } from './Video04';
+import { Video05, DURATION_05 } from './Video05';
 import { Video04L, DURATION_04L } from './Video04L';
 import { Teaser04, DURATION_T04 } from './Teaser04';
 import { FPS } from './lib';
@@ -17,6 +18,7 @@ export const RemotionRoot: React.FC = () => (
     <Composition id="Video03" component={Video03} durationInFrames={Math.round(DURATION_03 * FPS)} fps={FPS} width={1080} height={1920} />
     <Composition id="Video04" component={Video04} durationInFrames={Math.round(DURATION_04 * FPS)} fps={FPS} width={1080} height={1920} />
     <Composition id="Video04L" component={Video04L} durationInFrames={Math.round(DURATION_04L * FPS)} fps={FPS} width={1920} height={1080} />
+    <Composition id="Video05" component={Video05} durationInFrames={Math.round(DURATION_05 * FPS)} fps={FPS} width={1080} height={1920} />
     <Composition id="Teaser04" component={Teaser04} durationInFrames={Math.round(DURATION_T04 * FPS)} fps={FPS} width={1080} height={1920} />
     <Still id="Story02" component={Story02} width={1080} height={1920} />
     <Still id="Story02Limpo" component={Story02} width={1080} height={1920} defaultProps={{ placeholder: false }} />

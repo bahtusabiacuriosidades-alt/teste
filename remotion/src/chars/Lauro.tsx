@@ -86,6 +86,10 @@ export const LauroDefs = () => (
       <rect y="24" width="40" height="24" fill="#151515" />
       <rect y="48" width="40" height="24" fill="#F4F4F4" />
     </pattern>
+    <pattern id="scarfI" width="40" height="72" patternUnits="userSpaceOnUse">
+      <rect width="40" height="36" fill="#C62828" />
+      <rect y="36" width="40" height="36" fill="#F4F4F4" />
+    </pattern>
     <pattern id="lStub" width="7" height="7" patternUnits="userSpaceOnUse">
       <circle cx="2" cy="2" r="1.1" fill="rgba(50,30,20,.45)" />
       <circle cx="5.5" cy="5" r="0.9" fill="rgba(50,30,20,.35)" />
@@ -193,9 +197,10 @@ export const Lauro: React.FC<{
   lean?: number;
   /** vertical jump in local units */
   hop?: number;
-  /** tricolor fan scarf (episode-specific accessory) */
-  scarf?: boolean;
+  /** fan scarf (episode-specific accessory): true/'gremio' = tricolor, 'inter' = vermelho e branco */
+  scarf?: boolean | 'gremio' | 'inter';
 }> = ({ t, talk, expr = 'talk', arm = 'down', armWobble = 0, obj = 'none', objLift = 0, cuiaRaise = 0, tilt = 0, browBoost = 0, shadow = true, walk = 0, lean = 0, hop = 0, scarf = false }) => {
+  const sc = scarf === 'inter' ? 'url(#scarfI)' : 'url(#scarfH)';
   const m = Math.max(0, Math.min(1, talk));
   const blink = t % 3.9 > 3.78;
   const breathe = Math.sin(t * 2.2) * 3;
@@ -360,13 +365,13 @@ export const Lauro: React.FC<{
         <path d="M-12,-1306 q12,8 24,0" stroke="#B9860F" strokeWidth={3} fill="none" />
         {scarf && (
           <g>
-            <path d="M-112,-1356 C-40,-1304 40,-1304 112,-1356 L104,-1296 C40,-1256 -40,-1256 -104,-1296 Z" fill="url(#scarfH)" stroke="rgba(0,0,0,.25)" strokeWidth={2} />
+            <path d="M-112,-1356 C-40,-1304 40,-1304 112,-1356 L104,-1296 C40,-1256 -40,-1256 -104,-1296 Z" fill={sc} stroke="rgba(0,0,0,.25)" strokeWidth={2} />
             <g transform="rotate(-7 -60 -1300)">
-              <rect x={-96} y={-1300} width={74} height={360} rx={8} fill="url(#scarfH)" stroke="rgba(0,0,0,.25)" strokeWidth={2} />
+              <rect x={-96} y={-1300} width={74} height={360} rx={8} fill={sc} stroke="rgba(0,0,0,.25)" strokeWidth={2} />
               {Array.from({ length: 7 }).map((_, i) => <line key={i} x1={-92 + i * 11} y1={-940} x2={-92 + i * 11} y2={-912} stroke="#F4F4F4" strokeWidth={4} />)}
             </g>
             <g transform="rotate(5 40 -1300)">
-              <rect x={14} y={-1296} width={70} height={250} rx={8} fill="url(#scarfH)" stroke="rgba(0,0,0,.25)" strokeWidth={2} />
+              <rect x={14} y={-1296} width={70} height={250} rx={8} fill={sc} stroke="rgba(0,0,0,.25)" strokeWidth={2} />
               {Array.from({ length: 6 }).map((_, i) => <line key={i} x1={18 + i * 12} y1={-1046} x2={18 + i * 12} y2={-1020} stroke="#F4F4F4" strokeWidth={4} />)}
             </g>
           </g>

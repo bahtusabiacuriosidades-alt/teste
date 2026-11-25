@@ -97,7 +97,7 @@ export const StageCandido: React.FC<{ t: number; lt: number }> = ({ t, lt }) => 
 };
 
 /* Calendar page + FUNDADO stamp */
-export const StageCalendar: React.FC<{ t: number; stampT: number; day?: string; month?: string; year?: string; stamp?: string }> = ({ t, stampT, day = '15', month = 'SETEMBRO', year = '1903', stamp = 'FUNDADO' }) => (
+export const StageCalendar: React.FC<{ t: number; stampT: number; day?: string; month?: string; year?: string; stamp?: string; stampC?: string }> = ({ t, stampT, day = '15', month = 'SETEMBRO', year = '1903', stamp = 'FUNDADO', stampC = BLUE }) => (
   <StageFrame fill="#2F4F6F">
     <g transform="rotate(-4)">
       <rect x={-300} y={-330} width={600} height={660} rx={30} fill="#FAF6EE" />
@@ -110,8 +110,8 @@ export const StageCalendar: React.FC<{ t: number; stampT: number; day?: string; 
     </g>
     {t > stampT && (
       <g transform={`translate(130,360) rotate(-14) scale(${(2.2 - 1.2 * easeOut((t - stampT) / 0.2)) * 0.85})`} opacity={easeOut((t - stampT) / 0.2)}>
-        <rect x={-260} y={-80} width={520} height={160} rx={20} fill="none" stroke={BLUE} strokeWidth={16} />
-        <text x={0} y={36} textAnchor="middle" fontFamily="Montserrat" fontWeight={900} fontSize={110} fill={BLUE}>{stamp}</text>
+        <rect x={-260} y={-80} width={520} height={160} rx={20} fill="none" stroke={stampC} strokeWidth={16} />
+        <text x={0} y={36} textAnchor="middle" fontFamily="Montserrat" fontWeight={900} fontSize={110} fill={stampC}>{stamp}</text>
       </g>
     )}
   </StageFrame>
@@ -154,7 +154,7 @@ export const StageJersey: React.FC<{ t: number; morph: number; labels?: boolean 
 );
 
 /* World map (stylized) with an arc from Porto Alegre to Japan */
-export const StageWorld: React.FC<{ t: number; prog: number; germany?: number }> = ({ t, prog, germany = 0 }) => {
+export const StageWorld: React.FC<{ t: number; prog: number; germany?: number; dotC?: string }> = ({ t, prog, germany = 0, dotC = BLUE }) => {
   const P = { x: -210, y: 230 }, J = { x: 390, y: -60 };
   const cx = 60, cy = -330;
   const pt = (k: number) => ({ x: (1 - k) * (1 - k) * P.x + 2 * (1 - k) * k * cx + k * k * J.x, y: (1 - k) * (1 - k) * P.y + 2 * (1 - k) * k * cy + k * k * J.y });
@@ -175,7 +175,7 @@ export const StageWorld: React.FC<{ t: number; prog: number; germany?: number }>
       <text x={P.x + 26} y={P.y + 50} fontFamily="Montserrat" fontWeight={900} fontSize={34} fill="#1E1B18">PORTO ALEGRE</text>
       <circle cx={J.x} cy={J.y} r={16} fill="#B23A2E" stroke="#fff" strokeWidth={5} />
       <text x={J.x - 10} y={J.y + 58} textAnchor="middle" fontFamily="Montserrat" fontWeight={900} fontSize={34} fill="#1E1B18">JAPÃO</text>
-      {prog > 0 && <g transform={`translate(${dot.x},${dot.y + Math.sin(t * 10) * 4})`}><circle r={30} fill={BLUE} stroke="#fff" strokeWidth={6} /><circle r={10} fill="#fff" /></g>}
+      {prog > 0 && <g transform={`translate(${dot.x},${dot.y + Math.sin(t * 10) * 4})`}><circle r={30} fill={dotC} stroke="#fff" strokeWidth={6} /><circle r={10} fill="#fff" /></g>}
       {germany > 0 && (
         <g transform={`translate(10,-360) scale(${germany})`}>
           <rect x={-60} y={-40} width={120} height={27} fill="#111" /><rect x={-60} y={-13} width={120} height={27} fill="#DD0000" /><rect x={-60} y={14} width={120} height={27} fill="#FFCE00" />

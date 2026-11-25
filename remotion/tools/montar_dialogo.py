@@ -28,6 +28,7 @@ def main():
     ap.add_argument('--id', required=True)
     ap.add_argument('--pasta', required=True)
     ap.add_argument('--pausa', type=float, default=0.30, help='silêncio entre falas (s)')
+    ap.add_argument('--agudo', default='', help='deixa a voz de um personagem mais aguda, ex.: P=4 (semitons). Útil quando o Piá foi gerado na voz do Lauro')
     a = ap.parse_args()
 
     arqs = []
@@ -51,10 +52,12 @@ def main():
     partes, falas, t = [], [], 0.0
     sil = os.path.join(tmp, 'sil.wav')
     subprocess.run(['ffmpeg', '-v', 'error', '-y', '-f', 'lavfi', '-i', 'anullsrc=r=48000:cl=mono', '-t', str(a.pausa), sil], check=True)
+    agudo = dict((k.upper(), float(v)) for k, v in (x.split('=') for x in a.agudo.split(',') if x))
     for i, (n, quem, p) in enumerate(arqs):
         o = os.path.join(tmp, f'f{n:03d}.wav')
+        tom = f'rubberband=pitch={2 ** (agudo[quem] / 12):.4f}:formant=shifted,' if quem in agudo else ''
         subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', p, '-af',
-                        'silenceremove=start_periods=1:start_threshold=-45dB,areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse,loudnorm=I=-16:TP=-2,aresample=48000',
+                        tom + 'silenceremove=start_periods=1:start_threshold=-45dB,areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse,loudnorm=I=-16:TP=-2,aresample=48000',
                         '-ac', '1', '-ar', '48000', o], check=True)
         d = dur(o)
         falas.append({'n': n, 'quem': quem, 's': round(t, 2), 'e': round(t + d, 2)})
