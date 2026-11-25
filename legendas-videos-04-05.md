@@ -130,3 +130,52 @@ grêmio, gremio, história do grêmio, imortal tricolor, tricolor gaúcho, gre-n
 ```
 Os capítulos estão na descrição ⏱️ Gremista: qual desses momentos tu viveu de perto: 1983, os Aflitos ou o tri da América? Colorado: a história do Inter já saiu aqui no canal, vai lá conferir ❤️ 👇
 ```
+
+---
+
+## #004 GRÊMIO · CURTO (Reels / TikTok / Shorts)
+
+### Instagram (Reels)
+```
+Bah, tu sabia que o Grêmio só existe porque uma bola furou? ⚽💥
+
+Em 1903, no meio de um jogo em Porto Alegre, a bola furou. Um paulista chamado Cândido Dias emprestou a dele… e uma semana depois ajudou a fundar o Grêmio. E tem mais: as primeiras cores não eram azul, preto e branco, eram celeste e havana (um marrom!).
+
+Depois vieram o 10 a 0 no primeiro Gre-Nal, o Mundial de 1983 contra o Hamburgo e a Batalha dos Aflitos, com só sete em campo. Não é à toa que chamam de Imortal 🔵⚫⚪
+
+Gremista, qual momento tu viu de perto? 👇
+
+#Grêmio #Gremio #ImortalTricolor #GreNal #PortoAlegre #RioGrandeDoSul #Gaúcho #HistóriaDoFutebol #BahTuSabia
+```
+
+### TikTok
+```
+O Grêmio só existe porque uma bola furou ⚽💥 E as primeiras cores eram… marrom?! 😱 Gremista, qual momento tu viu de perto? #Grêmio #ImortalTricolor #GreNal #RioGrandeDoSul #gaúcho #futebol #BahTuSabia
+```
+
+### YouTube Shorts
+Título:
+```
+Bah, tu sabia que o Grêmio só existe porque uma bola furou? ⚽🔵⚫⚪
+```
+Descrição:
+```
+Da bola furada de 1903 ao Mundial de 1983 e à Batalha dos Aflitos: a história do Grêmio em 1 minuto e pouco.
+A versão completa (5 min) está no canal.
+#Grêmio #ImortalTricolor #Shorts
+```
+
+### Primeiro comentário (fixar)
+```
+Gremista: qual momento tu viveu de perto: o Mundial de 83, os Aflitos ou o tri da América? 🔵⚫⚪ E colorado, calma: a história do Inter vem aí! 👀🔴
+```
+
+### Se o Grêmio sair ANTES do Inter (longo do YouTube)
+Na descrição, trocar a linha "Assiste também" por:
+```
+📺 Em breve: A HISTÓRIA DO INTER, dos irmãos Poppe ao topo do mundo. Te inscreve pra não perder!
+```
+Primeiro comentário:
+```
+Os capítulos estão na descrição ⏱️ Gremista: qual desses momentos tu viveu de perto: 1983, os Aflitos ou o tri da América? Colorado: a história do Inter vem aí, te inscreve pra não perder ❤️ 👇
+```
