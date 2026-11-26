@@ -232,7 +232,7 @@ export const Thermo: React.FC<{ temp: number; good?: boolean }> = ({ temp, good 
 /* ------------------------------------------------------------------ */
 /* Map of Rio Grande do Sul (stylized) — local box 0..700              */
 /* ------------------------------------------------------------------ */
-const RS = 'M60,170 L150,110 L260,90 L380,70 L470,95 L560,130 L640,190 L600,300 L540,420 L470,520 L400,610 L335,700 L290,640 L230,600 L170,560 L120,500 L60,420 L30,330 L20,250 Z';
+export const RS = 'M60,170 L150,110 L260,90 L380,70 L470,95 L560,130 L640,190 L600,300 L540,420 L470,520 L400,610 L335,700 L290,640 L230,600 L170,560 L120,500 L60,420 L30,330 L20,250 Z';
 
 export const MapScene: React.FC<{ t: number; guaranis: number; reducoes: number; ruins: number; pin: number; zoom: number; pinX?: number; pinY?: number; neighbours?: boolean }> = ({ t, guaranis, reducoes, ruins, pin, zoom, pinX = 150, pinY = 180, neighbours = true }) => (
   <g>

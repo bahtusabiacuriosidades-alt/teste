@@ -46,6 +46,7 @@ Vídeos curtos (Reels/TikTok/Shorts) e longos (YouTube) sobre **cultura, dança,
    python3 tools/preparar_audio.py --id vXX --voz /caminho/audio.mp3 --acorde <seg_final> [--breque <seg_da_virada>] [--musica-lufs -35]
    ```
    Se o usuário mandar **um arquivo só** com todas as falas em sequência (como no #005), corte com `tools/separar_falas.py --voz … --words … --spec tools/spec/vXX.json --saida pasta/` (o spec lista o início de cada fala na ordem do áudio) e depois use o `montar_dialogo.py`. Se o Piá vier na voz do Lauro, use `--agudo P=3` (método "natural", tipo fita; o rubberband soou robótico). Para trocar só a voz de um vídeo já renderizado, use `--igualar falas_antigo.json`, renderize só o áudio (`--codec=wav`) e junte com a imagem antiga no ffmpeg.
+   Se o diálogo passar de 1:30 no curto, acelerar o `dialogo.mp3` com `atempo` (até cerca de 1.15) e dividir os tempos do `falas.json` pelo mesmo fator (feito no #006). `--compactar` encurta pausas internas.
    Vídeo acima de 100 MB não sobe pro GitHub: recomprimir com x264 2-pass a cerca de 2000 kbps.
    Com dois personagens gravados separados (`01_L.mp3`, `02_P.mp3`…), rode antes `python3 tools/montar_dialogo.py --id vXX --pasta /caminho/falas` e use `out/tmp_vXX/dialogo.mp3` como `--voz`; ele também gera `src/data/vXX/falas.json` (quem fala quando).
    Isso gera `public/audio/vXX_voz.mp3`, `public/audio/vXX_musica.mp3`, `src/data/vXX/words.json` e `src/data/vXX/rms.json`. **Conferir e corrigir as palavras da legenda.**
@@ -76,7 +77,7 @@ Vídeos curtos (Reels/TikTok/Shorts) e longos (YouTube) sobre **cultura, dança,
 | #003 | Tu sabe cevar um mate? | `videos/video03_chimarrao.mp4` · `Video03.tsx` | pronto |
 | #004 | História do Grêmio (curto + YouTube) | `videos/video04_gremio_curto.mp4`, `videos/video04_gremio_youtube.mp4` · `Video04.tsx`, `Video04L.tsx` | pronto |
 | teaser | "Grêmio venceu a votação" (10 s) | `videos/teaser04_gremio_venceu.mp4` · `Teaser04.tsx` | pronto |
-| #006 | O RS já foi um país? (Revolução Farroupilha), com a Guria | `roteiro-video-06-farroupilha.md` | roteiro pronto, aguardando MP3 |
+| #006 | O RS já foi um país? (Revolução Farroupilha), com a Guria | `videos/video06_farroupilha_curto.mp4` · `Video06.tsx`, cenas em `scenes/Farroupilha.tsx` | curto pronto; longo aguardando MP3 |
 | #005 | História do Inter (curto + YouTube), com o Piá | `videos/video05_inter_curto.mp4`, `videos/video05_inter_youtube.mp4` · `Video05.tsx`, `Video05L.tsx` | pronto |
 
 Outros: stories em `stories/` (Tupanciretã, enquete Inter × Grêmio e 500 seguidores: `Story500.tsx`, vídeo de 8 s + foto). Roteiros em `roteiro-video-*.md`. Análise dos vídeos de referência em `engenharia-reversa-videos.md` e `roteiro-video-03-chimarrao.md` (seção 1).

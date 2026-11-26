@@ -30,6 +30,7 @@ def main():
     ap.add_argument('--pausa', type=float, default=0.30, help='silêncio entre falas (s)')
     ap.add_argument('--metodo', default='natural', choices=['natural', 'rubberband'], help='natural = acelera como fita e devolve a duração (soa menos robótico)')
     ap.add_argument('--agudo', default='', help='deixa a voz de um personagem mais aguda, ex.: P=4 (semitons). Útil quando o Piá foi gerado na voz do Lauro')
+    ap.add_argument('--compactar', type=float, default=0, help='encurta pausas internas maiores que isso (s), deixando 0.22 s. Ex.: 0.35')
     ap.add_argument('--igualar', default='', help='falas.json antigo: força cada fala a ter a mesma duração de antes (mantém a sincronia de um vídeo já montado)')
     a = ap.parse_args()
     alvo = {f['n']: f['e'] - f['s'] for f in json.load(open(a.igualar))} if a.igualar else {}
@@ -64,7 +65,8 @@ def main():
             tom = (f'aresample=48000,asetrate={48000 * r:.0f},aresample=48000,atempo={1 / r:.5f},' if a.metodo == 'natural'
                    else f'rubberband=pitch={r:.4f}:formant=shifted:pitchq=quality,')
         subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', p, '-af',
-                        'silenceremove=start_periods=1:start_threshold=-45dB,areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse,' + tom + 'loudnorm=I=-16:TP=-2,aresample=48000',
+                        'silenceremove=start_periods=1:start_threshold=-45dB,areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse,'
+                        + (f'silenceremove=stop_periods=-1:stop_duration={a.compactar}:stop_threshold=-38dB:stop_silence=0.22,' if a.compactar else '') + tom + 'loudnorm=I=-16:TP=-2,aresample=48000',
                         '-ac', '1', '-ar', '48000', o], check=True)
         d = dur(o)
         if n in alvo and abs(d - alvo[n]) > 0.01:
