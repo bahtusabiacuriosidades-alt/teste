@@ -144,7 +144,7 @@ export const Video06: React.FC = () => {
         <GuriaDefs />
         <CuscoDefs />
         <Cam t={t} shots={SHOTS} punches={PUNCHES} breath={sober(t) ? 0.5 : 1}>
-          <GuaibaWorld t={t} />
+          <GuaibaWorld t={t} flags="rs" />
           <rect x={-600} y={-600} width={2280} height={3120} fill={`rgba(10,14,24,${dark})`} />
           {card && <g transform="translate(540,780) scale(0.82)">{card.draw(t)}</g>}
           {t > 83.5 && t < 86.6 && <ConfettiC t={t} start={83.6} colors={[VERDE, VERMELHO, AMARELO, '#fff']} />}

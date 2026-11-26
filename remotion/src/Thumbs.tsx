@@ -6,6 +6,8 @@ import { Pia, PiaDefs } from './chars/Pia';
 import { CuscoSit, CuscoDefs } from './chars/Others';
 import { OldBall, BLUE } from './scenes/Gremio';
 import { RED } from './scenes/Inter';
+import { Guria, GuriaDefs } from './chars/Guria';
+import { RSFlag, VERDE, VERMELHO, AMARELO } from './scenes/Farroupilha';
 
 /* Thumbnails do YouTube (1280×720, renderizar com --scale=1.5 → 1920×1080).
  * Estilo chamativo: texto gigante com contorno e degradê, personagem em close com cara de choque,
@@ -69,9 +71,9 @@ const Neon: React.FC<{ c: string }> = ({ c }) => (
 );
 
 /* Lauro em close (cabeça + tronco), olhando assustado */
-const LauroClose: React.FC<{ x: number; expr: Expr; scarf: 'gremio' | 'inter'; arm?: React.ComponentProps<typeof Lauro>['arm'] }> = ({ x, expr, scarf, arm = 'down' }) => (
+const LauroClose: React.FC<{ x: number; expr: Expr; scarf?: 'gremio' | 'inter'; arm?: React.ComponentProps<typeof Lauro>['arm'] }> = ({ x, expr, scarf, arm = 'down' }) => (
   <g transform={`translate(${x},${H + 1000}) scale(0.98)`} filter="url(#tbShadow)">
-    <Lauro t={1.0} talk={0.95} expr={expr} arm={arm} scarf={scarf} browBoost={-6} shadow={false} />
+    <Lauro t={1.0} talk={0.95} expr={expr} arm={arm} scarf={scarf ?? false} browBoost={-6} shadow={false} />
   </g>
 );
 
@@ -129,6 +131,36 @@ export const ThumbInter: React.FC = () => (
       <Emo e="🔥" x={1200} y={100} s={80} r={12} />
       <Emo e="🏆" x={660} y={680} s={96} r={10} />
       <Neon c={INTER.neon} />
+    </svg>
+  </AbsoluteFill>
+);
+
+const FARRO: Theme = { bg1: '#3FBF6A', bg2: '#062A12', stripes: [VERDE, VERMELHO, AMARELO], neon: '#F2C230', g1: ['#FFFFFF', '#A8F0B8'], g2: ['#FFE45C', '#FF8A00'] };
+
+export const ThumbFarroupilha: React.FC = () => (
+  <AbsoluteFill style={{ backgroundColor: '#000' }}>
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`}>
+      <LauroDefs />
+      <GuriaDefs />
+      <Bg th={FARRO} />
+      {/* bandeira rio-grandense tremulando atrás */}
+      <g transform="translate(560,250) rotate(-8) scale(1.05)" filter="url(#tbShadow)"><RSFlag t={1.3} w={300} h={200} /></g>
+      <LauroClose x={1070} expr="shock" />
+      <g transform={`translate(800,${H + 430}) scale(-0.78,0.78)`} filter="url(#tbShadow)">
+        <Guria t={1.0} talk={0.9} expr="shock" arms="down" shadow={false} gaze={1} />
+      </g>
+      <BigWord text="O RS JÁ" x={40} y={190} size={150} grad={FARRO.g1} id="f1" />
+      <BigWord text="FOI UM" x={50} y={350} size={150} grad={FARRO.g2} id="f2" />
+      <BigWord text="PAÍS?!" x={60} y={520} size={170} grad={FARRO.g2} id="f3" rot={-4} />
+      <g transform="translate(70,575) rotate(-3)" filter="url(#tbShadow)">
+        <rect x={0} y={0} width={600} height={86} rx={18} fill="#0B0B12" />
+        <rect x={6} y={6} width={588} height={74} rx={14} fill={VERDE} />
+        <text x={300} y={56} textAnchor="middle" fontFamily="Montserrat" fontWeight={900} fontSize={36} fill="#fff">REVOLUÇÃO FARROUPILHA</text>
+      </g>
+      <Emo e="😱" x={1190} y={560} s={100} r={-10} />
+      <Emo e="🐎" x={1200} y={100} s={80} r={12} />
+      <Emo e="⛵" x={650} y={680} s={86} r={10} />
+      <Neon c={FARRO.neon} />
     </svg>
   </AbsoluteFill>
 );

@@ -10,7 +10,7 @@ const F = 'Montserrat';
 
 /* ---------- Mundo (fundo em tela cheia, desenhado dentro da câmera) ----------
  * Pôr do sol no Guaíba. Desenhado maior que a tela para a câmera poder andar. */
-export const GuaibaWorld: React.FC<{ t: number; w?: number; h?: number }> = ({ t, w = 1080, h = 1920 }) => {
+export const GuaibaWorld: React.FC<{ t: number; w?: number; h?: number; flags?: 'inter' | 'rs' | 'none' }> = ({ t, w = 1080, h = 1920, flags = 'inter' }) => {
   const sx = w / 1080, horizon = h * 0.735, shore = h * 0.81;
   return (
     <g>
@@ -65,14 +65,15 @@ export const GuaibaWorld: React.FC<{ t: number; w?: number; h?: number }> = ({ t
       <path d={`M-600,${h * 0.93} Q${w / 2},${h * 0.9} ${w + 600},${h * 0.93} L${w + 600},${h + 600} L-600,${h + 600} Z`} fill="#B9A383" />
       <path d={`M-600,${h * 0.93} Q${w / 2},${h * 0.9} ${w + 600},${h * 0.93}`} stroke="#8E7A5C" strokeWidth={6} fill="none" />
       {/* bandeirinhas vermelho e branco */}
-      {[-0.12, 1.1].map((k, i) => {
+      {flags !== 'none' && [-0.12, 1.1].map((k, i) => {
         const x = w * k, y = shore - 10;
         const wv = Math.sin(t * 5 + i) * 8;
         return (
           <g key={i}>
             <rect x={x - 5} y={y - 360} width={10} height={360} fill="#5A4A3A" />
-            <path d={`M${x + 5},${y - 355} q60,${-10 + wv} 120,0 q-6,40 0,80 q-60,${-10 - wv} -120,0 Z`} fill={RED} />
-            <path d={`M${x + 5},${y - 315} q60,${-10 + wv} 120,0 l0,12 q-60,${-10 - wv} -120,0 Z`} fill="#F4F4F4" />
+            <path d={`M${x + 5},${y - 355} q60,${-10 + wv} 120,0 q-6,40 0,80 q-60,${-10 - wv} -120,0 Z`} fill={flags === 'rs' ? '#1E7B3A' : RED} />
+            <path d={`M${x + 5},${y - 315} q60,${-10 + wv} 120,0 l0,12 q-60,${-10 - wv} -120,0 Z`} fill={flags === 'rs' ? '#C62828' : '#F4F4F4'} />
+            {flags === 'rs' && <path d={`M${x + 5},${y - 303} q60,${-10 + wv} 120,0 l0,28 q-60,${-10 - wv} -120,0 Z`} fill="#F2C230" />}
           </g>
         );
       })}
