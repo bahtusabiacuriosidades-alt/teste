@@ -63,7 +63,7 @@ Duas versões, com o **Lauro** narrando e o **Piá** perguntando e provocando (r
 
 Era uma clareira com fontes de água, lá no alto da serra, usada pelos indígenas e depois como pouso pelos tropeiros. [seriously] E tem uma parte triste: com a colonização, os indígenas que viviam ali foram expulsos com violência pelos chamados bugreiros.
 
-[softly] Pois é. [warmly] Em 1875, chegaram os imigrantes italianos, a maioria camponeses do Vêneto. Atravessaram o oceano, subiram a serra por picadas no meio do mato, e cada família ganhou um pedaço de terra pra derrubar e plantar.
+[softly] Pois é. [warmly] Em 1875, chegaram os imigrantes italianos, a maioria camponeses do Vêneto. Atravessaram o oceano, subiram a serra por picadas no meio do mato, e cada família recebeu um pedaço de terra coberto de mato pra derrubar e plantar.
 
 Foi! Em 1877, virou Colônia Caxias, em homenagem ao Duque de Caxias. Em 1890, virou município. E o "do Sul" só veio em 1944.
 
@@ -208,7 +208,8 @@ Valeu, tio! Vou pedir pro meu nono me ensinar.
 - **Bugreiros:** a Wikipédia registra a expulsão violenta dos indígenas pelos "bugreiros". **Não citar etnia nem número de vítimas** sem fonte; conferir se é possível dizer qual povo vivia na região (fontes citam os Kaingang na Serra, mas não confirmei para o local exato).
 - **"Bugre" como termo ofensivo:** é o uso corrente nas fontes sobre o tema. Manter a explicação curta.
 - **1875 e o Vêneto:** colônia criada em 1875; a maioria dos imigrantes veio do norte da Itália, principalmente do Vêneto (fontes concordam). As três primeiras colônias: Conde d'Eu (Garibaldi), Dona Isabel (Bento Gonçalves) e Campo dos Bugres (Caxias).
-- **O caminho até a serra (rio, picadas, a pé, lotes):** é a descrição corrente da colonização, mas **conferir em fonte** antes de publicar o "muitas vezes a pé" e o lote por família.
+- **O caminho até a serra (rio, picadas, a pé, lotes):** é a descrição corrente da colonização, mas **conferir em fonte** antes de publicar o "muitas vezes a pé" e o lote por família. O roteiro diz "recebia/recebeu", e não "ganhou", porque em geral o lote era **pago a prazo** pelos colonos (conferir).
+- **"Eu sou da fronteira" (L13 do longo):** é piada nova, e a bíblia não define de onde o Lauro é. Se tu não quiser fixar isso, troco por "meu talian é fraquinho".
 - **Nomes:** Campo dos Bugres (até 1877) → Colônia Caxias (11/04/1877) → Santa Teresa de Caxias (1884–1890) → município em 20/06/1890 → cidade em 1910, com o trem → "Caxias do Sul" em 1944. Uma reportagem dá 20 de julho de 1890 (parece erro) e outra cita o nome "Fundos de Nova Palmira" em 1875; o roteiro não usa esse nome.
 - **Pérola das Colônias / milagre das montanhas:** apelidos citados pela Wikipédia.
 - **População:** 463.338 no Censo 2022 (divulgação do Censo; a página do IBGE Cidades mostra 463.501). **Na tela, usar o número do IBGE Cidades no dia da edição** e dizer "quase meio milhão" / "463 mil" na fala. Porto Alegre 1.332.570; Canoas 347.657. Caxias é a 2ª do RS.
