@@ -42,7 +42,7 @@ Vídeos curtos (Reels/TikTok/Shorts) e longos (YouTube) sobre **cultura, dança,
 2. **Locução:** posso gerar direto pelo conector do ElevenLabs (`mcp__ElevenLabs__creative_generate_speech`, modelo `eleven_v4`, `generations_count: 1`), usando a conta do usuário:
    - Lauro: voice_id `S1mGcMJVmL8CL3VZAVos` (voz clonada do usuário)
    - Guria: voice_id `33B4UnXyTNbgLmdEDh5P` ("Keren – Sweet, Vibrant and Rhythmic")
-   - Piá: **em escolha**. "Jonas" (`IGmfzACCDHYu8YfQJuVi`) foi REJEITADA ("muito desenho, parece o Stitch"). O ElevenLabs bloqueia criar voz de criança no design de voz. Candidatas (amostras em `audio/teste_api/vozes_pia/`): Zel `O4zHchxaTYyyLhoM3tNt`, Luan `9EeK37hO7iJiXi8aJfRG`, Fabricio `rBBreftLiIVO1pgMzKel`, cada uma original ou +3 semitons (método tipo fita).
+   - Piá: voice_id `9EeK37hO7iJiXi8aJfRG` ("Luan"), **sempre +3 semitons** depois de gerar (método tipo fita: `montar_dialogo.py --agudo P=3`), escolhida pelo usuário. Amostra: `audio/teste_api/pia_luan_mais_jovem.mp3`. Rejeitada: "Jonas" (parece o Stitch). O ElevenLabs bloqueia criar voz de criança.
    Gerar **uma fala por chamada**, consultar `creative_get_flow_run_status` até terminar e baixar o `content_url` com curl. Nunca repetir uma geração para "tentar de novo" (cobra de novo). Antes de um vídeo inteiro, avisar o custo aproximado (o teste de 6 s custou cerca de 111 créditos; o plano Creator tem cerca de 121 mil por mês). Mandar uma prévia do áudio para o usuário aprovar antes de montar.
    Alternativa: o usuário gera no aplicativo e manda o MP3.
 3. Rodar a preparação do áudio (dentro de `remotion/`):
