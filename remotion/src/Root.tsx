@@ -13,6 +13,7 @@ import { Story02 } from './Story02';
 import { StoryGrenal } from './StoryGrenal';
 import { ThumbGremio, ThumbInter } from './Thumbs';
 import { Story500, DURATION_S500 } from './Story500';
+import { PreviewGuria } from './PreviewGuria';
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -29,6 +30,7 @@ export const RemotionRoot: React.FC = () => (
     <Still id="StoryGrenal" component={StoryGrenal} width={1080} height={1920} />
     <Composition id="Story500" component={Story500} durationInFrames={Math.round(DURATION_S500 * FPS)} fps={FPS} width={1080} height={1920} />
     <Still id="Story500Foto" component={Story500} width={1080} height={1920} defaultProps={{ still: true }} />
+    <Still id="PreviewGuria" component={PreviewGuria} width={1920} height={1080} />
     <Still id="ThumbGremio" component={ThumbGremio} width={1280} height={720} />
     <Still id="ThumbInter" component={ThumbInter} width={1280} height={720} />
     <Still id="StoryGrenalLimpo" component={StoryGrenal} width={1080} height={1920} defaultProps={{ placeholder: false }} />
