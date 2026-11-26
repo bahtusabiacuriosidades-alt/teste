@@ -74,6 +74,7 @@ Vídeos curtos (Reels/TikTok/Shorts) e longos (YouTube) sobre **cultura, dança,
 | #003 | Tu sabe cevar um mate? | `videos/video03_chimarrao.mp4` · `Video03.tsx` | pronto |
 | #004 | História do Grêmio (curto + YouTube) | `videos/video04_gremio_curto.mp4`, `videos/video04_gremio_youtube.mp4` · `Video04.tsx`, `Video04L.tsx` | pronto |
 | teaser | "Grêmio venceu a votação" (10 s) | `videos/teaser04_gremio_venceu.mp4` · `Teaser04.tsx` | pronto |
+| #006 | O RS já foi um país? (Revolução Farroupilha), com o Piá | `roteiro-video-06-farroupilha.md` | roteiro pronto, aguardando MP3 |
 | #005 | História do Inter (curto + YouTube), com o Piá | `videos/video05_inter_curto.mp4`, `videos/video05_inter_youtube.mp4` · `Video05.tsx`, `Video05L.tsx` | pronto |
 
 Outros: stories em `stories/` (Tupanciretã, enquete Inter × Grêmio e 500 seguidores: `Story500.tsx`, vídeo de 8 s + foto). Roteiros em `roteiro-video-*.md`. Análise dos vídeos de referência em `engenharia-reversa-videos.md` e `roteiro-video-03-chimarrao.md` (seção 1).
