@@ -28,6 +28,8 @@ Vídeos curtos (Reels/TikTok/Shorts) e longos (YouTube) sobre **cultura, dança,
 - **Câmera em movimento** com `src/camera.tsx` (`<Cam shots punches>`): no máximo um movimento por fala, respiração leve entre os movimentos e punch só em impacto. Movimentado, sem cansar.
 - Gosta de **animações "de virada"** (ex.: o xis cresce no "do tamanho de um prato").
 - Gênero dos personagens secundários **segue a voz** do áudio (ex.: atendente com voz feminina = mulher).
+- **Selo do Cusco (a partir do #007):** bem no meio de todo vídeo, o Cusco atravessa, late e um **selo postal** cai no centro como carimbo de carta (borda serrilhada, desenho do Cusco, carimbo redondo `BAH, TU SABIA? · #NNN · TEMA`, texto `🐕 CARIMBADO PELO CUSCO`), com `latido` + `carimbo` + punch; fica cerca de 1,5 s. Componente `SeloCusco` em `src/ui/Overlays.tsx`.
+- **Métricas e gráficos (a partir do #007):** termômetros, réguas, barras, contadores e marcadores de km, **às vezes**: no máximo uma por fala, nunca em duas falas seguidas, de 2 a 4 s, com animação de virada e a fonte pequena embaixo. Cerca de 3 no curto e 5 no longo. Só números confirmados (regra de não inventar dados vale aqui também).
 
 ## Regras que não mudam
 - **Nunca inventar dados** (porcentagens, números de enquete, estatísticas). Usar só o que o usuário der ou o que eu confirmar em fonte.
@@ -85,5 +87,6 @@ Vídeos curtos (Reels/TikTok/Shorts) e longos (YouTube) sobre **cultura, dança,
 | teaser | "Grêmio venceu a votação" (10 s) | `videos/teaser04_gremio_venceu.mp4` · `Teaser04.tsx` | pronto |
 | #006 | O RS já foi um país? (Revolução Farroupilha), com a Guria | `videos/video06_farroupilha_curto.mp4`, `videos/video06_farroupilha_youtube.mp4` · `Video06.tsx`, `Video06L.tsx`, cenas em `scenes/Farroupilha.tsx` · thumb e legendas prontas | pronto |
 | #005 | História do Inter (curto + YouTube), com o Piá | `videos/video05_inter_curto.mp4`, `videos/video05_inter_youtube.mp4` · `Video05.tsx`, `Video05L.tsx` | pronto |
+| #007 | Caxias do Sul já se chamou Campo dos Bugres? (com o Piá) | `roteiro-video-07-caxias.md` | roteiro escrito, aguardando aprovação |
 
 Outros: stories em `stories/` (Tupanciretã, enquete Inter × Grêmio e 500 seguidores: `Story500.tsx`, vídeo de 8 s + foto). Roteiros em `roteiro-video-*.md`. Análise dos vídeos de referência em `engenharia-reversa-videos.md` e `roteiro-video-03-chimarrao.md` (seção 1).
