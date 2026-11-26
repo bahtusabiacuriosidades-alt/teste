@@ -179,3 +179,97 @@ Primeiro comentário:
 ```
 Os capítulos estão na descrição ⏱️ Gremista: qual desses momentos tu viveu de perto: 1983, os Aflitos ou o tri da América? Colorado: a história do Inter vem aí, te inscreve pra não perder ❤️ 👇
 ```
+
+---
+
+## LONGOS EM OUTRAS PLATAFORMAS (Facebook, Instagram, TikTok)
+
+### GRÊMIO · LONGO
+Facebook:
+```
+Bah, tu sabia que o Grêmio só existe porque uma bola furou? ⚽💥
+
+Neste vídeo, o Lauro conta a história do Grêmio Foot-Ball Porto Alegrense: a bola furada de 1903, as primeiras cores (celeste e havana, um marrom!), o primeiro Gre-Nal, o hino de Lupicínio, o Mundial de 1983 contra o Hamburgo e a Batalha dos Aflitos, com só sete jogadores em campo.
+
+⏱️ Capítulos:
+0:00 A bola que furou
+0:19 1903: nasce o Grêmio
+0:59 As cores
+1:25 O primeiro Gre-Nal
+1:48 Os estádios
+2:05 O hino
+2:25 Everaldo e Tesourinha
+2:59 1983: a América e o mundo
+3:29 Anos 90
+3:55 A queda e os Aflitos
+4:27 Renato de novo
+4:40 Por que "Imortal"?
+
+Gremista, marca aquele amigo tricolor que precisa ver isso 🔵⚫⚪
+E colorado, calma: a história do Inter vem aí!
+
+#Grêmio #ImortalTricolor #GreNal #PortoAlegre #RioGrandeDoSul #BahTuSabia
+```
+Instagram:
+```
+A história COMPLETA do Grêmio em 5 minutos 🔵⚫⚪
+
+Da bola que furou em 1903 ao Mundial de 83 e à Batalha dos Aflitos. Tu sabia que as primeiras cores eram celeste e marrom? 😱
+
+Salva pra assistir com calma e manda pro gremista da família 👇
+
+#Grêmio #Gremio #ImortalTricolor #GreNal #PortoAlegre #RioGrandeDoSul #Gaúcho #HistóriaDoFutebol #BahTuSabia
+```
+TikTok:
+```
+A história completa do Grêmio: da bola furada ao Imortal Tricolor 🔵⚫⚪ Qual momento tu viveu? #Grêmio #ImortalTricolor #GreNal #RioGrandeDoSul #gaúcho #futebol #BahTuSabia
+```
+Primeiro comentário:
+```
+Gremista: qual momento tu viveu de perto: o Mundial de 83, os Aflitos ou o tri da América? 🔵⚫⚪ Colorado: a história do Inter vem aí, segue a página pra não perder ❤️
+```
+
+### INTER · LONGO
+Facebook:
+```
+Bah, tu sabia que o Inter nasceu porque três irmãos não tinham onde jogar bola? 🔴⚪
+
+Neste vídeo, o Lauro conta a história do Sport Club Internacional, e o Piá, gremista, faz as perguntas (e as provocações). Dos irmãos Poppe ao Beira-Rio construído com tijolo da torcida, do tri brasileiro dos anos 70 (com o invicto de 79) ao Mundial de 2006 contra o Barcelona.
+
+⏱️ Capítulos:
+0:00 Três irmãos sem time
+0:24 1909: nasce o Internacional
+0:54 Um nome que é um convite
+1:15 O primeiro Gre-Nal
+1:35 Eucaliptos e o Rolo Compressor
+2:13 O Saci e o Clube do Povo
+2:34 Beira-Rio: o estádio que a torcida construiu
+3:08 Anos 70: Figueroa, Falcão e o invicto
+3:42 Copa do Brasil 1992 e 2006: a América e o mundo
+4:27 Sul-Americana, Recopa e o bi da América
+4:44 A queda de 2016 e a volta
+5:07 Por que "Clube do Povo"?
+
+Colorado, marca aquele amigo que precisa ver isso ❤️
+E gremista: a do Grêmio também tá aqui na página 😉
+
+#Inter #Internacional #Colorado #BeiraRio #GreNal #PortoAlegre #RioGrandeDoSul #BahTuSabia
+```
+Instagram:
+```
+A história COMPLETA do Inter em 5 minutos 🔴⚪
+
+Dos irmãos Poppe ao Mundial de 2006, com o Piá gremista tentando provocar o tempo todo 😅 Tu sabia que o Beira-Rio foi construído com tijolo levado pela própria torcida?
+
+Salva pra assistir com calma e manda pro colorado da família 👇
+
+#Inter #Internacional #Colorado #BeiraRio #GreNal #PortoAlegre #RioGrandeDoSul #Gaúcho #HistóriaDoFutebol #BahTuSabia
+```
+TikTok:
+```
+A história completa do Inter: dos irmãos Poppe ao topo do mundo 🔴⚪ E o Piá gremista teve que admitir o empate 😅 #Inter #Colorado #BeiraRio #GreNal #RioGrandeDoSul #gaúcho #futebol #BahTuSabia
+```
+Primeiro comentário:
+```
+Colorado: qual desses momentos tu viveu de perto: o invicto de 79, o Mundial de 2006 ou a Libertadores de 2010? ❤️ Gremista: qual foi o melhor Gre-Nal que tu viu? A história do Grêmio também tá aqui na página 🔵⚫⚪
+```
