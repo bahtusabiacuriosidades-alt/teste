@@ -14,6 +14,7 @@ Vídeos curtos (Reels/TikTok/Shorts) e longos (YouTube) sobre **cultura, dança,
 ## Personagens (bíblia completa em `bah-tu-sabia-personagens-e-formato.md`)
 - **Lauro:** gaúcho de cerca de 38 anos, chapéu preto de aba larga com barbicacho, **lenço amarelo-mostarda `#D9A021`**, camisa branca arregaçada, colete marrom, guaiaca com fivela de prata, bombacha cinza com favos, botas pretas. **A cuia fica sempre na mão direita** (lado esquerdo da tela). Componente: `remotion/src/chars/Lauro.tsx` (expressões: talk, shock, laugh, smile, squint, stern, angry, wink, delight, sad; poses: down, wave, hold, pointUp, thumbsUp, wag, pointSide, pointDown; props: walk, hop, lean, cuiaRaise, scarf).
 - **Piá** (a partir do #005): guri de uns 10 anos, sobrinho do Lauro, gremista provocador, boné azul para trás e camiseta listrada sem escudo. Voz infantil masculina.
+- **Guria** (a partir do #006): sobrinha do Lauro, uns 10 anos, curiosa e esperta, tranças castanhas com fita; no #006 usa vestido de prenda (Semana Farroupilha). Voz infantil feminina, e precisa ser **voz de menina no ElevenLabs** (afinar a voz do Lauro não serve). Revezar com o Piá conforme o vídeo.
 - **Cusco:** vira-lata caramelo, **orelha direita em pé e esquerda dobrada**, mancha branca em forma de coração no peito, mini lenço mostarda. Aparece em cerca de 1 de cada 3 cenas, como alívio cômico ou reação. `CuscoRun` e `CuscoSit` (paw, tiltHead, chew) em `chars/Others.tsx`.
 
 ## Preferências do usuário (aprendidas na prática)
@@ -74,7 +75,7 @@ Vídeos curtos (Reels/TikTok/Shorts) e longos (YouTube) sobre **cultura, dança,
 | #003 | Tu sabe cevar um mate? | `videos/video03_chimarrao.mp4` · `Video03.tsx` | pronto |
 | #004 | História do Grêmio (curto + YouTube) | `videos/video04_gremio_curto.mp4`, `videos/video04_gremio_youtube.mp4` · `Video04.tsx`, `Video04L.tsx` | pronto |
 | teaser | "Grêmio venceu a votação" (10 s) | `videos/teaser04_gremio_venceu.mp4` · `Teaser04.tsx` | pronto |
-| #006 | O RS já foi um país? (Revolução Farroupilha), com o Piá | `roteiro-video-06-farroupilha.md` | roteiro pronto, aguardando MP3 |
+| #006 | O RS já foi um país? (Revolução Farroupilha), com a Guria | `roteiro-video-06-farroupilha.md` | roteiro pronto, aguardando MP3 |
 | #005 | História do Inter (curto + YouTube), com o Piá | `videos/video05_inter_curto.mp4`, `videos/video05_inter_youtube.mp4` · `Video05.tsx`, `Video05L.tsx` | pronto |
 
 Outros: stories em `stories/` (Tupanciretã, enquete Inter × Grêmio e 500 seguidores: `Story500.tsx`, vídeo de 8 s + foto). Roteiros em `roteiro-video-*.md`. Análise dos vídeos de referência em `engenharia-reversa-videos.md` e `roteiro-video-03-chimarrao.md` (seção 1).

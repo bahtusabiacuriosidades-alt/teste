@@ -1,11 +1,11 @@
 # Vídeo #006: O Rio Grande do Sul já foi um país? (Revolução Farroupilha)
 
-Duas versões, com o **Lauro** narrando e o **Piá** perguntando:
+Duas versões, com o **Lauro** narrando e a **Guria** perguntando (nova personagem: sobrinha do Lauro, uns 10 anos, voz infantil feminina):
 - **A) Curto** (Reels / TikTok / Shorts): cerca de 1:25, vertical 9:16
 - **B) Longo** (YouTube): cerca de 5:30, horizontal 16:9, com capítulos
 
-**Tom:** curiosidade e orgulho, mas **sem romantizar a guerra**. O trecho dos Lanceiros Negros e de Porongos é **sóbrio, sem piada nem efeito cômico** (regra do canal para tragédias). O Piá fica sério nessa parte, e o Cusco não aparece nela.
-**Visual:** o Lauro de pilcha completa, com o lenço mostarda, sem cachecol de clube. O Piá com a camiseta listrada de sempre. Bandeira do RS e mapas desenhados, sem fotos de terceiros.
+**Tom:** curiosidade e orgulho, mas **sem romantizar a guerra**. O trecho dos Lanceiros Negros e de Porongos é **sóbrio, sem piada nem efeito cômico** (regra do canal para tragédias). A Guria fica séria nessa parte, e o Cusco não aparece nela.
+**Visual:** o Lauro de pilcha completa, com o lenço mostarda, sem cachecol de clube. A Guria com vestido de prenda (é Semana Farroupilha!), tranças e fita. Bandeira do RS e mapas desenhados, sem fotos de terceiros.
 
 ---
 
@@ -14,21 +14,21 @@ Duas versões, com o **Lauro** narrando e o **Piá** perguntando:
 | # | Quem | Fala | Tela |
 |---|---|---|---|
 | 1 | Lauro | **Bah, tu sabia** que o Rio Grande do Sul já foi um país? | Mapa do Brasil; o RS "se solta" e ganha uma fronteira tracejada. `🇧🇷 → ?` |
-| 2 | Piá | Um país? Com presidente e tudo? | O Piá de boca aberta, com um passaporte desenhado na mão. |
+| 2 | Guria | Um país? Com presidente e tudo? | A Guria de boca aberta, com um passaporte desenhado na mão. |
 | 3 | Lauro | Em 20 de setembro de 1835, estancieiros gaúchos… se revoltaram contra o Império. | Calendário `20/09/1835`; charque sendo carimbado `IMPOSTO` (etiqueta vermelha). |
-| 4 | Piá | Farroupilha? Que nome é esse? | O Piá coçando a cabeça. |
+| 4 | Guria | Farroupilha? Que nome é esse? | A Guria coçando a cabeça. |
 | 5 | Lauro | "Farrapos" era o apelido… assumiram o nome com orgulho. | Uma roupa remendada vira uma faixa `FARRAPOS` com orgulho. `UMA DAS VERSÕES` |
 | 6 | Lauro | Em 1836, depois da vitória no Seival… a primeira capital foi Piratini. | Bandeira tricolor (verde, vermelho, amarelo) subindo; pin em Piratini. `📍 PIRATINI · 1836` |
-| 7 | Piá | E pra ir pra Santa Catarina precisava de passaporte? | Carimbo no passaporte. O Cusco cheira o passaporte. |
+| 7 | Guria | E pra ir pra Santa Catarina precisava de passaporte? | Carimbo no passaporte. O Cusco cheira o passaporte. |
 | 8 | Lauro | Quase isso! Em 1839… levou dois barcos de guerra por terra. | Mapa RS → Laguna. **Virada:** dois barcos andando sobre rodas por um campo. |
-| 9 | Piá | Barco andando em terra?! | O Piá de olho arregalado. O Cusco corre atrás do barco latindo. |
+| 9 | Guria | Barco andando em terra?! | A Guria de olho arregalado. O Cusco corre atrás do barco latindo. |
 | 10 | Lauro | Por terra! A guerra durou dez anos. E teve uma página triste… | Linha do tempo 1835 → 1845. Corte para uma tela escura e sóbria (sem música alegre): lanças em silhueta. |
-| 11 | Piá | Isso eu não sabia. | O Piá sério, olhando para baixo. |
+| 11 | Guria | Isso eu não sabia. | A Guria séria, olhando para baixo. |
 | 12 | Lauro | Por muito tempo ficou esquecido… Livro dos Heróis e Heroínas da Pátria. | Livro abrindo, com a faixa `LANCEIROS NEGROS` em destaque. |
 | 13 | Lauro | Em 1845 veio a Paz de Ponche Verde… | Aperto de mãos (mãos com 5 dedos); `🕊️ 1845`. |
-| 14 | Piá | Então por que todo 20 de setembro tem desfile e cavalo na rua? | Desfile de cavaleiros (silhuetas) e o Piá apontando. |
+| 14 | Guria | Então por que todo 20 de setembro tem desfile e cavalo na rua? | Desfile de cavaleiros (silhuetas) e a Guria apontando. |
 | 15 | Lauro | Porque é o dia de lembrar essa história… E a nossa bandeira? Nasceu lá. | A bandeira do RS tremulando. `🟩🟥🟨 NASCEU NA REPÚBLICA` |
-| 16 | Lauro | Comenta aí: tu já desfilou num 20 de setembro? | Lauro, Piá e Cusco lado a lado; `COMENTA 👇` |
+| 16 | Lauro | Comenta aí: tu já desfilou num 20 de setembro? | Lauro, Guria e Cusco lado a lado; `COMENTA 👇` |
 
 ### CURTO · LAURO
 ```
@@ -53,7 +53,7 @@ Em 1845 veio a Paz de Ponche Verde, e o Rio Grande voltou a fazer parte do Impé
 [warmly] Comenta aí: tu já desfilou num 20 de setembro?
 ```
 
-### CURTO · PIÁ
+### CURTO · GURIA
 ```
 [surprised] Um país? Com presidente e tudo?
 
@@ -69,7 +69,7 @@ Em 1845 veio a Paz de Ponche Verde, e o Rio Grande voltou a fazer parte do Impé
 ```
 *(Cerca de 250 palavras no total, o que dá cerca de 1:25 a 1:30.)*
 
-**Ordem das falas (para montar):** L1, P1, L2, P2, L3, L4, P3, L5, P4, L6, P5, L7, L8, P6, L9, L10.
+**Ordem das falas (para montar):** L1, G1, L2, G2, L3, L4, G3, L5, G4, L6, G5, L7, L8, G6, L9, L10.
 
 ---
 
@@ -94,7 +94,7 @@ Em 1845 veio a Paz de Ponche Verde, e o Rio Grande voltou a fazer parte do Impé
 ```
 [excited] Bah, tu sabia que o Rio Grande do Sul já foi um país?
 
-[laughs] Com presidente, capital e bandeira, piá. E nesse vídeo eu vou te contar como foi: a guerra que durou dez anos, os barcos que andaram por terra e uma história que por muito tempo ninguém contava. Te aprochega, pega o mate.
+[laughs] Com presidente, capital e bandeira, guria. E nesse vídeo eu vou te contar como foi: a guerra que durou dez anos, os barcos que andaram por terra e uma história que por muito tempo ninguém contava. Te aprochega, pega o mate.
 
 Vamos voltar pra 1835. O Brasil era um Império, governado do Rio de Janeiro. Aqui no Sul, a grande riqueza era o charque, a carne salgada e seca que alimentava boa parte do país. Só que o charque gaúcho pagava impostos pesados, e acabava perdendo pro charque que vinha do Uruguai e da Argentina.
 
@@ -128,12 +128,12 @@ Não teve vencedor claro. O acordo deu anistia aos revoltosos, e muitos oficiais
 
 [proudly] Porque essa história virou parte de quem a gente é. O 20 de setembro é feriado no Rio Grande do Sul, e todo ano tem a Semana Farroupilha, com desfile, acampamento, música e muito mate. E a bandeira do Rio Grande do Sul? Ela nasceu na época da República Rio-Grandense, e foi oficializada como símbolo do estado depois.
 
-Pois é, piá. E lembrar inteira é isso: a coragem, a teimosia, e também as injustiças. A história bonita e a difícil.
+Pois é, guria. E lembrar inteira é isso: a coragem, a teimosia, e também as injustiças. A história bonita e a difícil.
 
 [warmly] Comenta aí: tu já desfilou num 20 de setembro? E qual parte dessa história tu não sabia? Se inscreve no canal, que aqui no Bah, tu sabia, toda semana tem história do Rio Grande. Valeu, tchê!
 ```
 
-### LONGO · PIÁ
+### LONGO · GURIA
 ```
 [surprised] Tio, sério? Com presidente e tudo?
 
@@ -162,12 +162,12 @@ Pois é, piá. E lembrar inteira é isso: a coragem, a teimosia, e também as in
 Valeu, tio!
 ```
 
-**Ordem das falas (para montar):** L1, P1, L2, L3, P2, L4, L5, P3, L6, L7, P4, L8, P5, L9, P6, L10, P7, L11, L12, L13, L14, P8, L15, P9, L16, P10, L17, P11, L18, P12, L19, L20, P13.
+**Ordem das falas (para montar):** L1, G1, L2, L3, G2, L4, L5, G3, L6, L7, G4, L8, G5, L9, G6, L10, G7, L11, L12, L13, L14, G8, L15, G9, L16, G10, L17, G11, L18, G12, L19, L20, G13.
 
 *(Cerca de 900 palavras no total, o que dá cerca de 5:30.)*
 
 ### Visual do longo (16:9)
-- Cenário: o campo gaúcho ao entardecer (variação do `GuaibaWorld` com coxilha e cerca de pau a pique), com o Lauro e o Piá à esquerda e o card à direita, como no #005.
+- Cenário: o campo gaúcho ao entardecer (variação do `GuaibaWorld` com coxilha e cerca de pau a pique), com o Lauro e a Guria à esquerda e o card à direita, como no #005.
 - Cards: mapa do Brasil Império com o RS destacado; charque com carimbo `IMPOSTO`; calendário `20/09/1835`; ponte e Porto Alegre; bandeira subindo (Seival 1836); capitais com pins (Piratini → Caçapava → Alegrete); prisão e fuga de Bento (silhueta, sem rosto); os barcos sobre rodas cruzando o campo; mapa até Laguna; Anita (silhueta a cavalo).
 - Porongos: **paleta escura, música baixa e sem efeitos cômicos**; lanças em silhueta e o livro dos heróis abrindo. O Cusco não aparece.
 - Paz de 1845: aperto de mãos; linha do tempo 1835–1845 completa.
