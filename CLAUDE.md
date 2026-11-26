@@ -67,6 +67,7 @@ Vídeos curtos (Reels/TikTok/Shorts) e longos (YouTube) sobre **cultura, dança,
 - Fonte Montserrat servida localmente (`public/fonts`, `src/fonts.ts`), porque o navegador do render não acessa a internet.
 - Áreas seguras no vertical: nada importante nos 250 px de cima nem nos 300 px de baixo.
 - Efeitos sonoros em `public/sfx/` (gerados com ffmpeg): plim, whoosh, ding, pop, boing, toin, buzina, latido, patinhas, carimbo, erro, acerto, apito, fervura, agua, chocalho, tictac, aplauso, chuva, vento, sino, caminhao, bolafura, boom, riser, scratch.
+- Cenário do pôr do sol `GuaibaWorld`: usar `flags="rs"` (bandeirinhas nas cores do RS) em vídeos que não são do Inter; o padrão (vermelho e branco) é só do #005.
 - Trilha gaúcha original: `audio/trilha_gaucha_original.mp3` (cerca de 100 BPM; breques em 20.0 s e 116.0 s; acorde final em 154.82–157.8 s).
 
 ## Status dos vídeos
@@ -77,7 +78,7 @@ Vídeos curtos (Reels/TikTok/Shorts) e longos (YouTube) sobre **cultura, dança,
 | #003 | Tu sabe cevar um mate? | `videos/video03_chimarrao.mp4` · `Video03.tsx` | pronto |
 | #004 | História do Grêmio (curto + YouTube) | `videos/video04_gremio_curto.mp4`, `videos/video04_gremio_youtube.mp4` · `Video04.tsx`, `Video04L.tsx` | pronto |
 | teaser | "Grêmio venceu a votação" (10 s) | `videos/teaser04_gremio_venceu.mp4` · `Teaser04.tsx` | pronto |
-| #006 | O RS já foi um país? (Revolução Farroupilha), com a Guria | `videos/video06_farroupilha_curto.mp4` · `Video06.tsx`, cenas em `scenes/Farroupilha.tsx` | curto pronto; longo aguardando MP3 |
+| #006 | O RS já foi um país? (Revolução Farroupilha), com a Guria | `videos/video06_farroupilha_curto.mp4`, `videos/video06_farroupilha_youtube.mp4` · `Video06.tsx`, `Video06L.tsx`, cenas em `scenes/Farroupilha.tsx` · thumb e legendas prontas | pronto |
 | #005 | História do Inter (curto + YouTube), com o Piá | `videos/video05_inter_curto.mp4`, `videos/video05_inter_youtube.mp4` · `Video05.tsx`, `Video05L.tsx` | pronto |
 
 Outros: stories em `stories/` (Tupanciretã, enquete Inter × Grêmio e 500 seguidores: `Story500.tsx`, vídeo de 8 s + foto). Roteiros em `roteiro-video-*.md`. Análise dos vídeos de referência em `engenharia-reversa-videos.md` e `roteiro-video-03-chimarrao.md` (seção 1).
