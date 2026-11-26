@@ -39,7 +39,12 @@ Vídeos curtos (Reels/TikTok/Shorts) e longos (YouTube) sobre **cultura, dança,
 ## Fluxo de produção de um vídeo novo
 1. Pesquisar o tema (WebSearch) e escrever o roteiro em `roteiro-video-XX-tema.md`: falas com tempo, tela, texto para o ElevenLabs com tags `[excited]`, `[laughs]`… e a lista do que conferir.
    **Formato padrão para mandar o texto do ElevenLabs no chat:** um bloco de código por personagem e por versão (ex.: `CURTO · LAURO`, `CURTO · PIÁ`, `LONGO · LAURO`, `LONGO · PIÁ`), **só o texto com as tags de fala** (`[excited]`, `[laughs]`…), um parágrafo por fala, na ordem. **Sem números, sem `01_L`, sem títulos de capítulo dentro do bloco.** Com um personagem só, um bloco por versão.
-2. O usuário gera a locução no ElevenLabs e manda o MP3.
+2. **Locução:** posso gerar direto pelo conector do ElevenLabs (`mcp__ElevenLabs__creative_generate_speech`, modelo `eleven_v4`, `generations_count: 1`), usando a conta do usuário:
+   - Lauro: voice_id `S1mGcMJVmL8CL3VZAVos` (voz clonada do usuário)
+   - Guria: voice_id `33B4UnXyTNbgLmdEDh5P` ("Keren – Sweet, Vibrant and Rhythmic")
+   - Piá: ainda sem voz definida (escolher uma voz infantil masculina com o usuário)
+   Gerar **uma fala por chamada**, consultar `creative_get_flow_run_status` até terminar e baixar o `content_url` com curl. Nunca repetir uma geração para "tentar de novo" (cobra de novo). Antes de um vídeo inteiro, avisar o custo aproximado (o teste de 6 s custou cerca de 111 créditos; o plano Creator tem cerca de 121 mil por mês). Mandar uma prévia do áudio para o usuário aprovar antes de montar.
+   Alternativa: o usuário gera no aplicativo e manda o MP3.
 3. Rodar a preparação do áudio (dentro de `remotion/`):
    ```bash
    pip install faster-whisper librosa
