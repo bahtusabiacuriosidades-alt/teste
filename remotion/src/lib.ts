@@ -46,6 +46,7 @@ export const WORDS = wordsData as Word[];
 export const GAUCHO = new Set([
   'bah', 'tchê', 'aprochega', 'cacetinho', 'cacetinhos', 'negrinho', 'bergamota',
   'sinaleira', 'xis', 'tri', 'capaz', 'pechada', 'cusco', 'gaúcho', 'chimarrão', 'cuia', 'erva', 'mate', 'cevar', 'morrinho',
+  'piá', 'nono', 'nona', 'nonos', 'talian', 'tropeiros', 'bah…',
 ]);
 /** per-video voice level (0..1) from an rms array sampled at FPS */
 export const makeVoice = (r: number[]) => (t: number) => r[Math.floor(t * FPS)] ?? 0;
