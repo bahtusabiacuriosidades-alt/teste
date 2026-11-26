@@ -17,7 +17,7 @@ import wordsL from './data/v07L/words.json';
 import falasL from './data/v07L/falas.json';
 
 /* #007 (YouTube, horizontal 1920x1080, ~4:57) — Caxias do Sul já se chamou Campo dos Bugres?, com o Piá */
-export const DURATION_07L = 297.6;
+export const DURATION_07L = 298.9;
 const W = 1920, H = 1080;
 const rms = makeVoice(rmsL as number[]);
 const FALAS = falasL as { n: number; quem: string; s: number; e: number }[];
@@ -85,8 +85,8 @@ const SEGS: Seg[] = [
   { a: 252.1, b: 269.5, draw: (t) => <MetricTermo t={t} a={252.1} downT={255.1} upT={265.2} /> },
   { a: 269.5, b: 270.9, draw: CAP(8, 269.6) },
   { a: 270.9, b: 280.1, draw: (t) => <StageNomesFinal t={t} a={270.7} /> },
-  { a: 280.1, b: 285.6, draw: TT('COMENTA 👇', 'TEM NONO OU NONA DA SERRA?', 280.2) },
-  { a: 285.6, b: 300, draw: TT('SE INSCREVE 🔔', 'BAH, TU SABIA?', 285.7) },
+  { a: 280.1, b: 287.4, draw: TT('COMENTA 👇 A TUA CIDADE', 'A MAIS CURTIDA É O PRÓXIMO VÍDEO', 281.4) },
+  { a: 287.4, b: 300, draw: TT('SE INSCREVE 🔔', 'BAH, TU SABIA?', 287.5) },
 ];
 const CUTS = SEGS.map((s) => s.a).filter((a) => a > 0);
 
@@ -116,16 +116,17 @@ const SHOTS: Shot[] = [
   PIA(187.0, 0.35), CARD(190.2, 0.8), PIA(197.9, 0.3), CARD(200.6, 1.0), HALF(206.0, 1.2), CARD(210.2, 0.8),
   PIA(217.2, 0.3), LAU(219.6, 0.6), HALF(223.2, 1.0), CARD(230.0, 1.0), HALF(238.0, 1.2), CARD(246.8, 0.8),
   PIA(251.0, 0.3), CARD(253.8, 0.8), CARD(264.6, 1.0, 1.12, 40, -40),
-  HALF(269.8, 0.8), CARD(272.0, 1.0), TWO(277.0, 1.0), HALF(280.6, 1.0), { at: 287.0, x: 900, y: 560, z: 1.04, ease: 3.0 }, PIA(291.9, 0.3), TWO(294.6, 0.8),
+  HALF(269.8, 0.8), CARD(272.0, 1.0), TWO(277.0, 1.0), HALF(280.6, 1.0), { at: 287.0, x: 900, y: 560, z: 1.04, ease: 3.0 }, PIA(293.4, 0.3), TWO(296.0, 0.8),
 ];
 const PUNCHES = [1.6, 128.3, 139.5, 149.7, SELO, 168.6, 210.4, 211.6, 247.6, 257.4];
 
-const LEXPR: [number, Expr][] = [[0, 'delight'], [1.5, 'talk'], [3.9, 'smile'], [4.2, 'laugh'], [7.7, 'laugh'], [8.6, 'talk'], [24.4, 'smile'], [25.0, 'talk'], [45.8, 'smile'], [SOB_A, 'sad'], [SOB_B, 'talk'], [105.9, 'smile'], [106.2, 'shock'], [108.8, 'laugh'], [110.5, 'talk'], [122.8, 'smile'], [124.9, 'laugh'], [126.0, 'talk'], [153.9, 'delight'], [155.0, 'laugh'], [158.3, 'talk'], [174.7, 'delight'], [176.0, 'talk'], [186.5, 'squint'], [189.6, 'laugh'], [191.0, 'talk'], [197.5, 'smile'], [199.4, 'talk'], [216.7, 'smile'], [219.1, 'laugh'], [221.0, 'talk'], [228.4, 'smile'], [228.6, 'talk'], [250.5, 'smile'], [253.5, 'delight'], [254.6, 'talk'], [269.3, 'smile'], [269.6, 'talk'], [286.0, 'delight'], [287.0, 'talk'], [291.0, 'wink'], [291.8, 'smile']];
-const LARM: [number, ArmPose][] = [[0, 'wave'], [2.6, 'down'], [8.6, 'hold'], [24.9, 'pointSide'], [45.8, 'down'], [SOB_B, 'pointSide'], [99.7, 'pointUp'], [105.0, 'down'], [109.0, 'thumbsUp'], [110.5, 'pointSide'], [122.8, 'down'], [125.0, 'wag'], [127.6, 'pointSide'], [149.6, 'pointUp'], [153.9, 'thumbsUp'], [158.3, 'pointUp'], [161.0, 'pointSide'], [182.6, 'pointUp'], [186.5, 'down'], [190.0, 'wag'], [192.6, 'pointSide'], [197.5, 'down'], [199.4, 'pointUp'], [201.0, 'pointSide'], [216.7, 'down'], [219.3, 'wag'], [223.4, 'pointDown'], [228.4, 'pointSide'], [250.5, 'down'], [253.6, 'thumbsUp'], [255.0, 'pointSide'], [269.4, 'hold'], [280.2, 'pointDown'], [285.6, 'thumbsUp'], [290.5, 'wave']];
-const PEXPR: [number, PiaExpr][] = [[0, 'smile'], [4.2, 'laugh'], [6.0, 'talk'], [7.8, 'smile'], [45.0, 'shock'], [46.1, 'talk'], [47.7, 'smile'], [SOB_A, 'pout'], [SOB_B, 'smile'], [74.3, 'talk'], [76.4, 'smile'], [106.2, 'shock'], [108.6, 'smile'], [123.0, 'talk'], [124.6, 'smile'], [SELO, 'shock'], [155.0, 'laugh'], [158.0, 'smile'], [180.9, 'shock'], [182.5, 'smile'], [186.7, 'smug'], [189.4, 'smile'], [190.8, 'pout'], [193.5, 'smile'], [197.8, 'smug'], [199.2, 'smile'], [216.9, 'laugh'], [218.9, 'smile'], [250.7, 'talk'], [253.3, 'smile'], [257.4, 'shock'], [259.5, 'smile'], [291.7, 'laugh'], [294.2, 'smile']];
-const PARMS: [number, PiaArms][] = [[0, 'down'], [4.2, 'shrug'], [7.8, 'down'], [46.1, 'shrug'], [47.7, 'down'], [74.3, 'count'], [76.4, 'down'], [106.2, 'shrug'], [108.6, 'down'], [123.0, 'present'], [124.6, 'down'], [154.4, 'count'], [158.0, 'down'], [186.7, 'hips'], [189.4, 'down'], [190.8, 'cross'], [193.5, 'down'], [197.8, 'present'], [199.2, 'down'], [216.9, 'cheer'], [218.9, 'down'], [250.7, 'cross'], [259.5, 'down'], [291.7, 'cheer'], [294.2, 'down']];
+const LEXPR: [number, Expr][] = [[0, 'delight'], [1.5, 'talk'], [3.9, 'smile'], [4.2, 'laugh'], [7.7, 'laugh'], [8.6, 'talk'], [24.4, 'smile'], [25.0, 'talk'], [45.8, 'smile'], [SOB_A, 'sad'], [SOB_B, 'talk'], [105.9, 'smile'], [106.2, 'shock'], [108.8, 'laugh'], [110.5, 'talk'], [122.8, 'smile'], [124.9, 'laugh'], [126.0, 'talk'], [153.9, 'delight'], [155.0, 'laugh'], [158.3, 'talk'], [174.7, 'delight'], [176.0, 'talk'], [186.5, 'squint'], [189.6, 'laugh'], [191.0, 'talk'], [197.5, 'smile'], [199.4, 'talk'], [216.7, 'smile'], [219.1, 'laugh'], [221.0, 'talk'], [228.4, 'smile'], [228.6, 'talk'], [250.5, 'smile'], [253.5, 'delight'], [254.6, 'talk'], [269.3, 'smile'], [269.6, 'talk'], [280.2, 'delight'], [281.2, 'talk'], [292.4, 'wink'], [293.2, 'smile']];
+const LARM: [number, ArmPose][] = [[0, 'wave'], [2.6, 'down'], [8.6, 'hold'], [24.9, 'pointSide'], [45.8, 'down'], [SOB_B, 'pointSide'], [99.7, 'pointUp'], [105.0, 'down'], [109.0, 'thumbsUp'], [110.5, 'pointSide'], [122.8, 'down'], [125.0, 'wag'], [127.6, 'pointSide'], [149.6, 'pointUp'], [153.9, 'thumbsUp'], [158.3, 'pointUp'], [161.0, 'pointSide'], [182.6, 'pointUp'], [186.5, 'down'], [190.0, 'wag'], [192.6, 'pointSide'], [197.5, 'down'], [199.4, 'pointUp'], [201.0, 'pointSide'], [216.7, 'down'], [219.3, 'wag'], [223.4, 'pointDown'], [228.4, 'pointSide'], [250.5, 'down'], [253.6, 'thumbsUp'], [255.0, 'pointSide'], [269.4, 'hold'], [280.2, 'pointDown'], [283.6, 'pointUp'], [287.4, 'thumbsUp'], [291.9, 'wave']];
+const PEXPR: [number, PiaExpr][] = [[0, 'smile'], [4.2, 'laugh'], [6.0, 'talk'], [7.8, 'smile'], [45.0, 'shock'], [46.1, 'talk'], [47.7, 'smile'], [SOB_A, 'pout'], [SOB_B, 'smile'], [74.3, 'talk'], [76.4, 'smile'], [106.2, 'shock'], [108.6, 'smile'], [123.0, 'talk'], [124.6, 'smile'], [SELO, 'shock'], [155.0, 'laugh'], [158.0, 'smile'], [180.9, 'shock'], [182.5, 'smile'], [186.7, 'smug'], [189.4, 'smile'], [190.8, 'pout'], [193.5, 'smile'], [197.8, 'smug'], [199.2, 'smile'], [216.9, 'laugh'], [218.9, 'smile'], [250.7, 'talk'], [253.3, 'smile'], [257.4, 'shock'], [259.5, 'smile'], [293.3, 'laugh'], [295.8, 'smile']];
+const PARMS: [number, PiaArms][] = [[0, 'down'], [4.2, 'shrug'], [7.8, 'down'], [46.1, 'shrug'], [47.7, 'down'], [74.3, 'count'], [76.4, 'down'], [106.2, 'shrug'], [108.6, 'down'], [123.0, 'present'], [124.6, 'down'], [154.4, 'count'], [158.0, 'down'], [186.7, 'hips'], [189.4, 'down'], [190.8, 'cross'], [193.5, 'down'], [197.8, 'present'], [199.2, 'down'], [216.9, 'cheer'], [218.9, 'down'], [250.7, 'cross'], [259.5, 'down'], [293.3, 'cheer'], [295.8, 'down']];
 
 const CHIPS: [number, number, string, 'info' | 'warn' | 'bad' | 'good'][] = [
+  [283.6, 287.3, '🏆 A CIDADE MAIS CURTIDA NOS COMENTÁRIOS VENCE', 'warn'],
   [27.5, 34.0, '💧 CLAREIRA COM FONTES DE ÁGUA', 'info'],
   [34.4, 42.2, '🐴 POUSO DOS TROPEIROS DOS CAMPOS DE CIMA DA SERRA', 'warn'],
   [82.6, 88.5, '🇮🇹 CAMPONESES DO NORTE DA ITÁLIA, PRINCIPALMENTE DO VÊNETO', 'warn'],
@@ -153,7 +154,7 @@ const SFX: [string, number, number][] = [
   ['pop', 201.0, 0.2], ['pop', 201.4, 0.2], ['pop', 201.8, 0.2], ['carimbo', 210.4, 0.4], ['carimbo', 211.6, 0.4], ['aplauso', 218.0, 0.15],
   ['plim', 230.2, 0.3], ['ding', 233.2, 0.25], ['aplauso', 245.0, 0.15], ['agua', 247.6, 0.25],
   ['chocalho', 251.0, 0.18], ['vento', 255.2, 0.15], ['tictac', 255.3, 0.12], ['ding', 257.4, 0.3], ['sino', 263.0, 0.15], ['plim', 267.9, 0.25],
-  ['pop', 270.7, 0.25], ['pop', 271.8, 0.25], ['pop', 272.9, 0.25], ['aplauso', 286.0, 0.2], ['latido', 291.2, 0.3], ['latido', 294.4, 0.25],
+  ['pop', 270.7, 0.25], ['pop', 271.8, 0.25], ['pop', 272.9, 0.25], ['ding', 281.4, 0.3], ['plim', 283.6, 0.3], ['aplauso', 283.7, 0.2], ['latido', 292.6, 0.3], ['latido', 295.9, 0.25],
 ];
 
 const Chip: React.FC<{ t: number; a: number; b: number; text: string; kind: 'info' | 'warn' | 'bad' | 'good' }> = ({ t, a, b, text, kind }) => {
@@ -174,8 +175,8 @@ export const Video07L: React.FC = () => {
   const lastCut = CUTS.filter((c) => c <= t).pop() ?? -1;
   const flash = lastCut > 0 && !sober(lastCut) && lastCut !== SOB_A && lastCut !== SOB_B && t - lastCut < 0.08 ? 1 - (t - lastCut) / 0.08 : 0;
   const lx = lauroX(t), px = piaX(t);
-  const lHop = sober(t) ? 0 : jumps(t, [0.05, 109.0, 153.9, 253.6, 286.0], 0.42, 100);
-  const pHop = sober(t) ? 0 : jumps(t, [4.2, 106.3, SELO, 216.9, 291.7], 0.4, 100);
+  const lHop = sober(t) ? 0 : jumps(t, [0.05, 109.0, 153.9, 253.6, 283.6], 0.42, 100);
+  const pHop = sober(t) ? 0 : jumps(t, [4.2, 106.3, SELO, 216.9, 293.3], 0.4, 100);
   /* Cusco: corre até o centro, para, late (selo) e sai pelo outro lado */
   const seloRun = (t > SELO - 1.6 && t < SELO - 0.15) || (t > SELO + 1.55 && t < SELO + 3.6);
   const seloStop = t >= SELO - 0.15 && t <= SELO + 1.55;
@@ -196,7 +197,7 @@ export const Video07L: React.FC = () => {
           <SerraWorld t={t} w={W} h={H} cold={cold} snow={snow} />
           <rect x={-800} y={-800} width={W + 1600} height={H + 1600} fill={`rgba(10,14,24,${dark})`} />
           {seg && <g transform={`translate(${CX},${CY}) scale(0.8)`}>{seg.draw(t)}</g>}
-          {t > 286.0 && t < 289.5 && <ConfettiC t={t} start={286.0} cx={CX} cy={CY - 100} colors={[UVA, '#5C8A34', MUST, '#fff']} />}
+          {t > 283.6 && t < 287.2 && <ConfettiC t={t} start={283.6} cx={CX} cy={CY - 100} colors={[UVA, '#5C8A34', MUST, '#fff']} />}
           {cuscoShow && (
             <g transform={`translate(${seloRun || seloStop ? cuscoX : cuscoSitX},${GROUND - 8})`}>
               {seloRun ? <g transform="scale(0.55)"><CuscoRun t={t} bread={false} /></g>
@@ -230,7 +231,7 @@ export const Video07L: React.FC = () => {
       <Captions t={t} hidden={t < 0.05 || (t > SELO && t < SELO + 1.9)} words={WORDS} y={948} size={60} left={760} right={60} />
 
       {flash > 0 && <AbsoluteFill style={{ backgroundColor: `rgba(255,255,255,${flash * 0.7})` }} />}
-      {t > 297.0 && <AbsoluteFill style={{ backgroundColor: `rgba(0,0,0,${clamp((t - 297.0) / 0.55)})` }} />}
+      {t > 298.3 && <AbsoluteFill style={{ backgroundColor: `rgba(0,0,0,${clamp((t - 298.3) / 0.55)})` }} />}
 
       <Audio src={staticFile('audio/v07L_voz.mp3')} />
       <Audio src={staticFile('audio/v07L_musica.mp3')} volume={(f) => kf(f / FPS, [[SOB_A - 1, 1], [SOB_A, 0.25], [SOB_B, 0.25], [SOB_B + 1, 1]])} />

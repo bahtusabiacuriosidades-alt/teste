@@ -55,7 +55,7 @@ Duas versões, com o **Lauro** narrando e o **Piá** perguntando e provocando (r
 | 11 | Lauro | Lá tem o Juventude e o Caxias, piá! Mas o que une todo mundo é a uva… | Duas faixas só com cores e nome: `JUVENTUDE` (verde e branco) e `CAXIAS` (grená). Depois, cacho de uva gigante, `🍇 FESTA DA UVA · 1931`. |
 | 12 | Piá | E é verdade que lá é frio de bater o queixo? | O Piá de touca, tremendo (dentes batendo com `chocalho`). |
 | 13 | Lauro | Bah, se é! Em julho, a mínima média fica perto de 8 graus. E às vezes até neva. | **Métrica:** termômetro descendo até `≈ 8 °C`; flocos de neve caindo. O Cusco tremendo com a orelha dobrada. |
-| 14 | Lauro | Comenta aí: tu tem nono ou nona lá da Serra? | Lauro, Piá e Cusco lado a lado no parreiral; `COMENTA 👇` |
+| 14 | Lauro | Agora é contigo: comenta aí o nome da tua cidade! A mais curtida vai ser o próximo vídeo. | Card `COMENTA 👇 A TUA CIDADE · A MAIS CURTIDA É O PRÓXIMO VÍDEO` e o chip `🏆 A CIDADE MAIS CURTIDA VENCE`; Lauro, Piá e Cusco no parreiral. |
 
 ### CURTO · LAURO
 ```
@@ -73,7 +73,7 @@ Foi! Em 1877, virou Colônia Caxias, em homenagem ao Duque de Caxias. Em 1890, v
 
 [excited] Bah, se é! Em julho, a mínima média fica perto de 8 graus. E às vezes até neva.
 
-[warmly] Comenta aí: tu tem nono ou nona lá da Serra?
+[excited] Agora é contigo: comenta aí o nome da tua cidade! A mais curtida vai ser o próximo vídeo.
 ```
 
 ### CURTO · PIÁ
@@ -147,7 +147,7 @@ E não dá pra falar de Caxias sem falar da uva. A Festa da Uva começou em 1931
 
 [warmly] Então é isso: Campo dos Bugres, Colônia Caxias, Pérola das Colônias. Uma cidade feita de muita gente, dos que estavam lá antes e dos que chegaram de longe.
 
-[warmly] Comenta aí: tu tem nono ou nona lá da Serra? E qual palavra em talian tu conhece? Se inscreve no canal, que aqui no Bah, tu sabia, toda semana tem história do Rio Grande. Valeu, tchê!
+[excited] E agora é contigo: comenta aí o nome da tua cidade! A cidade mais curtida nos comentários vai ser o próximo vídeo do canal. [warmly] Se inscreve, que aqui no Bah, tu sabia, toda semana tem história do Rio Grande. Valeu, tchê!
 ```
 
 ### LONGO · PIÁ

@@ -10,14 +10,14 @@ Hoje é a segunda maior cidade do RS (IBGE, Censo 2022), terra da Festa da Uva e
 
 O Piá perguntou, o Lauro contou, e o Cusco carimbou 🐕📮
 
-E tu, tem nono ou nona lá da Serra? 👇
+🏆 Comenta o nome da TUA cidade: a mais curtida vai ser o próximo vídeo! 👇
 
 #CaxiasDoSul #SerraGaúcha #ImigraçãoItaliana #FestaDaUva #Talian #RioGrandeDoSul #Gaúcho #HistóriaDoBrasil #BahTuSabia
 ```
 
 ## TikTok
 ```
-Caxias do Sul já se chamou Campo dos Bugres?! 🍇 De clareira dos tropeiros a segunda maior cidade do RS. Tu tem nono ou nona da Serra? #CaxiasDoSul #SerraGaúcha #ImigraçãoItaliana #RioGrandeDoSul #gaúcho #história #BahTuSabia
+Caxias do Sul já se chamou Campo dos Bugres?! 🍇 De clareira dos tropeiros a segunda maior cidade do RS. Comenta a tua cidade: a mais curtida é o próximo vídeo! 🏆 #CaxiasDoSul #SerraGaúcha #ImigraçãoItaliana #RioGrandeDoSul #gaúcho #história #BahTuSabia
 ```
 
 ## YouTube Shorts
@@ -34,7 +34,8 @@ Números: população do IBGE (Censo 2022); temperaturas são médias aproximada
 
 ## Primeiro comentário (fixar)
 ```
-E aí, tem nono ou nona lá da Serra? 👴👵🍇 Conta nos comentários de onde vem a tua família! A versão completa, com o talian e a Festa da Uva, tá no YouTube 👀
+🏆 VOTAÇÃO ABERTA: comenta o nome da tua cidade e curte as que tu quer ver! A cidade mais curtida vai ser o próximo vídeo do Bah, tu sabia? 👇
+(Um comentário por cidade, pra não dividir os votos 😉)
 ```
 
 ---
@@ -64,6 +65,8 @@ Números do vídeo: população do IBGE (Censo 2022); altitude e distância são
 
 Fontes consultadas: Wikipédia (História de Caxias do Sul, Caxias do Sul, Centro Histórico, Talian), IBGE Cidades, Jornal do Comércio (Censo 2022), Governo do RS (lei do talian), Monitor do Mercado (Festa da Uva), Climatempo (climatologia), Cidade Brasil, Wikivoyage e InfoEscola.
 
+🏆 Comenta o nome da tua cidade: a mais curtida nos comentários vai ser o próximo vídeo!
+
 Bah, tu sabia? é um canal sobre cultura, curiosidades e história do Rio Grande do Sul. Te inscreve! 🔔
 
 #CaxiasDoSul #SerraGaúcha #RioGrandeDoSul
@@ -76,5 +79,5 @@ Thumbnail: `thumbnails/thumb07_caxias.jpg`
 
 Primeiro comentário (fixar):
 ```
-Os capítulos estão na descrição ⏱️ Deixa aqui uma palavra em talian que tu aprendeu com teu nono ou tua nona 👴👵🍇 Qual parte da história de Caxias tu não sabia?
+🏆 Comenta o nome da tua cidade! A mais curtida nos comentários vai ser o próximo vídeo do canal 👇 Os capítulos estão na descrição ⏱️ E se tu tem nono ou nona da Serra, deixa uma palavra em talian 🍇
 ```
