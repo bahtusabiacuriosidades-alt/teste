@@ -262,6 +262,16 @@ for name, h, t, parent in cfg['ossos']:
     if parent:
         b.parent = arm_data.edit_bones[parent]
         b.use_connect = (Vector(h) - arm_data.edit_bones[parent].tail).length < 1e-4
+MAOS = cfg.get('maos', {})
+for sd, hd in MAOS.items():
+    nos, ponta = Vector(hd['nos']), Vector(hd['ponta'])
+    mid = (nos + ponta) / 2
+    for name, h, t, parent in [('dedos1.' + sd, nos, mid, 'mao.' + sd), ('dedos2.' + sd, mid, ponta, 'dedos1.' + sd),
+                               ('polegar.' + sd, Vector(hd['pol_base']), Vector(hd['pol_ponta']), 'mao.' + sd)]:
+        b = arm_data.edit_bones.new(name)
+        b.head, b.tail = h, t
+        b.roll = 0
+        b.parent = arm_data.edit_bones[parent]
 bpy.ops.object.mode_set(mode='OBJECT')
 bpy.ops.object.select_all(action='DESELECT')
 body.select_set(True)
@@ -272,7 +282,8 @@ bpy.ops.object.parent_set(type='ARMATURE_NAME')  # grupos vazios; os pesos vêm 
 # Pesos pela distância de cada vértice ao segmento de cada osso (1/d^4, no máximo 3 ossos).
 bones = [(b[0], np.array(b[1], float), np.array(b[2], float)) for b in cfg['ossos']]
 vg_names = [g.name for g in body.vertex_groups]
-D = np.zeros((len(co), len(vg_names)))
+D = np.full((len(co), len(vg_names)), 9.0)
+DRAW = np.full((len(co), len(vg_names)), 9.0)
 for name, h, t in bones:
     seg = t - h; L2 = max(seg @ seg, 1e-9)
     tt = np.clip(((co - h) @ seg) / L2, 0, 1)
@@ -281,6 +292,7 @@ for name, h, t in bones:
     RAD = {'cabeca': 0.09, 'pescoco': 0.05, 'peito': 0.11, 'coluna': 0.11, 'quadril': 0.11, 'ombro': 0.06,
            'braco': 0.035, 'antebraco': 0.03, 'mao': 0.025, 'coxa': 0.075, 'canela': 0.055, 'pe': 0.04}
     D[:, vg_names.index(name)] = d / RAD[name.split('.')[0]] * 0.04
+    DRAW[:, vg_names.index(name)] = d
 SIDE = {n: (1 if n.endswith('.L') else -1) for n in vg_names if n.endswith(('.L', '.R'))}
 for n, sd in SIDE.items():  # osso de um lado não pega vértice do outro lado
     D[np.sign(co[:, 0]) == -sd, vg_names.index(n)] = 9
@@ -296,6 +308,83 @@ hi = (co[:, 2] > NECK + 0.004) | (np.arange(len(co)) >= n_body)
 ih = vg_names.index('cabeca')
 W[hi] = 0; W[hi, ih] = 1
 W = W / np.maximum(W.sum(1, keepdims=True), 1e-9)
+# braço e mão: o que está mais perto de um osso do braço segue SÓ o braço (a mão fica ao lado da coxa e
+# pegava peso da perna/quadril, virando "espinhos" quando o braço se mexia)
+ARMB = [vg_names.index(n) for n in vg_names if n.startswith(('braco', 'antebraco', 'mao'))]
+OTHER = [i for i in range(len(vg_names)) if i not in ARMB and not vg_names[i].startswith(('dedos', 'polegar'))]
+shoulder_z = max(b[1][2] for b in bones if b[0].startswith('braco'))
+DARM = D[:, ARMB].min(1)
+for sd, hd in cfg.get('maos', {}).items():  # a mão inteira (punho até a ponta dos dedos) conta como braço
+    P0, PT = np.array(hd['punho']), np.array(hd['ponta'])
+    sgm = PT - P0; L2 = sgm @ sgm
+    tt = np.clip(((co - P0) @ sgm) / L2, 0, 1.15)
+    dh = np.linalg.norm(co - (P0 + tt[:, None] * sgm), axis=1) / 0.03 * 0.04
+    dh[np.sign(co[:, 0]) != (1 if sd == 'L' else -1)] = 9
+    DARM = np.minimum(DARM, dh)
+arm_dom = (DARM < D[:, OTHER].min(1)) & (co[:, 2] < shoulder_z - 0.1) & isbody
+# perto da mão, o que tem COR DE PELE é mão (separa a mão do bolso/bombacha encostados nela)
+img = None
+for mslot in body.data.materials:
+    if mslot and mslot.use_nodes:
+        for nd in mslot.node_tree.nodes:
+            if nd.type == 'TEX_IMAGE' and nd.image is not None and nd.image.size[0] > 256:
+                img = nd.image; break
+    if img is not None:
+        break
+if img is not None and cfg.get('maos'):
+    iw, ih_ = img.size
+    px = np.zeros(iw * ih_ * 4, np.float32); img.pixels.foreach_get(px); px = px.reshape(ih_, iw, 4)
+    uvl = body.data.uv_layers.active.data
+    luv = np.zeros(len(uvl) * 2); uvl.foreach_get('uv', luv); luv = luv.reshape(-1, 2)
+    lv = np.zeros(len(body.data.loops), np.int64); body.data.loops.foreach_get('vertex_index', lv)
+    vuv = np.zeros((len(co), 2)); vuv[lv] = luv
+    cx = np.clip((vuv[:, 0] % 1) * iw, 0, iw - 1).astype(int); cy = np.clip((vuv[:, 1] % 1) * ih_, 0, ih_ - 1).astype(int)
+    rgb = px[cy, cx, :3] ** (1 / 2.2) * 255  # imagem linear -> sRGB
+    skin = (rgb[:, 0] - rgb[:, 2] > 45) & (rgb[:, 0] > rgb[:, 1] + 15) & (rgb[:, 0] > 90)
+    for sd, hd in cfg['maos'].items():
+        P0, PT = np.array(hd['punho']), np.array(hd['ponta'])
+        sgm = PT - P0; L2 = sgm @ sgm
+        tt = np.clip(((co - P0) @ sgm) / L2, -0.3, 1.2)
+        dd = np.linalg.norm(co - (P0 + tt[:, None] * sgm), axis=1)
+        zone = (dd < 0.06) & (np.sign(co[:, 0]) == (1 if sd == 'L' else -1)) & isbody
+        arm_dom[zone & skin] = True
+        arm_dom[zone & ~skin & (dd > 0.035)] = False
+        print('mão', sd, ': pele na zona', int((zone & skin).sum()), '| tecido fora', int((zone & ~skin & (dd > 0.035)).sum()))
+W[arm_dom][:, OTHER] = 0
+Wa = W[arm_dom]; Wa[:, OTHER] = 0
+Wa[Wa.sum(1) < 1e-6, ARMB[0]] = 1
+W[arm_dom] = Wa / Wa.sum(1, keepdims=True)
+print('braço/mão isolados:', int(arm_dom.sum()))
+# roupa larga (bombacha, vestido): o que fica longe do osso da perna segue mais o quadril
+LEG = [vg_names.index(n) for n in vg_names if n.startswith(('coxa', 'canela', 'pe.'))]
+iq = vg_names.index('quadril')
+dleg = DRAW[:, LEG].min(1)
+fr = np.clip((dleg - 0.07) / 0.05, 0, 1) * 0.7 * (co[:, 2] < hip_z + 0.02) * ~arm_dom
+moved = W[:, LEG].sum(1) * fr
+W[:, LEG] *= (1 - fr)[:, None]
+W[:, iq] += moved
+print('roupa larga: vértices aliviados', int((fr > 0.05).sum()))
+# mãos: dedos (2 segmentos) e polegar
+for sd, hd in MAOS.items():
+    sg = 1 if sd == 'L' else -1
+    P0, PN, PT = np.array(hd['punho']), np.array(hd['nos']), np.array(hd['ponta'])
+    ax = PT - P0; L = np.linalg.norm(ax); ax /= L
+    pr = (co - P0) @ ax
+    rad = np.linalg.norm((co - P0) - np.outer(pr, ax), axis=1)
+    pn = (PN - P0) @ ax; pt = (PT - P0) @ ax; pm = (pn + pt) / 2
+    x0, x1, y0, y1, z0, z1 = hd['pol_caixa']
+    thumb = (co[:, 0] > x0) & (co[:, 0] < x1) & (co[:, 1] > y0) & (co[:, 1] < y1) & (co[:, 2] > z0) & (co[:, 2] < z1) & isbody
+    fd = PT - PN; fl = np.linalg.norm(fd); fd /= fl
+    fpr = np.clip((co - PN) @ fd, 0, fl)
+    dfin = np.linalg.norm(co - (PN + np.outer(fpr, fd)), axis=1)
+    fing = (np.sign(co[:, 0]) == sg) & (pr > pn - 0.008) & (pr < pt + 0.015) & (dfin < hd['raio']) & ~thumb & arm_dom
+    im_, i1, i2, ip = (vg_names.index(n + sd) for n in ('mao.', 'dedos1.', 'dedos2.', 'polegar.'))
+    a = sstep(pn - 0.006, pn + 0.008, pr[fing]); b = sstep(pm - 0.008, pm + 0.008, pr[fing])
+    W[fing] = 0; W[fing, im_] = 1 - a; W[fing, i1] = a * (1 - b); W[fing, i2] = a * b
+    tb = np.array(hd['pol_base']); ta = np.array(hd['pol_ponta']) - tb; ta /= np.linalg.norm(ta)
+    c = sstep(-0.006, 0.01, (co[thumb] - tb) @ ta)
+    W[thumb] = 0; W[thumb, im_] = 1 - c; W[thumb, ip] = c
+    print('mão', sd, ': dedos', int(fing.sum()), '| polegar', int(thumb.sum()))
 for gi, gname in enumerate(vg_names):
     g = body.vertex_groups[gname]
     nz = np.nonzero(W[:, gi] > 1e-3)[0]
@@ -342,10 +431,32 @@ def make_action(name, n, fn, step=2):
 LAURO = nome == 'lauro'
 
 
+def dedos(c, sides=None, c_pol=None):
+    """dobra os dedos (graus): positivo fecha a mão, negativo abre"""
+    r = {}
+    for sd in MAOS:
+        if sides and sd not in sides:
+            continue
+        sg = 1 if sd == 'L' else -1
+        cc = c[sd] if isinstance(c, dict) else c
+        r['dedos1.' + sd] = [(Yax, sg * cc)]
+        r['dedos2.' + sd] = [(Yax, sg * cc * 1.3)]
+        r['polegar.' + sd] = [(X, 0.55 * (cc if c_pol is None else c_pol))]
+    return r
+
+
+def junta(*ds):
+    out = {}
+    for d in ds:
+        for k, v in d.items():
+            out.setdefault(k, []).extend(v)
+    return out
+
+
 def parado(u):
     b = S(u * TAU)
     return ({'peito': [(X, -1.2 * b)], 'cabeca': [(X, 1.0 * S(u * TAU + 1)), (Z, 2 * S(u * TAU * 0.5))],
-             'braco.L': [(X, 2 * b)], 'braco.R': [(X, -1 * b)]}, 0.002 * b)
+             'braco.L': [(X, 2 * b)], 'braco.R': [(X, -1 * b)], **dedos(16 + 5 * b)}, 0.002 * b)
 
 
 def falar(u):
@@ -357,24 +468,44 @@ def falar(u):
         r['antebraco.R'] = [(X, -30 + 14 * g)]
     else:
         r['braco.R'] = [(X, -2 * g)]
+    # mão que gesticula: abre na ênfase e fecha um pouco entre as frases
+    cL = 8 + 30 * (0.5 + 0.5 * S(u * TAU * 2 + 1.2))
+    cR = 8 + 30 * (0.5 + 0.5 * S(u * TAU * 2 + 2.6))
+    r = junta(r, dedos({'L': cL, 'R': cR}))
     return (r, 0.002 * S(u * TAU * 2))
 
 
 def ouvir(u):
     return ({'cabeca': [(Yax, 6 * S(u * TAU) + 4), (X, 3 * S(u * TAU * 2))], 'peito': [(X, -1 * S(u * TAU))],
-             'braco.L': [(X, 2 * S(u * TAU))]}, 0.002 * S(u * TAU))
+             'braco.L': [(X, 2 * S(u * TAU))], **dedos(20 + 4 * S(u * TAU))}, 0.002 * S(u * TAU))
 
 
 def bah(u):
     a = min(1, u / 0.15); e = a * a * (3 - 2 * a); back = e * (1 - max(0, (u - 0.7) / 0.3))
     return ({'coluna': [(X, -4 * back)], 'peito': [(X, -7 * back)], 'cabeca': [(X, -10 * back)],
-             'braco.L': [(Yax, -30 * back), (X, -15 * back)], 'antebraco.L': [(X, -30 * back)]}, 0.02 * S(min(1, u / 0.35) * math.pi))
+             'braco.L': [(Yax, -30 * back), (X, -15 * back)], 'antebraco.L': [(X, -30 * back)],
+             **dedos(18 - 40 * back)}, 0.02 * S(min(1, u / 0.35) * math.pi))
+
+
+def andar(u):
+    a = S(u * TAU)
+    k1 = max(0, S(u * TAU + math.pi / 2)); k2 = max(0, S(u * TAU + math.pi * 1.5))
+    r = {'coxa.L': [(X, -24 * a)], 'coxa.R': [(X, 24 * a)], 'canela.L': [(X, 35 * k1)], 'canela.R': [(X, 35 * k2)],
+         'pe.L': [(X, -10 * k1)], 'pe.R': [(X, -10 * k2)], 'braco.L': [(X, 18 * a)], 'antebraco.L': [(X, -12 - 6 * a)],
+         'quadril': [(Z, 4 * a)], 'peito': [(Z, -6 * a), (X, 3)], 'cabeca': [(Z, 3 * a)]}
+    if LAURO:
+        r['braco.R'] = [(X, -4 * a)]  # a cuia fica firme
+    else:
+        r['braco.R'] = [(X, -18 * a)]; r['antebraco.R'] = [(X, -12 + 6 * a)]
+    r = junta(r, dedos(22 + 6 * a))
+    return (r, 0.012 * abs(S(u * TAU)) - 0.01)
 
 
 make_action('parado', 60, parado)
 make_action('falar', 60, falar)
 make_action('ouvir', 90, ouvir)
 make_action('bah', 30, bah, 1)
+make_action('andar', 32, andar, 1)
 
 bpy.ops.object.select_all(action='SELECT')
 bpy.ops.export_scene.gltf(filepath=dst, export_format='GLB', export_animations=True, export_animation_mode='NLA_TRACKS',

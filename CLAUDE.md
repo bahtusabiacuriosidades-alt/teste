@@ -85,7 +85,11 @@ Vídeos curtos (Reels/TikTok/Shorts) e longos (YouTube) sobre **cultura, dança,
   1. `python3 tools/personagem3d.py <nome> public/3d/tripo/<nome>_tripo.glb public/3d/tripo/<nome>_anim.glb` (Lauro, Piá, Guria): corta a linha da boca, interior (fundo, dentes, língua), 8 formas de boca, 19 ossos com **pesos próprios por distância ao osso** (o peso automático do Blender falha nas malhas do Tripo, que são várias peças soltas), tudo acima do pescoço preso na cabeça; ações `parado`, `falar`, `ouvir`, `bah`. Medidas de boca e ossos em `tools/spec3d/personagens.json` (`abrir_ang` = quanto o queixo desce).
   2. `python3 tools/amostra3d.py out/amostra3d`: linha do tempo (falas, legendas, bocas por quadro com `tools/visemas.py`) e áudio.
   3. Render em Three.js no Chromium do sistema (`tools/amostra3d/amostra.html` + `amostra.js`, cerca de 4 min para 384 quadros), com fundo `FundoCoxilha` (Still no Remotion) e sombra no chão; depois ffmpeg e −14 LUFS.
-  Pendências: o Cusco ainda sem esqueleto (só pula e vira), as mãos do Tripo não abrem dedos, e linhas claras finas em emendas da textura.
+  - **v2 (27/11):** `videos/amostra3d_v2_andando_dedos.mp4`: entram caminhando (passo pela distância, sem escorregar), dedos mexem ao gesticular, Cusco trota/late. Render: `tools/amostra3d/amostra2.html` + `amostra2.js` (câmera é função só do tempo).
+  - **Dedos:** ossos `dedos1/dedos2/polegar` por mão (os 4 dedos dobram juntos), medidas em `maos` no `personagens.json` (punho, nós, ponta, polegar e caixa do polegar). Mão direita do Lauro sem dedos (segura a cuia). Ação `andar` também no `personagem3d.py`.
+  - **Pesos (lições):** braço/mão seguem SÓ o braço (a mão ao lado da coxa pegava peso do quadril e virava "espinhos"); a mão inteira (punho até a ponta) conta como braço; perto da mão, o que tem **cor de pele na textura** é mão e o tecido (bombacha/bolso) fica na perna; roupa larga longe do osso da perna segue 70% o quadril.
+  - **Cusco:** `python3 tools/cusco3d.py public/3d/tripo/cusco_tripo.glb public/3d/tripo/cusco_anim.glb` (14 ossos: quadril, tórax, pescoço, cabeça, 2 do rabo, 2 por pata), ações `parado`, `trote` (pares diagonais), `latir`.
+  Pendências: linhas claras finas em emendas da textura; expressões do rosto além da boca (sobrancelhas, piscar) ainda não feitas.
 - Vídeo por IA custa caro: cerca de 2.100 créditos por 5 s no Kling 2.5 Turbo e 14.000 no Seedance 2.5.
 
 ## Padrões visuais
