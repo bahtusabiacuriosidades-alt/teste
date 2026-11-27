@@ -68,13 +68,19 @@ Vídeos curtos (Reels/TikTok/Shorts) e longos (YouTube) sobre **cultura, dança,
 7. Thumbnail do YouTube (vídeo longo): `src/Thumbs.tsx` (Stills `ThumbGremio`, `ThumbInter`), estilo chamativo (texto gigante com contorno e degradê, Lauro em close, emojis, borda neon). Exportar com `npx remotion still src/index.ts ThumbXX ../thumbnails/thumbXX.jpg --image-format=jpeg --jpeg-quality=92 --scale=1.5` (1920×1080, menos de 2 MB).
 8. Enviar legendas (Instagram, TikTok, YouTube) e o primeiro comentário para fixar. Salvar em `legendas-video-XX-tema.md`. Capítulos do YouTube: cada um com **10 s ou mais** (senão o YouTube ignora).
 
+## Personagens em 3D (em teste, nov/2026)
+- Folhas de personagem 3D (frente, ¾, perfil, costas) geradas no ElevenLabs com Nano Banana Pro (`gemini-3-pro-image`, 2K, cerca de 1.830 créditos por imagem) em `previa/3d/`. Flow do ElevenLabs: `DYbkVWkvY9FAmKfRtXu3`. A folha do Cusco foi espelhada para a orelha direita ficar em pé.
+- **Falso 3D no Remotion** (`src/Teste3D.tsx`): recortes sem fundo (rembg, modelo `isnet-general-use`) em `public/img/3d/`; vira de vista apertando no eixo X; queixo articulado pelo `rms.json` (componente `Pic`, campo `jaw`); aceno com antebraço separado (`lauro_aceno_braco.png`, pivô 292,246). Vistas de estúdio levam o filtro `WARM` para casar com o fim de tarde.
+- O ElevenLabs não gera modelo 3D (.glb). Para 3D de verdade: Hunyuan3D/TRELLIS (grátis no Hugging Face) + Mixamo.
+- Vídeo por IA custa caro: cerca de 2.100 créditos por 5 s no Kling 2.5 Turbo e 14.000 no Seedance 2.5.
+
 ## Padrões visuais
 - Selo do canal (HUD): `BAH, TU SABIA? · #NNN` + categoria (componente `HUD` em `src/ui/Overlays.tsx`).
 - Legenda: **uma palavra por vez**, branca; palavras gaúchas em mostarda (lista `GAUCHO` em `src/lib.ts`).
 - Etiquetas: vermelho = problema/erro, verde = solução, mostarda = destaque.
 - Fonte Montserrat servida localmente (`public/fonts`, `src/fonts.ts`), porque o navegador do render não acessa a internet.
 - Áreas seguras no vertical: nada importante nos 250 px de cima nem nos 300 px de baixo.
-- Efeitos sonoros em `public/sfx/` (gerados com ffmpeg): plim, whoosh, ding, pop, boing, toin, buzina, latido, patinhas, carimbo, erro, acerto, apito, fervura, agua, chocalho, tictac, aplauso, chuva, vento, sino, caminhao, bolafura, boom, riser, scratch.
+- Efeitos sonoros em `public/sfx/` (gerados com ffmpeg): plim, whoosh, ding, pop, boing, toin, buzina, latido, patinhas, carimbo, erro, acerto, apito, fervura, agua, chocalho, tictac, aplauso, chuva, vento, sino, caminhao, bolafura, boom, riser, scratch, passo.
 - Cenário da Serra `SerraWorld` (`scenes/Caxias.tsx`): coxilhas, araucárias, neblina, parreiral, casa de colono; props `cold` e `snow` para o frio.
 - Cenário do pôr do sol `GuaibaWorld`: usar `flags="rs"` (bandeirinhas nas cores do RS) em vídeos que não são do Inter; o padrão (vermelho e branco) é só do #005.
 - Trilha gaúcha original: `audio/trilha_gaucha_original.mp3` (cerca de 100 BPM; breques em 20.0 s e 116.0 s; acorde final em 154.82–157.8 s).
@@ -90,5 +96,6 @@ Vídeos curtos (Reels/TikTok/Shorts) e longos (YouTube) sobre **cultura, dança,
 | #006 | O RS já foi um país? (Revolução Farroupilha), com a Guria | `videos/video06_farroupilha_curto.mp4`, `videos/video06_farroupilha_youtube.mp4` · `Video06.tsx`, `Video06L.tsx`, cenas em `scenes/Farroupilha.tsx` · thumb e legendas prontas | pronto |
 | #005 | História do Inter (curto + YouTube), com o Piá | `videos/video05_inter_curto.mp4`, `videos/video05_inter_youtube.mp4` · `Video05.tsx`, `Video05L.tsx` | pronto |
 | #007 | Caxias do Sul já se chamou Campo dos Bugres? (com o Piá) | `videos/video07_caxias_curto.mp4`, `videos/video07_caxias_youtube.mp4` · `Video07.tsx`, `Video07L.tsx`, cenas e métricas em `scenes/Caxias.tsx` (`SerraWorld`, `MetricAltitude`, `MetricKm`, `MetricPop`, `MetricTermo`) · selo `SeloCusco` · thumb `thumbnails/thumb07_caxias.jpg` · legendas prontas · áudios em `audio/v07/` | pronto |
+| teste 3D | Protótipo "falso 3D" (10 s): Lauro e Cusco recortados das folhas 3D | `videos/teste3d_lauro_falso3d.mp4` · `Teste3D.tsx` · recortes em `public/img/3d/` · folhas em `previa/3d/` | aguardando avaliação |
 
 Outros: stories em `stories/` (Tupanciretã, enquete Inter × Grêmio e 500 seguidores: `Story500.tsx`, vídeo de 8 s + foto). Roteiros em `roteiro-video-*.md`. Análise dos vídeos de referência em `engenharia-reversa-videos.md` e `roteiro-video-03-chimarrao.md` (seção 1).

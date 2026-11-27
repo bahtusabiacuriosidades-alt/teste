@@ -18,6 +18,7 @@ import { StoryGrenal } from './StoryGrenal';
 import { ThumbGremio, ThumbInter, ThumbFarroupilha, ThumbCaxias } from './Thumbs';
 import { Story500, DURATION_S500 } from './Story500';
 import { PreviewGuria } from './PreviewGuria';
+import { Teste3D, DURATION_T3D } from './Teste3D';
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -32,6 +33,7 @@ export const RemotionRoot: React.FC = () => (
     <Composition id="Video06L" component={Video06L} durationInFrames={Math.round(DURATION_06L * FPS)} fps={FPS} width={1920} height={1080} />
     <Composition id="Video07" component={Video07} durationInFrames={Math.round(DURATION_07 * FPS)} fps={FPS} width={1080} height={1920} />
     <Composition id="Video07L" component={Video07L} durationInFrames={Math.round(DURATION_07L * FPS)} fps={FPS} width={1920} height={1080} />
+    <Composition id="Teste3D" component={Teste3D} durationInFrames={Math.round(DURATION_T3D * FPS)} fps={FPS} width={1080} height={1920} />
     <Composition id="Teaser04" component={Teaser04} durationInFrames={Math.round(DURATION_T04 * FPS)} fps={FPS} width={1080} height={1920} />
     <Still id="Story02" component={Story02} width={1080} height={1920} />
     <Still id="Story02Limpo" component={Story02} width={1080} height={1920} defaultProps={{ placeholder: false }} />
