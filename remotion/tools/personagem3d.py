@@ -247,6 +247,70 @@ add_key('labio_cima', Q)
 Q = co.copy(); Q[:, 2] -= 0.0055 * K * w_lo; Q[:, 1] -= 0.0015 * K * w_lo
 add_key('labio_baixo', Q)
 
+# ------------------------------------------------------------ olhos e sobrancelhas (shape keys)
+RO = cfg['rosto']
+face_ok = isbody & (y < YF + 0.05) & (y > YF - 0.03)  # pele da frente do rosto (sem a aba do chapéu)
+_bn = np.zeros(len(body.data.vertices) * 3); body.data.vertex_normals.foreach_get('vector', _bn); _bn = _bn.reshape(-1, 3)
+face_ok &= _bn[:, 1] < -0.05
+
+
+def zona(c, sx, sz, a=0.75, b=1.3):
+    cx, cz, hw, hh = c
+    e = np.sqrt(((x - cx) / (hw * sx)) ** 2 + ((z - cz) / (hh * sz)) ** 2)
+    return (1 - sstep(a, b, e)) * face_ok
+
+
+def piscar(c, sob):
+    """fecha o olho: a pálpebra de cima desce até a linha do olho; a pele acima estica até a sobrancelha (que fica parada)"""
+    cx, cz, hw, hh = c
+    zl = cz - 0.5 * hh               # onde as pálpebras se encontram
+    zt = cz + hh                     # topo do olho
+    zb = sob[1] - sob[3] * 1.2       # base da sobrancelha
+    lat = (1 - sstep(1.0, 1.35, np.abs(x - cx) / hw)) * face_ok
+    dz = np.zeros(len(co))
+    eye = (z > zl) & (z <= zt + 0.2 * hh)
+    dz[eye] = (zl + (z[eye] - zl) * 0.05) - z[eye]
+    up = (z > zt + 0.2 * hh) & (z < zb)
+    k = 1 - (z[up] - zt) / max(zb - zt, 1e-4)
+    dz[up] = -(zt - zl) * 0.95 * np.clip(k, 0, 1) ** 1.6
+    low = (z <= zl) & (z > cz - 1.6 * hh)
+    dz[low] = (zl + (z[low] - zl) * 0.7) - z[low]
+    Q = co.copy(); Q[:, 2] += lat * dz; Q[:, 1] -= 0.0012 * lat * (dz < 0)
+    return Q
+
+
+def sobrancelha(c, dz, dx_in=0.0, inner_only=0.0, sgn=1):
+    cx, cz, hw, hh = c
+    w = zona((cx, cz, hw, hh), 1.5, 3.2, 0.6, 1.4)
+    inner = np.clip(1 - (x - cx) * sgn / hw * 0.8, 0.2, 1.8) / 1.8 if inner_only else 1.0  # 1 na ponta de dentro
+    Q = co.copy()
+    Q[:, 2] += dz * w * (inner if inner_only else 1.0)
+    Q[:, 0] += dx_in * w * (-sgn)
+    return Q
+
+
+oD, oE, sD, sE = RO['olhoD'], RO['olhoE'], RO['sobrD'], RO['sobrE']
+hh = (oD[3] + oE[3]) / 2
+add_key('piscar_d', piscar(oD, sD))
+add_key('piscar_e', piscar(oE, sE))
+add_key('sobr_sobe_d', sobrancelha(sD, 0.7 * hh))
+add_key('sobr_sobe_e', sobrancelha(sE, 0.7 * hh))
+Q = sobrancelha(sD, -0.8 * hh, 0.2 * sD[2], 1, sgn=-1); Q2 = sobrancelha(sE, -0.8 * hh, 0.2 * sE[2], 1, sgn=1)
+add_key('sobr_franze', np.where((x < 0)[:, None], Q, Q2))
+Q = sobrancelha(sD, 1.1 * hh, 0, 1, sgn=-1); Q2 = sobrancelha(sE, 1.1 * hh, 0, 1, sgn=1)
+add_key('sobr_triste', np.where((x < 0)[:, None], Q, Q2))
+Q = co.copy()
+for c in (oD, oE):
+    w = zona(c, 1.25, 1.9) * (z > c[1] - 0.2 * c[3])
+    Q[:, 2] += 0.35 * c[3] * w
+add_key('arregalar', Q)
+Q = co.copy()
+for c in (oD, oE):
+    w = zona(c, 1.3, 2.0) * (z < c[1])
+    Q[:, 2] += 0.45 * c[3] * w * np.clip((c[1] - z) / c[3], 0, 1.5)
+add_key('olhos_apertar', Q)
+print('formas do rosto:', [k.name for k in body.data.shape_keys.key_blocks][9:], '| pele do rosto', int(face_ok.sum()))
+
 # ------------------------------------------------------------ esqueleto
 arm_data = bpy.data.armatures.new('Esqueleto_' + nome)
 arm = bpy.data.objects.new('Esqueleto_' + nome, arm_data)
@@ -501,11 +565,79 @@ def andar(u):
     return (r, 0.012 * abs(S(u * TAU)) - 0.01)
 
 
+def espelha(r):
+    """copia a pose do braço esquerdo para o direito (espelhada)"""
+    out = dict(r)
+    for k, v in r.items():
+        if k.endswith('.L') and k[:-2] + '.R' not in r:
+            out[k[:-2] + '.R'] = [(ax, -d if ax in (Yax, Z) else d) for ax, d in v]
+    return out
+
+
+def apontar(u):
+    b = S(u * TAU)
+    return (junta({'braco.L': [(X, -72), (Yax, -18)], 'antebraco.L': [(X, -18 + 3 * b)], 'peito': [(Z, 6), (X, -2)],
+                   'cabeca': [(Z, 8), (X, -6)]}, dedos({'L': 6, 'R': 18})), 0.002 * b)
+
+
+def rir(u):
+    k = S(u * TAU * 4)
+    r = {'coluna': [(X, -3 - 3 * k)], 'peito': [(X, -4 - 3 * k)], 'cabeca': [(X, -10 - 4 * k), (Z, 4 * S(u * TAU))],
+         'braco.L': [(X, -10 + 4 * k), (Yax, -6)], 'antebraco.L': [(X, -40 - 6 * k)]}
+    if not LAURO:
+        r = espelha(r)
+    return (junta(r, dedos(20)), 0.006 * abs(k))
+
+
+def ombros(u):
+    a = min(1, u / 0.25) if u < 0.75 else max(0, (1 - u) / 0.25)
+    e = a * a * (3 - 2 * a)
+    r = {'ombro.L': [(Yax, -12 * e)], 'braco.L': [(Yax, -18 * e), (X, -8 * e)], 'antebraco.L': [(X, -70 * e), (Yax, -15 * e)],
+         'cabeca': [(Yax, 8 * e), (X, 3 * e)], 'peito': [(X, 3 * e)]}
+    if not LAURO:
+        r = espelha(r)
+    else:
+        r['ombro.R'] = [(Yax, 12 * e)]
+    return (junta(r, dedos(10 - 25 * e)), 0.01 * e)
+
+
+def tremer(u):
+    q = S(u * TAU * 6)
+    r = {'quadril': [(Z, 1.5 * q)], 'peito': [(Z, -2 * q), (X, 4)], 'cabeca': [(Z, 3 * q), (X, 5)],
+         'ombro.L': [(Yax, -10)], 'braco.L': [(Yax, 10), (X, -20)], 'antebraco.L': [(X, -95), (Yax, 35)]}
+    if not LAURO:
+        r = espelha(r)
+    else:
+        r['ombro.R'] = [(Yax, 10)]
+    return (junta(r, dedos(45)), -0.008 + 0.002 * q)
+
+
+def cintura(u):
+    b = S(u * TAU)
+    r = {'braco.L': [(Yax, -38), (X, 12)], 'antebraco.L': [(Yax, 105), (X, 10)], 'mao.L': [(Yax, 25)],
+         'cabeca': [(Yax, -6 + 2 * b), (Z, -5)], 'peito': [(X, -3)]}
+    if not LAURO:
+        r = espelha(r)
+    return (junta(r, dedos(30)), 0.002 * b)
+
+
+def sermao(u):
+    w = S(u * TAU * 2)
+    return (junta({'braco.L': [(X, -38), (Yax, -12)], 'antebraco.L': [(X, -92)], 'mao.L': [(Yax, 20 * w)],
+                   'cabeca': [(Yax, 4 * w), (X, 4)], 'peito': [(X, 2)]}, dedos({'L': 35, 'R': 18})), 0)
+
+
 make_action('parado', 60, parado)
 make_action('falar', 60, falar)
 make_action('ouvir', 90, ouvir)
 make_action('bah', 30, bah, 1)
 make_action('andar', 32, andar, 1)
+make_action('apontar', 60, apontar)
+make_action('rir', 40, rir, 1)
+make_action('ombros', 60, ombros)
+make_action('tremer', 30, tremer, 1)
+make_action('cintura', 60, cintura)
+make_action('sermao', 40, sermao, 1)
 
 bpy.ops.object.select_all(action='SELECT')
 bpy.ops.export_scene.gltf(filepath=dst, export_format='GLB', export_animations=True, export_animation_mode='NLA_TRACKS',
