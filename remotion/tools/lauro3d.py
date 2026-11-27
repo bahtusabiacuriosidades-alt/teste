@@ -204,6 +204,29 @@ bpy.ops.object.mode_set(mode='EDIT')
 bpy.ops.mesh.select_all(action='SELECT')
 bpy.ops.uv.smart_project(angle_limit=math.radians(66), island_margin=0.002)
 bpy.ops.object.mode_set(mode='OBJECT')
+# rosto: ilha própria, projetada de frente (sem emendas) e bem maior no mapa = mais nitidez
+FX0, FX1, FZ0, FZ1 = XC - 0.175, XC + 0.175, 0.535, 0.865
+
+
+def is_face(c, ny):
+    return 0.55 < c[2] < 0.845 and abs(c[0] - XC) < 0.165 and c[1] < 0.12 and ny < -0.15
+
+
+bmu = bmesh.new(); bmu.from_mesh(body.data); bmu.normal_update()
+uvl = bmu.loops.layers.uv.active
+nface = 0
+for f in bmu.faces:
+    if is_face(f.calc_center_median(), f.normal.y):
+        nface += 1
+        for l in f.loops:
+            l[uvl].uv = ((l.vert.co.x - FX0) / (FX1 - FX0) * 0.6, (l.vert.co.z - FZ0) / (FZ1 - FZ0) * 0.6)
+bmu.to_mesh(body.data); bmu.free()
+bpy.context.scene.tool_settings.use_uv_select_sync = True
+bpy.ops.object.mode_set(mode='EDIT')
+bpy.ops.mesh.select_all(action='SELECT')
+bpy.ops.uv.pack_islands(rotate=False, margin=0.002)
+bpy.ops.object.mode_set(mode='OBJECT')
+print('faces do rosto com ilha própria:', nface)
 
 me = body.data
 me.calc_loop_triangles()
@@ -336,6 +359,8 @@ CUIA_IMG = {
 }
 inbox = HAS & (POS[..., 0] < -0.13) & (POS[..., 0] > -0.34) & (POS[..., 1] < -0.09) & (POS[..., 2] > 0.05) & (POS[..., 2] < 0.52)
 print('texels da cuia/mão:', int(inbox.sum()))
+FACE = HAS & (POS[..., 2] > 0.55) & (POS[..., 2] < 0.845) & (np.abs(POS[..., 0] - XC) < 0.165) & (POS[..., 1] < 0.12) & (NOR[..., 1] < -0.15)
+print('texels do rosto:', int(FACE.sum()))
 ACC = np.zeros((T, T, 3), np.float32)
 WS = np.zeros((T, T), np.float32)
 for view in VIEWS:
@@ -368,7 +393,12 @@ for view in VIEWS:
     u_img = (a_[r0] * (1 - fr) + a_[r1] * fr) * u + (b_[r0] * (1 - fr) + b_[r1] * fr)
     jx = np.clip(u_img.astype(int), 0, w - 1)
     jy = np.clip(v_img.astype(int), 0, h - 1)
-    col = img[jy, jx]
+    # leitura bilinear (suave) da imagem
+    bx = np.clip(u_img - 0.5, 0, w - 1.001); by = np.clip(v_img - 0.5, 0, h - 1.001)
+    x0b = bx.astype(int); y0b = by.astype(int); fx = (bx - x0b)[..., None]; fy = (by - y0b)[..., None]
+    col = ((img[y0b, x0b] * (1 - fx) + img[y0b, x0b + 1] * fx) * (1 - fy)
+           + (img[y0b + 1, x0b] * (1 - fx) + img[y0b + 1, x0b + 1] * fx) * fy)
+    del bx, by, x0b, y0b, fx, fy
     vis &= col[..., 3] > 128
     if name in CUIA_IMG:
         inmask = np.zeros_like(vis)
@@ -382,6 +412,10 @@ for view in VIEWS:
     pw = 2 if name in ('frente', 'costas') else 3
     thr = 0.08 if name in ('frente', 'costas') else 0.5  # perfis só pintam o que aponta mesmo para o lado
     wgt = vis * (facing > thr) * facing ** pw * wt
+    if name == 'frente':
+        wgt = np.where(FACE, vis * facing * wt, wgt)  # rosto: só a frente, mesmo nas laterais
+    else:
+        wgt = wgt * ~FACE
     ACC += col[..., :3] * wgt[..., None]
     WS += wgt
     print('vista', name, 'texels visíveis:', int(vis.sum()), '| boca do modelo (linha', int((hi[2] - ZC) / (hi[2] - lo[2]) * h), ') -> imagem', round(float(np.interp((hi[2] - ZC) / (hi[2] - lo[2]) * h, np.arange(h), rowmap)), 1))
@@ -418,6 +452,11 @@ if src_lip.any():
     TEX[k] = TEX[k] * (1 - a) + lip * a
     print('cor do lábio', lip.astype(int))
 
+# nitidez leve no rosto
+from scipy.ndimage import gaussian_filter
+blur = np.stack([gaussian_filter(TEX[..., c], 1.4) for c in range(3)], -1)
+TEX[FACE] = np.clip(TEX[FACE] + 0.55 * (TEX[FACE] - blur[FACE]), 0, 255)
+del blur
 # 3d. preenche buracos e as margens das ilhas (dilatação)
 filled = good.copy()
 for it in range(40):
