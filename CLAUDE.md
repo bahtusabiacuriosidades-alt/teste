@@ -69,6 +69,7 @@ Vídeos curtos (Reels/TikTok/Shorts) e longos (YouTube) sobre **cultura, dança,
 8. Enviar legendas (Instagram, TikTok, YouTube) e o primeiro comentário para fixar. Salvar em `legendas-video-XX-tema.md`. Capítulos do YouTube: cada um com **10 s ou mais** (senão o YouTube ignora).
 
 ## Personagens em 3D (em teste, nov/2026)
+> ⏸️ **PAUSADO pelo usuário (27/11/2026): voltamos aos vídeos em 2D** (personagens SVG em `remotion/src/chars/`). Não usar 3D nos próximos episódios até o usuário pedir. Tudo abaixo fica guardado para quando ele quiser retomar; o melhor ponto de partida é a amostra v3 com os modelos do Tripo.
 > ⚠️ **DESCARTADO pelo usuário (27/11/2026):** o Lauro 3D feito com a forma do Hunyuan3D + textura projetada (`public/3d/lauro*.glb`, `tools/lauro3d.py`, prévias em `previa/3d/modelos/`) **não deve ser usado** em vídeo: o usuário achou o resultado estranho, com o rosto feio e borrado. Vamos recomeçar o 3D do zero, por outro caminho, ainda a definir com o usuário. O que ainda pode ser reaproveitado: as folhas de personagem 3D aprovadas (`previa/3d/turnaround_*.png`), os recortes (`public/img/3d/`) e as técnicas dos scripts (esqueleto por script, corte da axila, boca com 8 formas, `tools/visemas.py`), se surgir um modelo de qualidade melhor.
 
 - Folhas de personagem 3D (frente, ¾, perfil, costas) geradas no ElevenLabs com Nano Banana Pro (`gemini-3-pro-image`, 2K, cerca de 1.830 créditos por imagem) em `previa/3d/`. Flow do ElevenLabs: `DYbkVWkvY9FAmKfRtXu3`. A folha do Cusco foi espelhada para a orelha direita ficar em pé.
