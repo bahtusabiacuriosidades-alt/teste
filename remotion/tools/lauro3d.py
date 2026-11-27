@@ -54,6 +54,85 @@ kill = [v for v in bm.verts if v.co.z > 0.335 and v.co.y < -0.255 and v.co.x < -
 bmesh.ops.delete(bm, geom=kill, context='VERTS')
 print('bomba extra: apagados', len(kill))
 
+# ---------------------------------------------------------------- 1b. separa os braços do tronco
+# A malha do Hunyuan3D vem com o braço FUNDIDO ao tronco entre Z 0,22 e o ombro. Corta a axila com um
+# plano inclinado (até o topo da axila) e tampa os dois lados, para o braço poder abrir sem esticar o colete.
+AX_Z0, AX_Z1 = 0.200, 0.375
+
+
+def axila_plane(sd):
+    n = Vector((sd * 1.0, 0.0, -0.12)).normalized()
+    p = Vector((sd * 0.222, 0.0, 0.215))
+    return n, p
+
+
+def separate_arm(bm, sd):
+    n, p = axila_plane(sd)
+    faces = [f for f in bm.faces if 0.14 < sd * f.calc_center_median().x < 0.33 and 0.18 < f.calc_center_median().z < 0.40]
+    geom = list(set([e for f in faces for e in f.edges] + [v for f in faces for v in f.verts])) + faces
+    res = bmesh.ops.bisect_plane(bm, geom=geom, dist=1e-6, plane_co=p, plane_no=n)
+    cut = [e for e in res['geom_cut'] if isinstance(e, bmesh.types.BMEdge)]
+    cut = [e for e in cut if AX_Z0 < (e.verts[0].co.z + e.verts[1].co.z) / 2 < AX_Z1 and len(e.link_faces) == 2]
+    bmesh.ops.split_edges(bm, edges=cut)
+    pd = lambda co: n.dot(co - p)
+    bnd = [e for e in bm.edges if e.is_boundary and all(abs(pd(v.co)) < 1e-4 for v in e.verts)
+           and AX_Z0 - 0.01 < (e.verts[0].co.z + e.verts[1].co.z) / 2 < AX_Z1 + 0.01]
+    made = 0
+    for sign in (-1, 1):  # -1 = lado do tronco, +1 = lado do braço
+        es = [e for e in bnd if pd(e.link_faces[0].calc_center_median()) * sign > 0]
+        if len(es) < 3:
+            continue
+        adj = {}
+        for e in es:
+            a, b = e.verts
+            adj.setdefault(a, []).append(b); adj.setdefault(b, []).append(a)
+        # pode haver mais de uma corrente: tampa cada uma
+        seen = set()
+        for start0 in adj:
+            if start0 in seen:
+                continue
+            ends = [v for v in adj if len(adj[v]) == 1 and v not in seen]
+            start = start0
+            # anda até a ponta, se houver
+            comp = set(); stack = [start0]
+            while stack:
+                v = stack.pop()
+                if v in comp:
+                    continue
+                comp.add(v); stack += adj[v]
+            ends = [v for v in comp if len(adj[v]) == 1]
+            if ends:
+                start = ends[0]
+            chain = [start]; prev = None; cur = start
+            while True:
+                nxt = [w for w in adj[cur] if w is not prev and w not in chain]
+                if not nxt:
+                    break
+                prev, cur = cur, nxt[0]; chain.append(cur)
+            seen |= comp
+            if len(chain) < 3:
+                continue
+            ctr = sum((v.co for v in chain), Vector()) / len(chain)
+            cv = bm.verts.new(ctr - n * (0.004 * sign))  # centro levemente "para dentro" de cada parte
+            out = n * (-sign)  # tampa do tronco aponta para o braço e vice-versa
+            out = n if sign < 0 else -n
+            for i in range(len(chain)):
+                a, b = chain[i], chain[(i + 1) % len(chain)]
+                try:
+                    f = bm.faces.new((cv, a, b))
+                except ValueError:
+                    continue
+                f.normal_update()
+                if f.normal.dot(out) < 0:
+                    f.normal_flip()
+                made += 1
+    print('axila', 'E' if sd > 0 else 'D', ': arestas cortadas', len(cut), '| faces de tampa', made)
+
+
+separate_arm(bm, +1)
+separate_arm(bm, -1)
+bm.normal_update()
+
 # ---------------------------------------------------------------- 2. boca
 XC, HW, ZC = -0.015, 0.046, 0.6525   # centro x, meia largura, altura da linha da boca
 
@@ -572,6 +651,37 @@ for g in others:
     g.remove(inner)
 head.add(inner, 1.0, 'REPLACE')
 
+# axilas: lado do tronco segue só o tronco; lado do braço segue só o braço (o ombro de cima fica com os pesos automáticos)
+ARM = {1: ['braco.L', 'antebraco.L', 'mao.L', 'ombro.L'], -1: ['braco.R', 'antebraco.R', 'mao.R', 'ombro.R']}
+TORSO = ['peito', 'coluna', 'quadril']
+fixed = 0
+for v in body.data.vertices:
+    if v.index >= n_body or not (AX_Z0 - 0.02 < v.co.z < AX_Z1 + 0.005):
+        continue
+    sd = 1 if v.co.x > 0 else -1
+    if sd < 0 and v.co.y < -0.09:
+        continue  # mão e cuia na frente do peito
+    n, p = axila_plane(sd)
+    d = n.dot(v.co - p)
+    if abs(v.co.x) < 0.12:
+        continue
+    names = {body.vertex_groups[g.group].name: g.weight for g in v.groups}
+    if d < -0.002:  # tronco
+        moved = sum(w for k, w in names.items() if k in ARM[sd])
+        if moved > 1e-4:
+            for k in names:
+                if k in ARM[sd]:
+                    body.vertex_groups[k].remove([v.index])
+            body.vertex_groups['peito'].add([v.index], moved, 'ADD'); fixed += 1
+    elif d > 0.002:  # braço
+        moved = sum(w for k, w in names.items() if k in TORSO)
+        if moved > 1e-4:
+            for k in names:
+                if k in TORSO:
+                    body.vertex_groups[k].remove([v.index])
+            body.vertex_groups['braco.' + ('L' if sd > 0 else 'R')].add([v.index], moved, 'ADD'); fixed += 1
+print('pesos da axila corrigidos:', fixed)
+
 # ---------------------------------------------------------------- 7. animações
 rest = {b.name: b.matrix_local.to_quaternion() for b in arm_data.bones}
 
@@ -635,8 +745,10 @@ def andar(u):
 def acenar(u):
     up = min(1, u / 0.18) if u < 0.82 else max(0, (1 - u) / 0.18)
     e = up * up * (3 - 2 * up); w = S(u * TAU * 4) * e
-    return ({'ombro.L': [(Yax, -12 * e)], 'braco.L': [(Yax, -125 * e), (X, -15 * e)], 'antebraco.L': [(Yax, -45 * e + 22 * w)],
-             'mao.L': [(Yax, 10 * w)], 'peito': [(Yax, 3 * e)], 'cabeca': [(Yax, -4 * e), (X, -3 * e)]}, 0)
+    # braço abre até a horizontal, ombro sobe um pouco e o COTOVELO leva a mão para cima
+    return ({'ombro.L': [(Yax, -14 * e)], 'braco.L': [(Yax, -82 * e), (X, -12 * e)],
+             'antebraco.L': [(Yax, -72 * e + 20 * w)], 'mao.L': [(Yax, 8 * w)],
+             'peito': [(Yax, 3 * e)], 'cabeca': [(Yax, -4 * e), (X, -3 * e)]}, 0)
 
 
 def pular(u):
