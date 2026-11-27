@@ -69,6 +69,8 @@ Vídeos curtos (Reels/TikTok/Shorts) e longos (YouTube) sobre **cultura, dança,
 8. Enviar legendas (Instagram, TikTok, YouTube) e o primeiro comentário para fixar. Salvar em `legendas-video-XX-tema.md`. Capítulos do YouTube: cada um com **10 s ou mais** (senão o YouTube ignora).
 
 ## Personagens em 3D (em teste, nov/2026)
+> ⚠️ **DESCARTADO pelo usuário (27/11/2026):** o Lauro 3D feito com a forma do Hunyuan3D + textura projetada (`public/3d/lauro*.glb`, `tools/lauro3d.py`, prévias em `previa/3d/modelos/`) **não deve ser usado** em vídeo: o usuário achou o resultado estranho, com o rosto feio e borrado. Vamos recomeçar o 3D do zero, por outro caminho, ainda a definir com o usuário. O que ainda pode ser reaproveitado: as folhas de personagem 3D aprovadas (`previa/3d/turnaround_*.png`), os recortes (`public/img/3d/`) e as técnicas dos scripts (esqueleto por script, corte da axila, boca com 8 formas, `tools/visemas.py`), se surgir um modelo de qualidade melhor.
+
 - Folhas de personagem 3D (frente, ¾, perfil, costas) geradas no ElevenLabs com Nano Banana Pro (`gemini-3-pro-image`, 2K, cerca de 1.830 créditos por imagem) em `previa/3d/`. Flow do ElevenLabs: `DYbkVWkvY9FAmKfRtXu3`. A folha do Cusco foi espelhada para a orelha direita ficar em pé.
 - **Falso 3D no Remotion** (`src/Teste3D.tsx`): recortes sem fundo (rembg, modelo `isnet-general-use`) em `public/img/3d/`; vira de vista apertando no eixo X; queixo articulado pelo `rms.json` (componente `Pic`, campo `jaw`); aceno com antebraço separado (`lauro_aceno_braco.png`, pivô 292,246). Vistas de estúdio levam o filtro `WARM` para casar com o fim de tarde.
 - O ElevenLabs não gera modelo 3D (.glb). Para 3D de verdade: passo a passo em `guia-modelos-3d.md` (Hunyuan3D + Blender + Mixamo; Cusco sem Mixamo).
@@ -101,6 +103,7 @@ Vídeos curtos (Reels/TikTok/Shorts) e longos (YouTube) sobre **cultura, dança,
 | #006 | O RS já foi um país? (Revolução Farroupilha), com a Guria | `videos/video06_farroupilha_curto.mp4`, `videos/video06_farroupilha_youtube.mp4` · `Video06.tsx`, `Video06L.tsx`, cenas em `scenes/Farroupilha.tsx` · thumb e legendas prontas | pronto |
 | #005 | História do Inter (curto + YouTube), com o Piá | `videos/video05_inter_curto.mp4`, `videos/video05_inter_youtube.mp4` · `Video05.tsx`, `Video05L.tsx` | pronto |
 | #007 | Caxias do Sul já se chamou Campo dos Bugres? (com o Piá) | `videos/video07_caxias_curto.mp4`, `videos/video07_caxias_youtube.mp4` · `Video07.tsx`, `Video07L.tsx`, cenas e métricas em `scenes/Caxias.tsx` (`SerraWorld`, `MetricAltitude`, `MetricKm`, `MetricPop`, `MetricTermo`) · selo `SeloCusco` · thumb `thumbnails/thumb07_caxias.jpg` · legendas prontas · áudios em `audio/v07/` | pronto |
-| teste 3D | Protótipo "falso 3D" (10 s): Lauro e Cusco recortados das folhas 3D | `videos/teste3d_lauro_falso3d.mp4` · `Teste3D.tsx` · recortes em `public/img/3d/` · folhas em `previa/3d/` | aguardando avaliação |
+| teste 3D | Protótipo "falso 3D" (10 s): Lauro e Cusco recortados das folhas 3D | `videos/teste3d_lauro_falso3d.mp4` · `Teste3D.tsx` · recortes em `public/img/3d/` · folhas em `previa/3d/` | só teste |
+| Lauro 3D (.glb) | Modelo do Hunyuan3D com esqueleto, cor e boca | `public/3d/lauro.glb` · `tools/lauro3d.py` | **descartado**: recomeçar do zero |
 
 Outros: stories em `stories/` (Tupanciretã, enquete Inter × Grêmio e 500 seguidores: `Story500.tsx`, vídeo de 8 s + foto). Roteiros em `roteiro-video-*.md`. Análise dos vídeos de referência em `engenharia-reversa-videos.md` e `roteiro-video-03-chimarrao.md` (seção 1).
