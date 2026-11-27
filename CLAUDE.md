@@ -71,7 +71,7 @@ Vídeos curtos (Reels/TikTok/Shorts) e longos (YouTube) sobre **cultura, dança,
 ## Personagens em 3D (em teste, nov/2026)
 - Folhas de personagem 3D (frente, ¾, perfil, costas) geradas no ElevenLabs com Nano Banana Pro (`gemini-3-pro-image`, 2K, cerca de 1.830 créditos por imagem) em `previa/3d/`. Flow do ElevenLabs: `DYbkVWkvY9FAmKfRtXu3`. A folha do Cusco foi espelhada para a orelha direita ficar em pé.
 - **Falso 3D no Remotion** (`src/Teste3D.tsx`): recortes sem fundo (rembg, modelo `isnet-general-use`) em `public/img/3d/`; vira de vista apertando no eixo X; queixo articulado pelo `rms.json` (componente `Pic`, campo `jaw`); aceno com antebraço separado (`lauro_aceno_braco.png`, pivô 292,246). Vistas de estúdio levam o filtro `WARM` para casar com o fim de tarde.
-- O ElevenLabs não gera modelo 3D (.glb). Para 3D de verdade: Hunyuan3D/TRELLIS (grátis no Hugging Face) + Mixamo.
+- O ElevenLabs não gera modelo 3D (.glb). Para 3D de verdade: passo a passo em `guia-modelos-3d.md` (Hunyuan3D + Blender + Mixamo; Cusco sem Mixamo).
 - Vídeo por IA custa caro: cerca de 2.100 créditos por 5 s no Kling 2.5 Turbo e 14.000 no Seedance 2.5.
 
 ## Padrões visuais
