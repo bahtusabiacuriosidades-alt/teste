@@ -1,0 +1,383 @@
+"""
+Prepara um personagem do Tripo para animar: boca articulada + esqueleto + ações.
+(A textura do Tripo é mantida como veio.)
+
+Uso (dentro de remotion/):
+    python3 tools/personagem3d.py lauro public/3d/tripo/lauro_tripo.glb public/3d/tripo/lauro_anim.glb
+
+As medidas de cada personagem (boca e ossos) ficam em tools/spec3d/personagens.json.
+Saída: .glb com
+  - 8 morph targets de boca: abrir, largo, redondo, apertar, fv, sorriso, labio_cima, labio_baixo
+  - esqueleto de 19 ossos
+  - ações: parado, falar, ouvir, bah
+"""
+import sys, math, json
+import bpy, bmesh
+import numpy as np
+from mathutils import Vector, Quaternion
+from scipy.spatial import cKDTree
+
+nome, src, dst = sys.argv[-3], sys.argv[-2], sys.argv[-1]
+cfg = json.load(open('tools/spec3d/personagens.json'))[nome]
+XC, ZC, HW, CURV = cfg['boca']['xc'], cfg['boca']['zc'], cfg['boca']['hw'], cfg['boca']['curva']
+K = HW / 0.046  # escala das medidas da boca (o Lauro antigo tinha meia largura 0,046)
+NECK = cfg['pescoco_z']
+FPS = 30
+
+
+def zc(x):
+    t = np.clip((np.asarray(x, dtype=float) - XC) / HW, -1.0, 1.0)
+    return ZC + CURV * t * t
+
+
+def sstep(a, b, t):
+    t = np.clip((np.asarray(t, dtype=float) - a) / (b - a), 0, 1)
+    return t * t * (3 - 2 * t)
+
+
+# ------------------------------------------------------------ importa
+bpy.ops.wm.read_factory_settings(use_empty=True)
+scene = bpy.context.scene
+scene.render.fps = FPS
+bpy.ops.import_scene.gltf(filepath=src)
+meshes = [o for o in scene.objects if o.type == 'MESH']
+for o in scene.objects:
+    o.select_set(o in meshes)
+bpy.context.view_layer.objects.active = meshes[0]
+if len(meshes) > 1:
+    bpy.ops.object.join()
+body = bpy.context.view_layer.objects.active
+bpy.ops.object.parent_clear(type='CLEAR_KEEP_TRANSFORM')
+bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
+for o in list(scene.objects):
+    if o.type == 'EMPTY':
+        bpy.data.objects.remove(o)
+body.name = nome
+
+bm = bmesh.new()
+bm.from_mesh(body.data)
+bmesh.ops.remove_doubles(bm, verts=bm.verts[:], dist=2e-4)  # une peças soltas encostadas (ex.: emenda no rosto)
+
+# frente do rosto na linha da boca
+cand = [v.co.y for v in bm.verts if abs(v.co.x - XC) < 0.006 and ZC - 0.004 < v.co.z < ZC + 0.002]
+YF = min(cand)
+print(nome, 'frente da boca Y =', round(YF, 4), 'K =', round(K, 3))
+
+
+def in_mouth_box(c):
+    return abs(c.x - XC) < HW * 2.0 and abs(c.z - ZC) < HW * 1.4 and c.y < YF + 0.03 * K
+
+
+edges = set()
+for f in bm.faces:
+    if in_mouth_box(f.calc_center_median()):
+        edges.update(f.edges)
+bmesh.ops.subdivide_edges(bm, edges=list(edges), cuts=1, use_grid_fill=True)
+bmesh.ops.triangulate(bm, faces=[f for f in bm.faces if len(f.verts) > 4])
+
+
+def face_side(f):
+    c = f.calc_center_median()
+    if abs(c.x - XC) > HW or c.y > YF + 0.02 * K or abs(c.z - float(zc(c.x))) > 0.012 * K:
+        return 0
+    return 1 if c.z > float(zc(c.x)) else -1
+
+
+side = {f: face_side(f) for f in bm.faces}
+cut = []
+for e in bm.edges:
+    if len(e.link_faces) != 2:
+        continue
+    a, b = e.link_faces
+    if side[a] * side[b] == -1:
+        mid = (e.verts[0].co + e.verts[1].co) / 2
+        if abs(mid.x - XC) < HW - 0.003 * K:
+            cut.append(e)
+cut_pos = np.array([tuple(v.co) for e in cut for v in e.verts]) if cut else np.zeros((0, 3))
+bmesh.ops.split_edges(bm, edges=cut)
+cut_tree = cKDTree(cut_pos) if len(cut_pos) else None
+upper, lower = set(), set()
+for v in bm.verts:
+    if not v.is_boundary or abs(v.co.x - XC) > HW or abs(v.co.z - float(zc(v.co.x))) > 0.012 * K:
+        continue
+    if cut_tree is None or cut_tree.query(tuple(v.co))[0] > 1e-7:
+        continue  # borda de outra peça (bigode, etc.): não é lábio
+    s = sum(side.get(f, 0) for f in v.link_faces)
+    if s == 0:
+        continue
+    v.co.z = float(zc(v.co.x))
+    (upper if s > 0 else lower).add(v)
+bm.verts.index_update()
+UPPER = [v.index for v in upper]
+LOWER = [v.index for v in lower]
+YL = float(np.median([v.co.y for v in (upper | lower)])) if (upper or lower) else YF  # profundidade real dos lábios
+print('profundidade dos lábios YL =', round(YL, 4))
+print('linha da boca: arestas', len(cut), '| lábio de cima', len(UPPER), '| de baixo', len(LOWER))
+bm.to_mesh(body.data)
+bm.free()
+
+
+# ------------------------------------------------------------ interior da boca
+def srgb(h):
+    c = [int(h[i:i + 2], 16) / 255 for i in (0, 2, 4)]
+    return tuple(x / 12.92 if x <= 0.04045 else ((x + 0.055) / 1.055) ** 2.4 for x in c)
+
+
+def material(name, color, rough):
+    m = bpy.data.materials.new(name)
+    m.use_nodes = True
+    bsdf = m.node_tree.nodes['Principled BSDF']
+    bsdf.inputs['Roughness'].default_value = rough
+    bsdf.inputs['Base Color'].default_value = (*color, 1)
+    return m
+
+
+parts = []
+
+
+def ellipsoid(name, center, radii, mat, bend=0.0):
+    me2 = bpy.data.meshes.new(name)
+    b2 = bmesh.new()
+    bmesh.ops.create_uvsphere(b2, u_segments=24, v_segments=12, radius=1.0)
+    for v in b2.verts:
+        x, y, z = v.co.x * radii[0], v.co.y * radii[1], v.co.z * radii[2]
+        y += bend * x * x
+        v.co = Vector((center[0] + x, center[1] + y, center[2] + z))
+    b2.to_mesh(me2); b2.free()
+    ob = bpy.data.objects.new(name, me2)
+    scene.collection.objects.link(ob)
+    ob.data.materials.append(mat)
+    for p in ob.data.polygons:
+        p.use_smooth = True
+    parts.append(ob)
+
+
+ellipsoid('boca_fundo', (XC, YL + 0.032 * K, ZC - 0.006 * K), (HW * 0.88, 0.024 * K, 0.024 * K), material('boca', srgb('3A1512'), 0.9))
+ellipsoid('dentes_cima', (XC, YL + 0.0075 * K, float(zc(XC)) + 0.0032 * K), (HW * 0.7, 0.0028 * K, 0.0038 * K), material('dentes', srgb('EEE7DA'), 0.35), bend=6.0 / K)
+ellipsoid('dentes_baixo', (XC, YL + 0.009 * K, float(zc(XC)) - 0.0042 * K), (HW * 0.64, 0.0026 * K, 0.0034 * K), bpy.data.materials['dentes'], bend=6.0 / K)
+ellipsoid('lingua', (XC, YL + 0.026 * K, ZC - 0.012 * K), (HW * 0.6, 0.02 * K, 0.006 * K), material('lingua', srgb('B4535A'), 0.6))
+
+# peças sempre atrás da pele
+bc = np.zeros(len(body.data.vertices) * 3); body.data.vertices.foreach_get('co', bc); bc = bc.reshape(-1, 3)
+bn = np.zeros(len(body.data.vertices) * 3); body.data.vertex_normals.foreach_get('vector', bn); bn = bn.reshape(-1, 3)
+sel = (np.abs(bc[:, 0] - XC) < HW * 2.6) & (np.abs(bc[:, 2] - ZC) < HW * 2.2) & (bn[:, 1] < -0.2)
+tree = cKDTree(bc[sel][:, [0, 2]]); sy = bc[sel][:, 1]
+MARGIN = {'boca_fundo': 0.006, 'lingua': 0.006}  # os dentes ficam fixos atrás dos lábios (sem empurrar ponto a ponto)
+for ob in [o for o in parts if o.name in MARGIN]:
+    pc = np.zeros(len(ob.data.vertices) * 3); ob.data.vertices.foreach_get('co', pc); pc = pc.reshape(-1, 3)
+    for kk, ids in enumerate(tree.query_ball_point(pc[:, [0, 2]], 0.006 * K)):
+        if ids:
+            lim = sy[ids].min() + MARGIN[ob.name] * K
+            if pc[kk, 1] < lim:
+                pc[kk, 1] = lim
+    ob.data.vertices.foreach_set('co', pc.ravel())
+
+n_body = len(body.data.vertices)
+ranges = {}
+start = n_body
+for ob in parts:
+    ranges[ob.name] = (start, start + len(ob.data.vertices))
+    start += len(ob.data.vertices)
+bpy.ops.object.select_all(action='DESELECT')
+for ob in parts:
+    ob.select_set(True)
+body.select_set(True)
+bpy.context.view_layer.objects.active = body
+bpy.ops.object.join()
+body = bpy.context.view_layer.objects.active
+
+# ------------------------------------------------------------ formas de boca (shape keys)
+co = np.zeros(len(body.data.vertices) * 3); body.data.vertices.foreach_get('co', co); co = co.reshape(-1, 3)
+x, y, z = co[:, 0], co[:, 1], co[:, 2]
+isbody = np.arange(len(co)) < n_body
+lx = np.abs(x - XC)
+zl = zc(x)
+below = z < zl - 1e-6
+above = ~below
+wj = isbody * below * (1 - sstep(0.06 * K, 0.118 * K, lx)) * sstep(ZC - 0.0875 * K, ZC - 0.06 * K, z) * (1 - sstep(YF + 0.105 * K, YF + 0.165 * K, y))
+cl = np.array([XC - HW, float(zc(XC - HW))]); cr = np.array([XC + HW, float(zc(XC + HW))])
+dL = np.hypot(x - cl[0], z - cl[1]); dR = np.hypot(x - cr[0], z - cr[1])
+front_ok = (y < YF + 0.022 * K) & isbody
+corner = np.maximum(1 - sstep(0, 0.022 * K, dL), 1 - sstep(0, 0.022 * K, dR)) * (y < YF + 0.035 * K) * isbody
+wj = np.maximum(wj, above * corner * 0.25 * isbody)
+wj[LOWER] = 1.0
+for nm in ('dentes_baixo', 'lingua'):
+    a0, a1 = ranges[nm]; wj[a0:a1] = 1.0
+a0, a1 = ranges['boca_fundo']
+wj[a0:a1] = sstep(ZC - 0.004 * K, ZC - 0.024 * K, z[a0:a1])
+w_up = above * front_ok * (1 - sstep(0, 0.012 * K, z - zl)) * (1 - sstep(HW - 0.01 * K, HW + 0.006 * K, lx))
+w_lo = below * front_ok * (1 - sstep(0, 0.014 * K, zl - z)) * (1 - sstep(HW - 0.01 * K, HW + 0.006 * K, lx))
+w_up[UPPER] = 1.0; w_lo[LOWER] = 1.0
+sideX = np.sign(x - XC)
+wC = np.maximum(1 - sstep(0, 0.024 * K, dL), 1 - sstep(0, 0.024 * K, dR)) * front_ok
+PIV = np.array([0.0, YF + 0.15 * K, ZC + 0.0325 * K])
+
+
+def rot_x(P, ang):
+    c, s = np.cos(ang), np.sin(ang)
+    d = P - PIV
+    return np.c_[P[:, 0], d[:, 1] * c - d[:, 2] * s + PIV[1], d[:, 1] * s + d[:, 2] * c + PIV[2]]
+
+
+def add_key(name, newco):
+    if body.data.shape_keys is None:
+        body.shape_key_add(name='Basis')
+    kk = body.shape_key_add(name=name)
+    kk.data.foreach_set('co', newco.astype(np.float64).ravel())
+
+
+tq = np.clip((x - XC) / HW, -1, 1)
+oval = 1 - 0.85 * tq * tq * np.maximum(w_lo, 0)
+J = rot_x(co, cfg['boca'].get('abrir_ang', 0.15) * wj * oval)
+J[LOWER, 1] += 0.002 * K
+J[:, 2] += 0.0022 * K * (1 - tq * tq) * w_up
+add_key('abrir', np.where((wj[:, None] > 0) | (w_up[:, None] > 0), J, co))
+Q = co.copy(); Q[:, 0] += sideX * 0.008 * K * wC; Q[:, 1] += 0.003 * K * wC; Q[:, 2] += 0.0009 * K * (w_lo - w_up)
+add_key('largo', Q)
+Q = co.copy(); Q[:, 0] -= sideX * 0.013 * K * wC; Q[:, 1] -= 0.007 * K * np.maximum(w_up, w_lo); Q[:, 2] += 0.0025 * K * w_up - 0.0035 * K * w_lo
+add_key('redondo', Q)
+Q = co.copy(); Q[:, 1] -= 0.002 * K * np.maximum(w_up, w_lo); Q[:, 2] += 0.0012 * K * w_lo - 0.0008 * K * w_up
+add_key('apertar', Q)
+Q = co.copy(); Q[:, 2] += 0.0035 * K * w_lo; Q[:, 1] += 0.0065 * K * w_lo
+add_key('fv', Q)
+Q = co.copy(); Q[:, 2] += 0.006 * K * wC; Q[:, 0] += sideX * 0.004 * K * wC; Q[:, 1] += 0.003 * K * wC
+add_key('sorriso', Q)
+Q = co.copy(); Q[:, 2] += 0.0045 * K * w_up; Q[:, 1] -= 0.001 * K * w_up
+add_key('labio_cima', Q)
+Q = co.copy(); Q[:, 2] -= 0.0055 * K * w_lo; Q[:, 1] -= 0.0015 * K * w_lo
+add_key('labio_baixo', Q)
+
+# ------------------------------------------------------------ esqueleto
+arm_data = bpy.data.armatures.new('Esqueleto_' + nome)
+arm = bpy.data.objects.new('Esqueleto_' + nome, arm_data)
+scene.collection.objects.link(arm)
+bpy.ops.object.select_all(action='DESELECT')
+bpy.context.view_layer.objects.active = arm
+arm.select_set(True)
+bpy.ops.object.mode_set(mode='EDIT')
+for name, h, t, parent in cfg['ossos']:
+    b = arm_data.edit_bones.new(name)
+    b.head, b.tail = Vector(h), Vector(t)
+    b.roll = 0
+    if parent:
+        b.parent = arm_data.edit_bones[parent]
+        b.use_connect = (Vector(h) - arm_data.edit_bones[parent].tail).length < 1e-4
+bpy.ops.object.mode_set(mode='OBJECT')
+bpy.ops.object.select_all(action='DESELECT')
+body.select_set(True)
+arm.select_set(True)
+bpy.context.view_layer.objects.active = arm
+bpy.ops.object.parent_set(type='ARMATURE_NAME')  # grupos vazios; os pesos vêm abaixo
+# A malha do Tripo é feita de várias peças soltas e o "peso automático" do Blender falha nela.
+# Pesos pela distância de cada vértice ao segmento de cada osso (1/d^4, no máximo 3 ossos).
+bones = [(b[0], np.array(b[1], float), np.array(b[2], float)) for b in cfg['ossos']]
+vg_names = [g.name for g in body.vertex_groups]
+D = np.zeros((len(co), len(vg_names)))
+for name, h, t in bones:
+    seg = t - h; L2 = max(seg @ seg, 1e-9)
+    tt = np.clip(((co - h) @ seg) / L2, 0, 1)
+    d = np.linalg.norm(co - (h + tt[:, None] * seg), axis=1)
+    # distância "relativa à grossura" do osso: coxa grossa ganha da mão fina na mesma distância
+    RAD = {'cabeca': 0.09, 'pescoco': 0.05, 'peito': 0.11, 'coluna': 0.11, 'quadril': 0.11, 'ombro': 0.06,
+           'braco': 0.035, 'antebraco': 0.03, 'mao': 0.025, 'coxa': 0.075, 'canela': 0.055, 'pe': 0.04}
+    D[:, vg_names.index(name)] = d / RAD[name.split('.')[0]] * 0.04
+SIDE = {n: (1 if n.endswith('.L') else -1) for n in vg_names if n.endswith(('.L', '.R'))}
+for n, sd in SIDE.items():  # osso de um lado não pega vértice do outro lado
+    D[np.sign(co[:, 0]) == -sd, vg_names.index(n)] = 9
+hip_z = bones[0][1][2]
+for n in vg_names:
+    if n.startswith(('coxa', 'canela', 'pe.')):
+        D[co[:, 2] > hip_z + 0.03, vg_names.index(n)] = 9  # pernas só abaixo do quadril
+W = 1.0 / (D + 0.004) ** 4
+top = np.argsort(-W, axis=1)[:, 3:]
+np.put_along_axis(W, top, 0, axis=1)
+# cabeça: tudo acima do pescoço (chapéu, cabelo, orelhas) e o interior da boca seguem só a cabeça
+hi = (co[:, 2] > NECK + 0.004) | (np.arange(len(co)) >= n_body)
+ih = vg_names.index('cabeca')
+W[hi] = 0; W[hi, ih] = 1
+W = W / np.maximum(W.sum(1, keepdims=True), 1e-9)
+for gi, gname in enumerate(vg_names):
+    g = body.vertex_groups[gname]
+    nz = np.nonzero(W[:, gi] > 1e-3)[0]
+    q = np.round(W[nz, gi], 2)
+    for wv in np.unique(q):
+        g.add(nz[q == wv].tolist(), float(wv), 'REPLACE')
+print('pesos: vértices com osso', int((W.sum(1) > 0).sum()), 'de', len(co))
+
+# ------------------------------------------------------------ ações
+rest = {b.name: b.matrix_local.to_quaternion() for b in arm_data.bones}
+X, Yax, Z = (1, 0, 0), (0, 1, 0), (0, 0, 1)
+S = math.sin
+TAU = 2 * math.pi
+arm.animation_data_create()
+
+
+def pose(frame, rots, hz=0.0):
+    for pb in arm.pose.bones:
+        q = Quaternion()
+        for axis, deg in rots.get(pb.name, []):
+            q = Quaternion(Vector(axis), math.radians(deg)) @ q
+        r = rest[pb.name]
+        pb.rotation_mode = 'QUATERNION'
+        pb.rotation_quaternion = r.inverted() @ q @ r
+        pb.keyframe_insert('rotation_quaternion', frame=frame)
+        if pb.name == 'quadril':
+            pb.location = Vector((0, hz, 0))
+            pb.keyframe_insert('location', frame=frame)
+
+
+def make_action(name, n, fn, step=2):
+    act = bpy.data.actions.new(name)
+    arm.animation_data.action = act
+    for f in range(0, n + 1, step):
+        r, hz = fn(f / n)
+        pose(f + 1, r, hz)
+    act.use_fake_user = True
+    tr = arm.animation_data.nla_tracks.new()
+    tr.name = name
+    tr.strips.new(name, 1, act)
+    arm.animation_data.action = None
+
+
+LAURO = nome == 'lauro'
+
+
+def parado(u):
+    b = S(u * TAU)
+    return ({'peito': [(X, -1.2 * b)], 'cabeca': [(X, 1.0 * S(u * TAU + 1)), (Z, 2 * S(u * TAU * 0.5))],
+             'braco.L': [(X, 2 * b)], 'braco.R': [(X, -1 * b)]}, 0.002 * b)
+
+
+def falar(u):
+    g = S(u * TAU * 2)
+    r = {'cabeca': [(X, 4 * S(u * TAU * 3)), (Z, 5 * S(u * TAU))], 'peito': [(Z, 3 * S(u * TAU)), (X, -1.5)],
+         'braco.L': [(X, -22 - 7 * g), (Yax, -8)], 'antebraco.L': [(X, -45 - 18 * g), (Z, 12 * S(u * TAU))], 'mao.L': [(Z, 15 * g)]}
+    if not LAURO:  # as crianças gesticulam com as duas mãos
+        r['braco.R'] = [(X, -15 + 6 * g), (Yax, 6)]
+        r['antebraco.R'] = [(X, -30 + 14 * g)]
+    else:
+        r['braco.R'] = [(X, -2 * g)]
+    return (r, 0.002 * S(u * TAU * 2))
+
+
+def ouvir(u):
+    return ({'cabeca': [(Yax, 6 * S(u * TAU) + 4), (X, 3 * S(u * TAU * 2))], 'peito': [(X, -1 * S(u * TAU))],
+             'braco.L': [(X, 2 * S(u * TAU))]}, 0.002 * S(u * TAU))
+
+
+def bah(u):
+    a = min(1, u / 0.15); e = a * a * (3 - 2 * a); back = e * (1 - max(0, (u - 0.7) / 0.3))
+    return ({'coluna': [(X, -4 * back)], 'peito': [(X, -7 * back)], 'cabeca': [(X, -10 * back)],
+             'braco.L': [(Yax, -30 * back), (X, -15 * back)], 'antebraco.L': [(X, -30 * back)]}, 0.02 * S(min(1, u / 0.35) * math.pi))
+
+
+make_action('parado', 60, parado)
+make_action('falar', 60, falar)
+make_action('ouvir', 90, ouvir)
+make_action('bah', 30, bah, 1)
+
+bpy.ops.object.select_all(action='SELECT')
+bpy.ops.export_scene.gltf(filepath=dst, export_format='GLB', export_animations=True, export_animation_mode='NLA_TRACKS',
+                          export_skins=True, export_morph=True, export_apply=False, export_image_format='JPEG',
+                          export_jpeg_quality=92)
+print('OK', dst)

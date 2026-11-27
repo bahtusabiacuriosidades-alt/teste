@@ -52,7 +52,7 @@ const WORDS: Word[] = [
 ];
 
 /* ---------- cenário: coxilha no fim de tarde ---------- */
-const CoxilhaWorld: React.FC<{ t: number; w: number; h: number }> = ({ t, w, h }) => {
+export const CoxilhaWorld: React.FC<{ t: number; w: number; h: number }> = ({ t, w, h }) => {
   const ridge = (y: number, amp: number, ph: number, f: number) => {
     let d = `M-700,${h + 700} L-700,${y}`;
     for (let x = -700; x <= w + 700; x += 40) d += ` L${x},${y - amp * (0.55 + 0.45 * Math.sin(x / f + ph)) - amp * 0.3 * Math.sin(x / (f * 0.41) + ph * 1.7)}`;
