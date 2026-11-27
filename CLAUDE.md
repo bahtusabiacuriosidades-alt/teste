@@ -90,6 +90,7 @@ Vídeos curtos (Reels/TikTok/Shorts) e longos (YouTube) sobre **cultura, dança,
   - **Pesos (lições):** braço/mão seguem SÓ o braço (a mão ao lado da coxa pegava peso do quadril e virava "espinhos"); a mão inteira (punho até a ponta) conta como braço; perto da mão, o que tem **cor de pele na textura** é mão e o tecido (bombacha/bolso) fica na perna; roupa larga longe do osso da perna segue 70% o quadril.
   - **Cusco:** `python3 tools/cusco3d.py public/3d/tripo/cusco_tripo.glb public/3d/tripo/cusco_anim.glb` (14 ossos: quadril, tórax, pescoço, cabeça, 2 do rabo, 2 por pata), ações `parado`, `trote` (pares diagonais), `latir`.
   Pendências: linhas claras finas em emendas da textura; expressões do rosto além da boca (sobrancelhas, piscar) ainda não feitas.
+- **Para o Mixamo (27/11):** `previa/3d/mixamo/{lauro,pia,guria}_mixamo.fbx` (sem esqueleto, textura embutida, altura 1,75 m o Lauro e 1,35 m as crianças; gerados com `tools/exportar_mixamo.py`) e os GLB leves `*_leve.glb` (inclui o Cusco). O Mixamo não aceita GLB nem quadrúpedes.
 - Vídeo por IA custa caro: cerca de 2.100 créditos por 5 s no Kling 2.5 Turbo e 14.000 no Seedance 2.5.
 
 ## Padrões visuais
