@@ -63,6 +63,7 @@ Vídeos curtos (Reels/TikTok/Shorts) e longos (YouTube) sobre **cultura, dança,
    ```
    Depois ajustar o volume final para **cerca de −14 LUFS** (ffmpeg `volume=+xdB,alimiter`) e salvar em `videos/`.
 7. Thumbnail do YouTube (vídeo longo): `src/Thumbs.tsx` (Stills `ThumbGremio`, `ThumbInter`), estilo chamativo (texto gigante com contorno e degradê, Lauro em close, emojis, borda neon). Exportar com `npx remotion still src/index.ts ThumbXX ../thumbnails/thumbXX.jpg --image-format=jpeg --jpeg-quality=92 --scale=1.5` (1920×1080, menos de 2 MB).
+   Capa de Reels (1080×1920): `ReelInter` em `src/Thumbs.tsx` → `thumbnails/capa05_inter_reels.jpg`. Texto importante entre y≈300 e y≈1600 (o perfil corta em 4:5/3:4). Referência de "papel de parede" do usuário: usar só o clima (cores, brilho, estádio); **nunca copiar escudo nem arte de terceiros**.
 8. Enviar legendas (Instagram, TikTok, YouTube) e o primeiro comentário para fixar. Salvar em `legendas-video-XX-tema.md`. Capítulos do YouTube: cada um com **10 s ou mais** (senão o YouTube ignora).
 
 ## Padrões visuais

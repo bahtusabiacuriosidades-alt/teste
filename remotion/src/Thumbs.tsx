@@ -164,3 +164,98 @@ export const ThumbFarroupilha: React.FC = () => (
     </svg>
   </AbsoluteFill>
 );
+
+/* ---------- Capa de Reels (1080×1920) do #005 Inter ----------
+ * Inspirada no clima de "papel de parede": noite, vermelho com brilho, faíscas, estádio iluminado embaixo.
+ * Sem escudo e sem logo: só o nome e as cores. Texto importante entre y≈300 e y≈1600 (corte 4:5/3:4 do perfil). */
+const RW = 1080, RH = 1920;
+const rnd = (i: number) => {
+  const x = Math.sin(i * 12.9898) * 43758.5453;
+  return x - Math.floor(x);
+};
+export const ReelInter: React.FC = () => (
+  <AbsoluteFill style={{ backgroundColor: '#000' }}>
+    <svg width={RW} height={RH} viewBox={`0 0 ${RW} ${RH}`}>
+      <LauroDefs />
+      <PiaDefs />
+      <defs>
+        <radialGradient id="riBg" cx="50%" cy="38%" r="75%">
+          <stop offset="0" stopColor="#7A0A0A" />
+          <stop offset="0.45" stopColor="#2E0303" />
+          <stop offset="1" stopColor="#060000" />
+        </radialGradient>
+        <radialGradient id="riGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0" stopColor="#FF3B30" stopOpacity="0.9" />
+          <stop offset="1" stopColor="#FF3B30" stopOpacity="0" />
+        </radialGradient>
+        <linearGradient id="riTitle" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#FFFFFF" />
+          <stop offset="1" stopColor="#FFC9C4" />
+        </linearGradient>
+        <filter id="riBlur"><feGaussianBlur stdDeviation="18" /></filter>
+        <filter id="riSoft"><feGaussianBlur stdDeviation="4" /></filter>
+        <filter id="riGlowF" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="14" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+        <filter id="riSh" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="14" stdDeviation="14" floodColor="#000" floodOpacity="0.7" /></filter>
+      </defs>
+      <rect width={RW} height={RH} fill="url(#riBg)" />
+      {/* faixas de luz diagonais */}
+      <g filter="url(#riBlur)" opacity={0.55}>
+        {[[-200, 200, 18], [700, 120, -22], [-100, 1100, 12], [800, 1000, -14]].map(([x, y, r], i) => (
+          <rect key={i} x={x} y={y} width={700} height={50} fill="#FF2A1A" transform={`rotate(${r} ${x + 350} ${y + 25})`} />
+        ))}
+      </g>
+      {/* luzes da cidade (bokeh) */}
+      {Array.from({ length: 160 }).map((_, i) => {
+        const x = rnd(i) * RW, y = 1050 + rnd(i + 99) * 380;
+        return <circle key={i} cx={x} cy={y} r={1.5 + rnd(i + 7) * 3} fill={rnd(i + 3) > 0.7 ? '#FFD9A0' : '#FF6A50'} opacity={0.35 + rnd(i + 5) * 0.5} />;
+      })}
+      {/* brilho central */}
+      <circle cx={540} cy={560} r={520} fill="url(#riGlow)" opacity={0.55} />
+      {/* estádio iluminado embaixo (genérico, oval com pilares) */}
+      <g transform="translate(540,1610)">
+        <ellipse cx={0} cy={40} rx={560} ry={200} fill="#140000" />
+        {Array.from({ length: 46 }).map((_, i) => {
+          const a = (i / 46) * Math.PI * 2;
+          const x = Math.cos(a) * 500, y = Math.sin(a) * 170;
+          if (y < -40) return null;
+          return <rect key={i} x={x - 9} y={y - 20} width={18} height={150 + y * 0.25} fill={i % 2 ? '#B3121A' : '#8A0C12'} />;
+        })}
+        <ellipse cx={0} cy={-10} rx={430} ry={120} fill="#2A0606" />
+        <ellipse cx={0} cy={-10} rx={330} ry={82} fill="#3F7A2E" />
+        <ellipse cx={0} cy={-10} rx={430} ry={120} fill="none" stroke="#FFF4E6" strokeWidth={14} filter="url(#riGlowF)" />
+        <ellipse cx={0} cy={-10} rx={455} ry={130} fill="none" stroke="#FF5A40" strokeWidth={6} filter="url(#riSoft)" opacity={0.8} />
+        {Array.from({ length: 18 }).map((_, i) => {
+          const a = (i / 18) * Math.PI * 2;
+          return <circle key={i} cx={Math.cos(a) * 430} cy={-10 + Math.sin(a) * 120} r={10} fill="#FFF8E8" filter="url(#riSoft)" />;
+        })}
+      </g>
+      {/* faíscas */}
+      {Array.from({ length: 70 }).map((_, i) => {
+        const x = rnd(i + 300) * RW, y = rnd(i + 400) * 1500;
+        return <rect key={i} x={x} y={y} width={4 + rnd(i) * 8} height={2 + rnd(i + 1) * 4} fill={rnd(i + 2) > 0.5 ? '#FF8A6A' : '#FFE0C8'} opacity={0.4 + rnd(i + 3) * 0.6} transform={`rotate(${rnd(i + 4) * 360} ${x} ${y})`} />;
+      })}
+      {/* Lauro e Piá */}
+      <g transform="translate(370,1640) scale(0.4)" filter="url(#riSh)">
+        <Lauro t={1.0} talk={0.7} expr="delight" arm="pointUp" scarf="inter" shadow={false} cuiaRaise={1} />
+      </g>
+      <g transform="translate(760,1650) scale(-0.44,0.44)" filter="url(#riSh)">
+        <Pia t={1.2} talk={0.8} expr="shock" arms="down" shadow={false} gaze={1} />
+      </g>
+      {/* título */}
+      <g transform="translate(540,0)" textAnchor="middle" fontFamily="Montserrat" fontWeight={900}>
+        <text x={0} y={390} fontSize={84} fill="#FFFFFF" letterSpacing={6} filter="url(#riGlowF)" opacity={0.95}>A HISTÓRIA DO</text>
+        <g filter="url(#riSh)">
+          <text x={0} y={660} fontSize={300} fill="#1A0000" stroke="#1A0000" strokeWidth={36} strokeLinejoin="round" paintOrder="stroke" letterSpacing={-8}>INTER</text>
+        </g>
+        <text x={0} y={660} fontSize={300} fill="#FF2A1A" opacity={0.85} filter="url(#riBlur)" letterSpacing={-8}>INTER</text>
+        <text x={0} y={660} fontSize={300} fill="url(#riTitle)" stroke="#FF3B30" strokeWidth={8} paintOrder="stroke" letterSpacing={-8}>INTER</text>
+        <g transform="translate(0,770)">
+          <rect x={-400} y={-52} width={800} height={96} rx={48} fill="#D9A021" stroke="#1A0000" strokeWidth={6} />
+          <text x={0} y={14} fontSize={42} fill="#1E1B18">DE 1909 AO TOPO DO MUNDO</text>
+        </g>
+      </g>
+      <text x={130} y={1000} fontFamily='"Noto Color Emoji"' fontSize={90} transform="rotate(-12 130 1000)">🔥</text>
+      <text x={915} y={1010} fontFamily='"Noto Color Emoji"' fontSize={100} transform="rotate(10 915 1010)">😱</text>
+    </svg>
+  </AbsoluteFill>
+);

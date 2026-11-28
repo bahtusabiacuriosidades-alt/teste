@@ -13,7 +13,7 @@ import { Teaser04, DURATION_T04 } from './Teaser04';
 import { FPS } from './lib';
 import { Story02 } from './Story02';
 import { StoryGrenal } from './StoryGrenal';
-import { ThumbGremio, ThumbInter, ThumbFarroupilha } from './Thumbs';
+import { ThumbGremio, ThumbInter, ThumbFarroupilha, ReelInter } from './Thumbs';
 import { Story500, DURATION_S500 } from './Story500';
 import { PreviewGuria } from './PreviewGuria';
 
@@ -37,6 +37,7 @@ export const RemotionRoot: React.FC = () => (
     <Still id="PreviewGuria" component={PreviewGuria} width={1920} height={1080} />
     <Still id="ThumbGremio" component={ThumbGremio} width={1280} height={720} />
     <Still id="ThumbFarroupilha" component={ThumbFarroupilha} width={1280} height={720} />
+    <Still id="ReelInter" component={ReelInter} width={1080} height={1920} />
     <Still id="ThumbInter" component={ThumbInter} width={1280} height={720} />
     <Still id="StoryGrenalLimpo" component={StoryGrenal} width={1080} height={1920} defaultProps={{ placeholder: false }} />
   </>
