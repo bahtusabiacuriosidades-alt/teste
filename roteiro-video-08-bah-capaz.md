@@ -38,7 +38,8 @@ Este tema **não tem números confirmados para mostrar**, e a regra é não inve
 | 8 | Lauro | Bah, bah, bah! | Lauro rindo, de mão na barriga. Card verde `= QUE BELEZA 😂`. `aplauso` curto. |
 | 9 | Guria | Deixa eu tentar! Bah? | Guria dá um passo à frente, mãos na cintura (`hips`). Seta ↗ no fim. |
 | 10 | Lauro | Esse aí é o "bah, sério?". Tu aprende rápido, guria! | Card `= SÉRIO? 🤨`. Lauro com o polegar para cima (`thumbsUp`, mão com 5 dedos). |
-| — | Cusco | *(latido)* | **SELO DO CUSCO**, cerca de 0:35. |
+| 10b | Lauro | E aí, Cusco? Tu aprova? | Lauro aponta pro Cusco, câmera abre. O Cusco entra correndo. |
+| — | Cusco | *(latido)* | **SELO DO CUSCO** cai no latido, cerca de 0:51. |
 | 11 | Guria | E o capaz, tio? Na escola, capaz é quem consegue fazer as coisas. | Guria contando nos dedos (`count`). `CAPAZ` gigante entra. |
 | 12 | Lauro | No resto do Brasil, é. Aqui, depende do jeito de falar. Se eu digo "capaz que chova", é porque pode chover mesmo. | Nuvem chegando. Card `= É BEM POSSÍVEL 🌧️`. `chuva` baixinho. |
 | 13 | Guria | Tio… o Cusco comeu o teu chapéu. | Guria segurando o riso. O Cusco atrás, com a aba do chapéu na boca (`chew`). |
