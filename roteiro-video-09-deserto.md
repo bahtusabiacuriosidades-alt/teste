@@ -1,6 +1,6 @@
-# #008 · "O RS tem um deserto?" (areais do Pampa) · com a Guria
+# #009 · "O RS tem um deserto?" (areais do Pampa) · com o Piá
 
-**Personagens:** Lauro (narra) + **Guria** (revezamento: #007 foi com o Piá) + Cusco (selo no meio e alívio cômico).
+**Personagens:** Lauro (narra) + **Piá** (revezamento: #008 foi com a Guria) + Cusco (selo no meio e alívio cômico).
 **Gancho:** "Bah, tu sabia que o Rio Grande do Sul tem um deserto?" → a virada: **não é deserto, é arenização**.
 **Cenário novo (2D):** `PampaAreiaWorld`: coxilha verde com manchas e dunas de areia clara, céu de fim de tarde, vento levantando areia, cerca de arame, gado ao longe pequeno (perspectiva).
 
@@ -31,20 +31,20 @@
 | # | Quem | Fala | Tela |
 |---|---|---|---|
 | 1 | L | Bah, tu sabia que o Rio Grande do Sul tem um deserto? | Título "BAH, TU SABIA…?". Lauro caminhando pela coxilha; atrás, dunas claras surgem (virada) |
-| 2 | G | Deserto? Com areia, duna e tudo? | Guria de olho arregalado; vento levanta areia |
+| 2 | P | Deserto? Com areia, duna e tudo? | Piá de olho arregalado; vento levanta areia |
 | 3 | L | Com areia, duna e tudo! Lá no sudoeste, perto de Alegrete, tem manchas de areia no meio do campo. O povo chama um desses lugares de Deserto de São João. | Mapa do RS desenhado com ponto em Alegrete; placa de madeira "DESERTO DE SÃO JOÃO" |
-| 4 | G | E tem camelo? | Camelo de brinquedo aparece com "?" e some com "pop" |
-| 5 | L | Camelo não, guria! E tem uma pegadinha: não é deserto de verdade. | Etiqueta vermelha "NÃO É DESERTO!" carimbada |
-| 6 | G | Como assim? | Guria de braços cruzados |
+| 4 | P | E tem camelo? | Camelo de brinquedo aparece com "?" e some com "pop" |
+| 5 | L | Camelo não, piá! E tem uma pegadinha: não é deserto de verdade. | Etiqueta vermelha "NÃO É DESERTO!" carimbada |
+| 6 | P | Como assim? | Piá de braços cruzados |
 | 7 | L | Deserto de verdade quase não tem chuva. E lá chove cerca de mil e quatrocentos milímetros por ano! | **Métrica 1:** pluviômetro enchendo até 1.400 mm (fonte pequena) |
 | 8 | L | A geógrafa Dirce Suertegaray, da UFRGS, deu o nome certo pra isso: arenização. | Etiqueta mostarda "ARENIZAÇÃO" |
-| 9 | G | Areni… o quê? | Guria repete devagar; letras pulando |
+| 9 | P | Areni… o quê? | Piá repete devagar; letras pulando |
 | 10 | L | Arenização! A areia é antiga, de quando o clima era bem mais seco. A chuva forte abre valetas, arrasta a areia, e o vento espalha pelo campo. | Animação em 3 passos: chuva → valeta (ravina) → vento levando areia. **Selo do Cusco** no meio: o Cusco atravessa afundando na areia, late, carimbo |
-| 11 | G | E isso é muito grande? | |
+| 11 | P | E isso é muito grande? | |
 | 12 | L | Num levantamento da UFRGS, deu uns três mil e seiscentos hectares, em dez municípios. Mais de cinco mil campos de futebol! | **Métrica 2:** contador de hectares virando "5.000+ ⚽" (virada) |
-| 13 | G | E dá pra segurar essa areia? | |
+| 13 | P | E dá pra segurar essa areia? | |
 | 14 | L | Dá pra ajudar! Cuidar bem do campo nativo e não exagerar no gado e na lavoura em cima da areia. Mas boa parte é natural: tem relato desses areais desde o século dezenove. | **Métrica 3:** linha do tempo "SÉC. XIX → 1987 (nome) → HOJE" |
-| 15 | G | Bah, um deserto que não é deserto! | Guria pulando; Cusco sacudindo a areia |
+| 15 | P | Bah, um deserto que não é deserto! | Piá pulando; Cusco sacudindo a areia |
 | 16 | L | Agora é contigo! Comenta aí o nome da tua cidade! A mais curtida vai ser o próximo vídeo! | Card COMENTA 👇 A TUA CIDADE |
 
 ---
@@ -57,35 +57,35 @@
 | Cap. | Quem | Fala | Tela |
 |---|---|---|---|
 | 1 | L | Bah, tu sabia que o Rio Grande do Sul tem um deserto? | Título; Lauro caminhando; dunas surgem |
-| 1 | G | Deserto? Aqui, no meio do Pampa? | |
+| 1 | P | Deserto? Aqui, no meio do Pampa? | |
 | 1 | L | No meio do Pampa! Lá no sudoeste do estado, perto de Alegrete, tem manchas enormes de areia no meio do campo verde. Tem até duna! O povo de lá chama um desses lugares de Deserto de São João. | Mapa + placa |
-| 1 | G | Então a gente vai pro deserto, tio? Vou levar chapéu e protetor! | Guria com chapéu de palha |
-| 1 | L | Calma, guria! Antes, tu precisa saber de uma pegadinha. Esse deserto… não é deserto. | "NÃO É DESERTO!" |
-| 2 | G | Como assim não é deserto, se tem areia? | |
+| 1 | P | Então a gente vai pro deserto, tio? Vou levar boné e protetor! | Piá com o boné virado pra frente, "pronto pro deserto" |
+| 1 | L | Calma, piá! Antes, tu precisa saber de uma pegadinha. Esse deserto… não é deserto. | "NÃO É DESERTO!" |
+| 2 | P | Como assim não é deserto, se tem areia? | |
 | 2 | L | Areia não basta. O que faz um deserto é a falta de chuva. No deserto de verdade, quase não chove. E lá em Alegrete chove cerca de mil e quatrocentos milímetros por ano. | Métrica: pluviômetro 1.400 mm |
-| 2 | G | E isso é muito? | |
+| 2 | P | E isso é muito? | |
 | 2 | L | É bastante! É chuva o ano inteiro, bem diferente de um deserto. Por isso a geógrafa Dirce Suertegaray, da UFRGS, criou um nome certo pra esse fenômeno, em mil novecentos e oitenta e sete: arenização. | Etiqueta "ARENIZAÇÃO · 1987" |
-| 2 | G | Areni… zação. Arenização! | |
+| 2 | P | Areni… zação. Arenização! | |
 | 2 | L | Isso! Arenização é quando a areia fica exposta, sem a grama por cima, e vai se espalhando pelo campo. | |
-| 3 | G | Mas de onde veio tanta areia? | |
+| 3 | P | Mas de onde veio tanta areia? | |
 | 3 | L | A areia é antiga. Há muito, muito tempo, o clima da região era bem mais seco, e o vento foi depositando areia no chão. Depois o clima mudou, o campo cresceu por cima, e a areia ficou guardada lá embaixo. | Corte do solo em camadas (grama em cima, areia embaixo) |
-| 3 | G | Guardada? Tipo um tesouro enterrado? | |
+| 3 | P | Guardada? Tipo um tesouro enterrado? | |
 | 3 | L | Mais ou menos! Só que é um tesouro que dá trabalho. Quando vem chuva forte, a água abre valetas no chão, as ravinas e as voçorocas. Essa água arrasta a areia lá de baixo e espalha. Aí o vento termina o serviço, levando a areia pra frente. | Animação chuva → ravina → vento. **Selo do Cusco** |
-| 3 | G | Então quem faz o "deserto" é a chuva! | |
+| 3 | P | Então quem faz o "deserto" é a chuva! | |
 | 3 | L | Bem pensado! É a chuva junto com o vento, mexendo numa areia que já estava ali. | |
-| 4 | G | E é muito grande? | |
+| 4 | P | E é muito grande? | |
 | 4 | L | Num levantamento da UFRGS, as manchas de areia somaram uns três mil e seiscentos hectares. | Métrica: contador de hectares |
-| 4 | G | E isso dá quanto, em coisa que eu conheço? | |
+| 4 | P | E isso dá quanto, em coisa que eu conheço? | |
 | 4 | L | Dá mais de cinco mil campos de futebol! Espalhados por dez municípios, como Alegrete, São Francisco de Assis, Manoel Viana e Maçambará. | Métrica: campos de futebol; mapa com os municípios |
-| 4 | G | Bah! Mas comparado com o estado inteiro? | |
+| 4 | P | Bah! Mas comparado com o estado inteiro? | |
 | 4 | L | Aí é pequenininho, porque o Rio Grande do Sul é gigante. Mas pra quem tem uma mancha de areia no meio do campo, faz muita diferença. | |
-| 5 | G | Tio, isso é culpa das pessoas? | |
+| 5 | P | Tio, isso é culpa das pessoas? | |
 | 5 | L | Boa pergunta, e tem debate. Os estudos mostram que a origem é natural: tem relato desses areais desde o século dezenove. Mas o jeito de usar a terra pode piorar: gado demais pisoteando, lavoura em cima de solo arenoso… | Métrica: linha do tempo séc. XIX → 1987 → hoje |
-| 5 | G | Então dá pra ajudar a natureza? | |
+| 5 | P | Então dá pra ajudar a natureza? | |
 | 5 | L | Dá! Cuidar bem do campo nativo, que segura o solo, e não exagerar em cima das áreas frágeis. E os pesquisadores seguem estudando o melhor jeito de conviver com os areais. | |
-| 6 | G | Bah, um deserto que não é deserto, com areia antiga, chuva e vento. Eu quero ver de perto! | |
+| 6 | P | Bah, um deserto que não é deserto, com areia antiga, chuva e vento. Eu quero ver de perto! | |
 | 6 | L | E vale a pena! Mas lembra: é paisagem frágil. Olha, fotografa e não sai pisoteando as dunas. | |
-| 6 | G | Combinado! | |
+| 6 | P | Combinado! | |
 | 6 | L | Agora é contigo! Comenta aí o nome da tua cidade! A mais curtida vai ser o próximo vídeo! | Card COMENTA 👇 |
 
 ---
