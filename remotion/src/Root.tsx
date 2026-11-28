@@ -8,14 +8,21 @@ import { Video05, DURATION_05 } from './Video05';
 import { Video05L, DURATION_05L } from './Video05L';
 import { Video06, DURATION_06 } from './Video06';
 import { Video06L, DURATION_06L } from './Video06L';
+import { Video07, DURATION_07 } from './Video07';
+import { Video07L, DURATION_07L } from './Video07L';
+import { Video08, DURATION_08 } from './Video08';
 import { Video04L, DURATION_04L } from './Video04L';
 import { Teaser04, DURATION_T04 } from './Teaser04';
 import { FPS } from './lib';
 import { Story02 } from './Story02';
 import { StoryGrenal } from './StoryGrenal';
-import { ThumbGremio, ThumbInter, ThumbFarroupilha, ReelInter } from './Thumbs';
+import { ThumbGremio, ThumbInter, ThumbFarroupilha, ThumbCaxias, ReelInter } from './Thumbs';
 import { Story500, DURATION_S500 } from './Story500';
 import { PreviewGuria } from './PreviewGuria';
+import { Teste3D, DURATION_T3D } from './Teste3D';
+import { FundoCoxilha } from './FundoCoxilha';
+import { FundoDeserto } from './FundoDeserto';
+import { Video09, DURATION_09 } from './Video09';
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -28,6 +35,13 @@ export const RemotionRoot: React.FC = () => (
     <Composition id="Video05L" component={Video05L} durationInFrames={Math.round(DURATION_05L * FPS)} fps={FPS} width={1920} height={1080} />
     <Composition id="Video06" component={Video06} durationInFrames={Math.round(DURATION_06 * FPS)} fps={FPS} width={1080} height={1920} />
     <Composition id="Video06L" component={Video06L} durationInFrames={Math.round(DURATION_06L * FPS)} fps={FPS} width={1920} height={1080} />
+    <Composition id="Video07" component={Video07} durationInFrames={Math.round(DURATION_07 * FPS)} fps={FPS} width={1080} height={1920} />
+    <Composition id="Video07L" component={Video07L} durationInFrames={Math.round(DURATION_07L * FPS)} fps={FPS} width={1920} height={1080} />
+    <Composition id="Video08" component={Video08} durationInFrames={Math.round(DURATION_08 * FPS)} fps={FPS} width={1080} height={1920} />
+    <Composition id="Video09" component={Video09} durationInFrames={Math.round(DURATION_09 * FPS)} fps={FPS} width={1080} height={1920} />
+    <Still id="FundoDeserto" component={FundoDeserto} width={1080} height={1920} />
+    <Still id="FundoCoxilha" component={FundoCoxilha} width={1080} height={1920} />
+    <Composition id="Teste3D" component={Teste3D} durationInFrames={Math.round(DURATION_T3D * FPS)} fps={FPS} width={1080} height={1920} />
     <Composition id="Teaser04" component={Teaser04} durationInFrames={Math.round(DURATION_T04 * FPS)} fps={FPS} width={1080} height={1920} />
     <Still id="Story02" component={Story02} width={1080} height={1920} />
     <Still id="Story02Limpo" component={Story02} width={1080} height={1920} defaultProps={{ placeholder: false }} />
@@ -37,6 +51,7 @@ export const RemotionRoot: React.FC = () => (
     <Still id="PreviewGuria" component={PreviewGuria} width={1920} height={1080} />
     <Still id="ThumbGremio" component={ThumbGremio} width={1280} height={720} />
     <Still id="ThumbFarroupilha" component={ThumbFarroupilha} width={1280} height={720} />
+    <Still id="ThumbCaxias" component={ThumbCaxias} width={1280} height={720} />
     <Still id="ReelInter" component={ReelInter} width={1080} height={1920} />
     <Still id="ThumbInter" component={ThumbInter} width={1280} height={720} />
     <Still id="StoryGrenalLimpo" component={StoryGrenal} width={1080} height={1920} defaultProps={{ placeholder: false }} />

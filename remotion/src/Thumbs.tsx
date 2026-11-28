@@ -259,3 +259,34 @@ export const ReelInter: React.FC = () => (
     </svg>
   </AbsoluteFill>
 );
+
+/* #007 Caxias do Sul: roxo-uva com verde de parreiral */
+const CAXIAS: Theme = { bg1: '#9A4DC0', bg2: '#1E0A2A', stripes: ['#5B2A6E', '#5C8A34', '#D9A021'], neon: '#B57BFF', g1: ['#FFFFFF', '#E3C8FF'], g2: ['#FFE45C', '#FF8A00'] };
+
+export const ThumbCaxias: React.FC = () => (
+  <AbsoluteFill style={{ backgroundColor: '#000' }}>
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`}>
+      <LauroDefs />
+      <PiaDefs />
+      <Bg th={CAXIAS} />
+      {/* placa de estrada de madeira */}
+      <LauroClose x={1070} expr="shock" />
+      <g transform={`translate(1110,${H + 470}) scale(-0.74,0.74)`} filter="url(#tbShadow)">
+        <Pia t={1.0} talk={0.9} expr="laugh" arms="down" shadow={false} gaze={1} />
+      </g>
+      <BigWord text="CAXIAS" x={40} y={190} size={160} grad={CAXIAS.g1} id="c1" />
+      <BigWord text="JÁ TEVE" x={50} y={350} size={140} grad={CAXIAS.g2} id="c2" />
+      <BigWord text="OUTRO NOME?!" x={50} y={500} size={96} grad={CAXIAS.g2} id="c3" rot={-4} />
+      <g transform="translate(70,560) rotate(-3)" filter="url(#tbShadow)">
+        <rect x={0} y={0} width={560} height={120} rx={12} fill="#9A6A3A" stroke="#5A3A20" strokeWidth={8} />
+        <rect x={10} y={40} width={540} height={4} fill="#7A4E26" opacity={0.6} />
+        <rect x={10} y={80} width={540} height={4} fill="#7A4E26" opacity={0.6} />
+        <text x={280} y={78} textAnchor="middle" fontFamily="Montserrat" fontWeight={900} fontSize={44} fill="#2A1A0A">CAMPO DOS BUGRES</text>
+      </g>
+      <Emo e="😱" x={1000} y={600} s={90} r={-10} />
+      <Emo e="🍇" x={1200} y={100} s={86} r={12} />
+      <Emo e="❄️" x={690} y={600} s={70} r={10} />
+      <Neon c={CAXIAS.neon} />
+    </svg>
+  </AbsoluteFill>
+);
