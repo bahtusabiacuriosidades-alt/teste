@@ -57,13 +57,23 @@ Este tema **não tem números confirmados para mostrar**, e a regra é não inve
 
 [amazed] Baaaaaah!
 
+[excited] Esse é o bah de quem ficou impressionado. Quer dizer: que incrível!
+
 [disappointed] Bah…
+
+[sighs] Esse é o bah da decepção. Quer dizer: que pena.
 
 [annoyed] Bah!
 
+[sternly] Curtinho e seco, é o bah da bronca. Quer dizer: para com isso!
+
 [disgusted] Bah.
 
+[disgusted] Esse vem com careta, é o bah do nojo. Quer dizer: eca!
+
 [laughs] Bah, bah, bah!
+
+[laughs] E esse é de quem tá rindo à toa. Quer dizer: que beleza!
 
 [laughs] Esse aí é o "bah, sério?". Tu aprende rápido, guria!
 
@@ -94,7 +104,9 @@ Este tema **não tem números confirmados para mostrar**, e a regra é não inve
 ```
 *(Cerca de 190 palavras, mais as pausas dos "bahs", o que dá cerca de 1:10 a 1:20.)*
 
-**Ordem das falas (para montar):** L1, G1, L2, L3, L4, L5, L6, L7, G2, L8, *(selo do Cusco)*, G3, L9, G4, L10, G5, G6, L11, G7, L12.
+> **v2 (pedido do usuário):** depois de cada "bah" o Lauro diz com todas as letras o que ele significa ("Quer dizer: …"), e o card de tradução vira nessa hora. Os 5 "bahs" gravados foram mantidos; só as 5 explicações são novas (`audio/v08/explica/`). Áudio montado de `audio/v08/curto_v2/` e acelerado 1,12× para caber em 1:30.
+
+**Ordem das falas (para montar):** L1, G1, L2, L3, L3b, L4, L4b, L5, L5b, L6, L6b, L7, L7b, G2, L8, *(selo do Cusco)*, G3, L9, G4, L10, G5, G6, L11, G7, L12.
 
 > **Dica de locução:** os "bahs" sozinhos são as falas mais difíceis para o ElevenLabs. Gerar cada um numa chamada separada (como já é o padrão) e ouvir antes de seguir. Se algum sair parecido com outro, mudar só a tag (ex.: `[sighs]` no lugar de `[disappointed]`) numa nova geração, avisando antes o custo.
 
