@@ -10,12 +10,21 @@ sys.path.insert(0, 'tools')
 from visemas import build
 
 FPS = 30
-DUR = 89.3
 falas = json.load(open('src/data/v09/falas.json'))
 words = json.load(open('src/data/v09/words.json'))
 rms = json.load(open('src/data/v09/rms.json'))
 Q = {'L': 'lauro', 'P': 'pia'}
 F = {f['n']: f for f in falas}
+DUR = round(F[len(falas)]['e'] + 2.4, 2)
+
+
+def ws(palavra, depois=0.0):
+    """início da primeira palavra (sem pontuação) depois de um tempo"""
+    for w in words:
+        if w['s'] >= depois - 0.05 and w['w'].strip('?!.,…').lower() == palavra.lower():
+            return w['s']
+    raise SystemExit('palavra não achada: ' + palavra)
+
 
 ROSTO = {
     'surpresa': {'sobr_sobe_d': 1, 'sobr_sobe_e': 1, 'arregalar': 1},
@@ -35,16 +44,18 @@ DIR = [
     (4, 'pia', 0.0, None, 'ombros', 'maroto'),
     (5, 'lauro', 0.0, 1.6, 'rir', 'rindo'), (5, 'lauro', 2.3, None, 'sermao', 'maroto'), (5, 'pia', 0.2, 1.6, 'rir', 'rindo'),
     (6, 'pia', 0.0, 1.2, 'ombros', 'confuso'),
-    (7, 'lauro', 2.0, None, None, 'curioso'), (7, 'pia', 4.2, None, 'ouvir', 'surpresa'),
-    (8, 'lauro', 0.0, None, None, 'alegre'), (8, 'pia', 5.5, None, 'ouvir', 'curioso'),
+    (7, 'lauro', 2.0, None, None, 'curioso'), (7, 'pia', 4.0, None, 'ouvir', 'surpresa'),
+    (8, 'lauro', 0.0, None, None, 'alegre'), (8, 'pia', 5.2, None, 'ouvir', 'curioso'),
     (9, 'pia', 0.0, None, 'ombros', 'confuso'), (9, 'lauro', 0.3, None, 'ouvir', 'alegre'),
-    (10, 'lauro', 0.0, 1.4, 'apontar', 'alegre'), (10, 'pia', 2.4, 3.6, 'ouvir', 'surpresa'),
-    (11, 'pia', 0.0, None, 'cintura', 'curioso'),
-    (12, 'lauro', 0.0, None, None, 'curioso'), (12, 'pia', 5.6, None, 'bah', 'surpresa'),
-    (13, 'pia', 0.0, None, 'apontar', 'curioso'),
-    (14, 'lauro', 0.0, 6.0, None, 'serio'), (14, 'lauro', 6.4, None, None, 'alegre'), (14, 'pia', 1.0, None, 'ouvir', 'curioso'),
-    (15, 'pia', 0.0, None, 'rir', 'rindo'), (15, 'lauro', 0.4, None, 'rir', 'rindo'),
-    (16, 'lauro', 0.0, 4.6, 'apontar', 'alegre'), (16, 'lauro', 4.7, 8.6, 'parado', 'piscadela'), (16, 'pia', 0.5, 8.6, 'ouvir', 'alegre'),
+    (10, 'lauro', 0.0, 1.4, 'apontar', 'alegre'), (10, 'pia', 2.3, 3.5, 'ouvir', 'surpresa'),
+    # "E aí, Cusco? Tu aprova?": o Lauro se vira para o Cusco, que entra trotando, late e carimba
+    (11, 'lauro', 0.0, 3.4, 'apontar', 'maroto'), (11, 'pia', 0.3, 3.4, 'ouvir', 'alegre'),
+    (12, 'pia', 0.0, None, 'cintura', 'curioso'),
+    (13, 'lauro', 0.0, None, None, 'curioso'), (13, 'pia', 5.4, None, 'bah', 'surpresa'),
+    (14, 'pia', 0.0, None, 'apontar', 'curioso'),
+    (15, 'lauro', 0.0, 5.8, None, 'serio'), (15, 'lauro', 6.2, None, None, 'alegre'), (15, 'pia', 1.0, None, 'ouvir', 'curioso'),
+    (16, 'pia', 0.0, None, 'rir', 'rindo'), (16, 'lauro', 0.4, None, 'rir', 'rindo'),
+    (17, 'lauro', 0.0, 4.4, 'apontar', 'alegre'), (17, 'lauro', 4.5, 8.4, 'parado', 'piscadela'), (17, 'pia', 0.5, 8.4, 'ouvir', 'alegre'),
 ]
 direcao = {'lauro': [], 'pia': []}
 for n, q, a, b, acao, rosto in DIR:
@@ -70,18 +81,37 @@ for q in ('lauro', 'pia'):
         ts.append(round(x, 2)); x += random.uniform(2.6, 4.6)
     piscadas[q] = ts
 
-SELO = 44.6
+SELO = round(F[11]['e'] + 0.85, 2)
+M = {  # marcas presas às palavras (o Video09 usa para quadros, chips e sons)
+    'mapa': ws('sudoeste', F[3]['s']) - 0.3,
+    'sj': ws('Deserto', ws('lugares', F[3]['s'])),
+    'nao': ws('Não', F[5]['s']),
+    'chuva': ws('chuva', F[7]['s']) - 0.1,
+    'dirce': ws('geógrafa', F[8]['s']),
+    'areniz': ws('Arenização', F[8]['s']),
+    'estagio': F[10]['e'] - 5.8,
+    'vento': ws('vento', F[10]['s']) - 0.6,
+    'campos': ws('levantamento', F[13]['s']),
+    'flip': ws('mais', ws('municípios', F[13]['s'])) - 0.15,
+    'cuidar': F[15]['s'],
+    'mas': ws('Mas', F[15]['s']),
+    'tempo': ws('relato', F[15]['s']) - 0.9,
+}
+M['campos'] = max(M['campos'], M['flip'] - 2.8)
+M = {k: round(v, 2) for k, v in M.items()}
 cena = {
-    'fps': FPS, 'duracao': DUR, 'quadros': nF, 'selo': SELO,
+    'fps': FPS, 'duracao': DUR, 'quadros': nF, 'selo': SELO, 'marcas': M,
     'falas': [{'quem': Q[f['quem']], 's': f['s'], 'e': f['e']} for f in falas],
     'direcao': direcao, 'piscadas': piscadas, 'boca': boca,
-    # caminhadas: [início, fim, x inicial] até a posição final
     'lauro': {'pos': [-0.24, 0, 0], 's': 1.0, 'yaw': 0.12, 'head': 0.9, 'path': [0.0, 2.6, -1.25], 'cyc': 0.62},
     'pia': {'pos': [0.4, 0, 0.2], 's': 0.76, 'yaw': -0.35, 'head': 0.66, 'path': [0.9, 3.3, 1.55], 'cyc': 0.42},
-    # Cusco: atravessa no selo (late no meio) e depois senta ao lado do Piá; late de novo no "deserto que não é deserto"
-    'cusco': {'s': 0.33, 'z': 0.62, 'trechos': [[42.4, 44.3, -1.4, 0.05], [45.3, 46.9, 0.05, 0.78]], 'latidos': [SELO - 0.15, F[15]['s'] + 0.3], 'fim': [0.78, 0.55]},
-    # quadros 2D por cima (a câmera sobe para deixar os personagens embaixo)
-    'quadros_2d': [[9.0, 12.6], [27.6, 31.6], [46.8, 52.6], [57.0, 61.6], [73.6, 77.2]],
+    # Cusco: entra trotando quando o Lauro chama, para na frente, late (selo) e depois vai sentar ao lado do Piá
+    'cusco': {'s': 0.33, 'z': 0.62, 'chamado': [F[11]['s'], SELO + 1.5],
+              'trechos': [[round(F[11]['s'] + 0.3, 2), round(SELO - 0.25, 2), 1.7, 0.1], [round(SELO + 1.6, 2), round(SELO + 2.9, 2), 0.1, 0.78]],
+              'latidos': [round(SELO - 0.15, 2), round(F[16]['s'] + 0.3, 2)], 'fim': [0.78, 0.55]},
+    'quadros_2d': [[M['mapa'], M['mapa'] + 3.6], [M['chuva'], M['chuva'] + 4.0], [M['estagio'], F[10]['e']],
+                   [M['campos'], M['flip'] + 1.6], [M['tempo'], F[15]['e'] + 0.2]],
 }
 json.dump(cena, open('src/data/v09/cena3d.json', 'w'), ensure_ascii=False)
-print('quadros', nF, '| falas', len(falas), '| selo', SELO)
+print('duração', DUR, '| quadros', nF, '| falas', len(falas), '| selo', SELO)
+print(M)

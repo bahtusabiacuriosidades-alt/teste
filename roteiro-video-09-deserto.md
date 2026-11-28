@@ -39,7 +39,8 @@
 | 7 | L | Deserto de verdade quase não tem chuva. E lá chove cerca de mil e quatrocentos milímetros por ano! | **Métrica 1:** pluviômetro enchendo até 1.400 mm (fonte pequena) |
 | 8 | L | A geógrafa Dirce Suertegaray, da UFRGS, deu o nome certo pra isso: arenização. | Etiqueta mostarda "ARENIZAÇÃO" |
 | 9 | P | Areni… o quê? | Piá repete devagar; letras pulando |
-| 10 | L | Arenização! A areia é antiga, de quando o clima era bem mais seco. A chuva forte abre valetas, arrasta a areia, e o vento espalha pelo campo. | Animação em 3 passos: chuva → valeta (ravina) → vento levando areia. **Selo do Cusco** no meio: o Cusco atravessa afundando na areia, late, carimbo |
+| 10 | L | Arenização! A areia é antiga, de quando o clima era bem mais seco. A chuva forte abre valetas, arrasta a areia, e o vento espalha pelo campo. | Animação em 3 passos: chuva → valeta (ravina) → vento levando areia |
+| 10b | L | E aí, Cusco? Tu aprova? | O Lauro se vira e aponta; o Cusco entra trotando, para na frente, late, e o **Selo do Cusco** carimba a tela (pedido do usuário) |
 | 11 | P | E isso é muito grande? | |
 | 12 | L | Num levantamento da UFRGS, deu uns três mil e seiscentos hectares, em dez municípios. Mais de cinco mil campos de futebol! | **Métrica 2:** contador de hectares virando "5.000+ ⚽" (virada) |
 | 13 | P | E dá pra segurar essa areia? | |
