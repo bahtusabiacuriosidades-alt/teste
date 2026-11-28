@@ -10,6 +10,7 @@ import { Video06, DURATION_06 } from './Video06';
 import { Video06L, DURATION_06L } from './Video06L';
 import { Video07, DURATION_07 } from './Video07';
 import { Video07L, DURATION_07L } from './Video07L';
+import { Video08, DURATION_08 } from './Video08';
 import { Video04L, DURATION_04L } from './Video04L';
 import { Teaser04, DURATION_T04 } from './Teaser04';
 import { FPS } from './lib';
@@ -34,6 +35,7 @@ export const RemotionRoot: React.FC = () => (
     <Composition id="Video06L" component={Video06L} durationInFrames={Math.round(DURATION_06L * FPS)} fps={FPS} width={1920} height={1080} />
     <Composition id="Video07" component={Video07} durationInFrames={Math.round(DURATION_07 * FPS)} fps={FPS} width={1080} height={1920} />
     <Composition id="Video07L" component={Video07L} durationInFrames={Math.round(DURATION_07L * FPS)} fps={FPS} width={1920} height={1080} />
+    <Composition id="Video08" component={Video08} durationInFrames={Math.round(DURATION_08 * FPS)} fps={FPS} width={1080} height={1920} />
     <Still id="FundoCoxilha" component={FundoCoxilha} width={1080} height={1920} />
     <Composition id="Teste3D" component={Teste3D} durationInFrames={Math.round(DURATION_T3D * FPS)} fps={FPS} width={1080} height={1920} />
     <Composition id="Teaser04" component={Teaser04} durationInFrames={Math.round(DURATION_T04 * FPS)} fps={FPS} width={1080} height={1920} />
