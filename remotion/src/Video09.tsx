@@ -48,10 +48,10 @@ const SFX: [string, number, number][] = [
   ['pop', M.dirce, 0.25], ['plim', M.areniz, 0.3],
   ['whoosh', M.estagio - 0.15, 0.25], ['chuva', M.estagio, 0.2], ['vento', M.vento, 0.35],
   // "E aí, Cusco? Tu aprova?" → o Cusco chega trotando, late e carimba
-  ['patinhas', C.trechos[0][0], 0.35], ['latido', SELO - 0.15, 0.7], ['carimbo', SELO, 0.55], ['patinhas', C.trechos[1][0], 0.25],
+  ['patinhas', C.trechos[0][0], 0.35], ['latido_cusco2', SELO - 0.2, 0.75], ['carimbo', SELO, 0.55], ['patinhas', C.trechos[1][0], 0.25],
   ['whoosh', M.campos - 0.15, 0.25], ['tictac', M.campos + 0.3, 0.18], ['riser', M.flip - 0.9, 0.2], ['acerto', M.flip, 0.35],
   ['whoosh', M.tempo - 0.15, 0.25], ['ding', M.tempo + 0.6, 0.22], ['ding', M.tempo + 1.6, 0.22], ['ding', M.tempo + 2.4, 0.22],
-  ['boing', F[15].s + 0.1, 0.25], ['latido', C.latidos[1], 0.5], ['aplauso', F[15].e, 0.18], ['pop', F[16].s + 0.1, 0.3],
+  ['boing', F[15].s + 0.1, 0.25], ['latido_cusco2', C.latidos[1], 0.6], ['aplauso', F[15].e, 0.18], ['pop', F[16].s + 0.1, 0.3],
 ];
 
 export const Video09: React.FC = () => {
