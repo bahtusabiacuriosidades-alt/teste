@@ -1,0 +1,87 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Mont;src:url(montserrat-latin.woff2) format('woff2');font-weight:100 900;}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#000}
+#ov{position:absolute;left:0;top:0;width:1080px;height:1920px;font-family:Mont,sans-serif;pointer-events:none}
+.hud{position:absolute;left:48px;top:150px}
+.hud .a{display:inline-block;background:rgba(20,16,12,.75);border-radius:14px;padding:10px 22px;font-weight:900;font-size:34px;color:#fff}
+.hud .b{margin-top:12px;display:inline-block;background:rgba(255,255,255,.95);border-radius:30px;padding:8px 20px;font-weight:900;font-size:26px;color:#2A2420}
+#cap{position:absolute;left:0;right:0;top:1470px;text-align:center}
+#cap span{display:inline-block;font-weight:900;font-size:104px;color:#fff;-webkit-text-stroke:19px rgba(0,0,0,.92);paint-order:stroke fill;text-shadow:0 8px 18px rgba(0,0,0,.45)}
+#tit{position:absolute;left:0;right:0;top:300px;text-align:center;font-weight:900;font-size:128px;line-height:1.05;color:#D9A021;-webkit-text-stroke:25px #2A1A0A;paint-order:stroke fill;transform:rotate(-4deg)}
+#tag{position:absolute;top:0;font-weight:900;font-size:30px;color:#fff;background:rgba(20,16,12,.8);padding:6px 16px;border-radius:20px;border:3px solid #D9A021}
+</style></head><body>
+<div id="ov"><div class="hud"><div class="a"><span style="color:#D9A021">BAH, TU SABIA?</span> · AMOSTRA 3D</div><br><div class="b">🧪 LAURO, GURIA, PIÁ E CUSCO</div></div><div id="tit"></div><div id="cap"></div></div>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+const W=1080,H=1920, FPS=30;
+const TL=await (await fetch('timeline.json')).json();
+const r=new THREE.WebGLRenderer({antialias:true}); r.setSize(W,H); r.setPixelRatio(1);
+r.outputColorSpace=THREE.SRGBColorSpace; r.shadowMap.enabled=true; r.shadowMap.type=THREE.PCFSoftShadowMap;
+r.domElement.style.position='absolute'; document.body.insertBefore(r.domElement, document.body.firstChild);
+const scene=new THREE.Scene();
+const bg=await new THREE.TextureLoader().loadAsync('fundo.png'); bg.colorSpace=THREE.SRGBColorSpace; scene.background=bg;
+scene.add(new THREE.HemisphereLight(0xfff1dc,0x6b5a3a,1.35));
+const sun=new THREE.DirectionalLight(0xffe0b0,2.1); sun.position.set(1.8,2.6,2.2); sun.castShadow=true;
+sun.shadow.mapSize.set(2048,2048); Object.assign(sun.shadow.camera,{left:-1.5,right:1.5,top:1.5,bottom:-1.5,near:0.5,far:8}); sun.shadow.bias=-0.0005; scene.add(sun);
+const fill=new THREE.DirectionalLight(0xc8d8ff,0.45); fill.position.set(-2,1.5,2); scene.add(fill);
+const ground=new THREE.Mesh(new THREE.PlaneGeometry(8,8),new THREE.ShadowMaterial({opacity:0.32})); ground.rotation.x=-Math.PI/2; ground.receiveShadow=true; scene.add(ground);
+const cam=new THREE.PerspectiveCamera(35,W/H,0.05,50);
+const load=(f)=>new Promise(res=>new GLTFLoader().load(f,res));
+const SPEC={
+  lauro:{file:'lauro_anim.glb',pos:[0,0,0],s:1.0,yaw:0.0},
+  guria:{file:'guria_anim.glb',pos:[-0.5,0,0.2],s:0.76,yaw:0.38},
+  pia:{file:'pia_anim.glb',pos:[0.5,0,0.2],s:0.76,yaw:-0.38},
+  cusco:{file:'cusco_tripo.glb',pos:[0.3,0,0.66],s:0.33,yaw:-0.95},
+};
+const C={};
+for(const [k,sp] of Object.entries(SPEC)){
+  const g=await load(sp.file); const root=new THREE.Group(); root.add(g.scene); root.position.set(...sp.pos); root.scale.setScalar(sp.s); root.rotation.y=sp.yaw; scene.add(root);
+  const ms=[]; g.scene.traverse(o=>{if(o.isMesh){o.castShadow=true;o.frustumCulled=false; if(o.morphTargetDictionary)ms.push(o);}});
+  const mixer=new THREE.AnimationMixer(g.scene); const acts={};
+  for(const a of g.animations){const ac=mixer.clipAction(a); ac.play(); ac.setEffectiveWeight(0); acts[a.name]=ac;}
+  C[k]={root,ms,mixer,acts,sp,talk:0,yaw:sp.yaw};
+}
+const speakerAt=(t)=>{for(const f of TL.falas) if(t>=f.s-0.05&&t<f.e+0.05) return f.quem; return null;};
+const lastSpeaker=(t)=>{let q='lauro'; for(const f of TL.falas) if(t>=f.s) q=f.quem; return q;};
+const sm=(x)=>{x=Math.min(1,Math.max(0,x)); return x*x*(3-2*x);};
+let camX=0;
+window.renderAt=(f)=>{
+  const t=f/FPS; const spk=speakerAt(t); const focus=lastSpeaker(t);
+  for(const [k,c] of Object.entries(C)){
+    if(k==='cusco'){ // Cusco: respira, olha quem fala e pula no latido
+      const u=(t-TL.latido)/0.7; let hop=0, tilt=0;
+      if(u>0&&u<1){hop=Math.abs(Math.sin(u*Math.PI*2))*0.12; tilt=Math.sin(u*Math.PI*2)*0.15;}
+      c.root.position.y=hop; c.root.rotation.z=tilt*0.3; c.root.scale.set(c.sp.s,c.sp.s*(1+0.015*Math.sin(t*5)),c.sp.s);
+      const tx=SPEC[focus].pos[0]; const want=Math.atan2(tx-c.sp.pos[0], 1.2-c.sp.pos[2]);
+      c.yaw+= (Math.max(-1.4,Math.min(0.2,want-0.6))-c.yaw)*0.08; c.root.rotation.y=c.yaw; continue;
+    }
+    const isT = spk===k; c.talk += ((isT?1:0)-c.talk)*0.25;
+    const bahW = k==='lauro' ? sm((t-0.3)/0.15)*(1-sm((t-1.3)/0.3)) : 0;
+    const A=c.acts; const T=(n,o=0)=>A[n].time=((t+o)%A[n].getClip().duration);
+    T('parado',k.length*0.3); T('falar',k.length*0.2); T('ouvir',k.length*0.5); A.bah.time=Math.min(Math.max(t-0.3,0),A.bah.getClip().duration-0.01);
+    A.falar.setEffectiveWeight(c.talk*(1-bahW)); A.ouvir.setEffectiveWeight((1-c.talk)*0.6*(1-bahW)); A.parado.setEffectiveWeight((1-c.talk)*0.4*(1-bahW)); A.bah.setEffectiveWeight(bahW);
+    c.mixer.update(0);
+    // vira um pouco para quem está falando
+    let want=c.sp.yaw*0.55;
+    if(!isT && focus!==k){ const tx=SPEC[focus].pos[0]; want=Math.atan2(tx-c.sp.pos[0], 0.9)*0.9; }
+    c.yaw+=(want-c.yaw)*0.07; c.root.rotation.y=c.yaw;
+    const q=(TL.boca[k]||[])[f]||{};
+    for(const m of c.ms){ m.morphTargetInfluences.fill(0); for(const [kk,v] of Object.entries(q)){const i=m.morphTargetDictionary[kk]; if(i!==undefined)m.morphTargetInfluences[i]=v;} }
+  }
+  // câmera: aproxima devagar e acompanha quem fala, de leve
+  camX += (SPEC[focus].pos[0]*0.35-camX)*0.05;
+  const z=3.75-0.45*sm(t/TL.duracao);
+  cam.position.set(camX*0.6, 0.9+0.02*Math.sin(t*0.6), z); cam.lookAt(camX, 0.56, 0);
+  r.render(scene,cam);
+  // legendas
+  const w=TL.palavras.find(p=>t>=p.s && t<Math.max(p.e+0.12,p.s+0.2));
+  const GA=['bah','tchê','guri','guria','piá']; const cap=document.getElementById('cap');
+  if(w){const clean=w.w.toLowerCase().replace(/[?!.,]/g,''); const k=Math.min(1,(t-w.s)/0.09); cap.innerHTML=`<span style="color:${GA.includes(clean)?'#D9A021':'#fff'};transform:scale(${1+0.18*(1-k)})">${w.w}</span>`;} else cap.innerHTML='';
+  const tit=document.getElementById('tit'); const tt=t-0.35;
+  if(tt>0&&tt<2.2){const k=Math.min(1,tt/0.25); tit.innerHTML='BAH, TU<br>SABIA…?'; tit.style.opacity=Math.min(1,(2.2-tt)/0.25); tit.style.transform=`rotate(-4deg) scale(${0.6+0.4*k+0.08*Math.sin(k*Math.PI)})`;} else tit.innerHTML='';
+  return true;
+};
+window.DONE=true;
+</script></body></html>

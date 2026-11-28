@@ -1,0 +1,111 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#000}</style></head><body>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+const W=1080,H=1920,FPS=30;
+const TL=await (await fetch('cena_v09.json')).json();
+const r=new THREE.WebGLRenderer({antialias:true}); r.setSize(W,H); r.setPixelRatio(1);
+r.outputColorSpace=THREE.SRGBColorSpace; r.shadowMap.enabled=true; r.shadowMap.type=THREE.PCFSoftShadowMap;
+document.body.appendChild(r.domElement);
+const scene=new THREE.Scene();
+const bg=await new THREE.TextureLoader().loadAsync('fundo_v09.png'); bg.colorSpace=THREE.SRGBColorSpace; scene.background=bg;
+scene.add(new THREE.HemisphereLight(0xfff1dc,0x8a6a3a,1.35));
+const sun=new THREE.DirectionalLight(0xffe0b0,2.2); sun.position.set(1.8,2.6,2.2); sun.castShadow=true;
+sun.shadow.mapSize.set(2048,2048); Object.assign(sun.shadow.camera,{left:-2,right:2,top:2,bottom:-2,near:0.5,far:9}); sun.shadow.bias=-0.0005; scene.add(sun);
+const fill=new THREE.DirectionalLight(0xc8d8ff,0.4); fill.position.set(-2,1.5,2); scene.add(fill);
+const ground=new THREE.Mesh(new THREE.PlaneGeometry(10,10),new THREE.ShadowMaterial({opacity:0.3})); ground.rotation.x=-Math.PI/2; ground.receiveShadow=true; scene.add(ground);
+const cam=new THREE.PerspectiveCamera(35,W/H,0.05,50);
+const load=(f)=>new Promise(res=>new GLTFLoader().load(f,res));
+const FILES={lauro:'lauro_anim.glb',pia:'pia_anim.glb',cusco:'cusco_anim.glb'};
+const C={};
+for(const [k,file] of Object.entries(FILES)){
+  const g=await load(file); const root=new THREE.Group(); root.add(g.scene); scene.add(root);
+  const ms=[]; g.scene.traverse(o=>{if(o.isMesh){o.castShadow=true;o.frustumCulled=false; if(o.morphTargetDictionary)ms.push(o);}});
+  const mixer=new THREE.AnimationMixer(g.scene); const acts={};
+  for(const a of g.animations){const ac=mixer.clipAction(a); ac.play(); ac.setEffectiveWeight(0); acts[a.name]=ac;}
+  const sp=TL[k]; root.scale.setScalar(sp.s); C[k]={root,ms,mixer,acts,sp,yaw:k==='lauro'?Math.PI/2:-Math.PI/2};
+}
+const sm=(x)=>{x=Math.min(1,Math.max(0,x)); return x*x*(3-2*x);};
+const win=(t,s,e,f=0.25)=>sm((t-s+0.05)/f)*(1-sm((t-e+0.05)/f));
+const speakerAt=(t)=>{for(const f of TL.falas) if(t>=f.s-0.05&&t<f.e+0.05) return f.quem; return null;};
+const lastSpeaker=(t)=>{let q='lauro'; for(const f of TL.falas) if(t>=f.s-0.3) q=f.quem; return q;};
+const talkW=(k,t)=>{let w=0; for(const f of TL.falas) if(f.quem===k) w=Math.max(w,win(t,f.s,f.e,0.2)); return w;};
+const posAt=(sp,t)=>{const [t0,t1,x0]=sp.path; const u=Math.min(1,Math.max(0,(t-t0)/(t1-t0))); const e=u<0.1?(u*u/0.2):u>0.9?1-((1-u)*(1-u)/0.2):(u-0.05)/0.9; return x0+(sp.pos[0]-x0)*Math.min(1,Math.max(0,e));};
+const walkW=(sp,t)=>{const [t0,t1]=sp.path; return sm((t-t0+0.05)/0.25)*(1-sm((t-t1+0.1)/0.3));};
+// Cusco
+const cusco=TL.cusco;
+const cuscoState=(t)=>{ // x, andando(0..1), visível
+  const [a,b]=cusco.trechos;
+  if(t<a[0]-0.05) return {x:a[2],w:0,vis:false,dir:-1};
+  if(t<a[1]) return {x:a[2]+(a[3]-a[2])*(t-a[0])/(a[1]-a[0]),w:1,vis:true,dir:Math.sign(a[3]-a[2])};
+  if(t<b[0]) return {x:a[3],w:0,vis:true};
+  if(t<b[1]) return {x:b[2]+(b[3]-b[2])*(t-b[0])/(b[1]-b[0]),w:1,vis:true,dir:Math.sign(b[3]-b[2])};
+  return {x:b[3],w:0,vis:true};
+};
+const cuscoZ=(t)=> t<cusco.trechos[1][0] ? cusco.z : cusco.z+(cusco.fim[1]-cusco.z)*sm((t-cusco.trechos[1][0])/(cusco.trechos[1][1]-cusco.trechos[1][0]));
+const inCard=(t)=>{let w=0; for(const [a,b] of TL.quadros_2d) w=Math.max(w,win(t,a-0.2,b+0.2,0.5)); return w;};
+window.renderAt=(f)=>{
+  const t=f/FPS; const spk=speakerAt(t); const focus=lastSpeaker(t);
+  const X={lauro:posAt(TL.lauro,t), pia:posAt(TL.pia,t)};
+  for(const k of ['lauro','pia']){
+    const c=C[k], A=c.acts, sp=c.sp, x=X[k], ww=walkW(sp,t), dir=Math.sign(sp.pos[0]-sp.path[2]);
+    c.root.position.set(x,0,sp.pos[2]);
+    const W={}; let used=0; const face={};
+    for(const d of (TL.direcao[k]||[])){ const w=win(t,d.s,d.e); if(w<=0) continue;
+      if(d.acao && d.acao!=='andar'){ W[d.acao]=(W[d.acao]||0)+w; used+=w; }
+      for(const [kk,v] of Object.entries(d.rosto)) face[kk]=(face[kk]||0)+v*w; }
+    used=Math.min(1,used)*(1-ww); const free=Math.max(0,1-used-ww), tk=talkW(k,t);
+    for(const n in W) W[n]*=(1-ww);
+    W.andar=ww; W.falar=(W.falar||0)+free*tk+ww*tk*0.3; W.ouvir=(W.ouvir||0)+free*(1-tk)*0.6; W.parado=(W.parado||0)+free*(1-tk)*0.4;
+    const ph=Math.abs(x-sp.path[2])/sp.cyc;
+    for(const [n,ac] of Object.entries(A)){
+      const dur=ac.getClip().duration;
+      let dd=null; for(const d of (TL.direcao[k]||[])) if(d.acao===n && t>=d.s-0.3 && t<=d.e+0.3) dd=d;
+      if(n==='andar') ac.time=(ph*dur)%dur;
+      else if(n==='bah' && dd) ac.time=Math.min(Math.max(t-dd.s,0),dur-0.01);
+      else if(dd) ac.time=Math.max(0,t-dd.s)%dur;
+      else ac.time=(t+k.length*0.37)%dur;
+      ac.setEffectiveWeight(W[n]||0);
+    }
+    c.mixer.update(0);
+    const cst=cuscoState(t), chamado = t>=TL.cusco.chamado[0]+0.4 && t<=TL.cusco.chamado[1] && cst.vis;
+    const look = chamado ? Math.atan2(cst.x-x, cuscoZ(t)-sp.pos[2]+0.6)*0.9 : (focus===k ? sp.yaw*0.5 : Math.atan2(X[focus]-x,1.0)*0.85);
+    const want = ww>0.5 ? dir*Math.PI/2 : look;
+    c.yaw+=(want-c.yaw)*(ww>0.5?0.3:0.08); c.root.rotation.y=c.yaw;
+    const q=Object.assign({},(TL.boca[k]||[])[f]||{});
+    for(const [kk,v] of Object.entries(face)) q[kk]=(q[kk]||0)+v;
+    let bl=0; for(const tb of TL.piscadas[k]){ const u=(t-tb)/0.2; if(u>0&&u<1) bl=Math.max(bl,Math.sin(u*Math.PI)); }
+    if(bl>0 && !(face.piscar_d>0.5)){ q.piscar_d=Math.max(q.piscar_d||0,bl*0.85); q.piscar_e=Math.max(q.piscar_e||0,bl*0.85); }
+    for(const m of c.ms){ m.morphTargetInfluences.fill(0); for(const [kk,v] of Object.entries(q)){const i=m.morphTargetDictionary[kk]; if(i!==undefined)m.morphTargetInfluences[i]=Math.min(1.2,v);} }
+  }
+  // Cusco
+  { const c=C.cusco, A=c.acts, st=cuscoState(t);
+    c.root.visible=st.vis; c.root.position.set(st.x,0,cuscoZ(t));
+    let lat=0; for(const tl of cusco.latidos) lat=Math.max(lat,win(t,tl-0.05,tl+0.8,0.1));
+    const chamado = t>=cusco.chamado[0] && t<=cusco.chamado[1];
+    const want = st.w>0.5 ? st.dir*Math.PI/2 : (chamado ? Math.atan2(X.lauro-st.x, 0.9) : Math.max(-1.2,Math.min(0.5,Math.atan2(X[focus]-st.x,1.0)-0.2)));
+    c.yaw+=(want-c.yaw)*(st.w>0.5?0.3:0.08); c.root.rotation.y=c.yaw;
+    const ph=t*2.3; const d=A.trote.getClip().duration;
+    A.trote.time=(ph*d)%d; A.trote.setEffectiveWeight(st.w);
+    A.latir.time=t%A.latir.getClip().duration; A.latir.setEffectiveWeight((1-st.w)*lat);
+    A.parado.time=t%A.parado.getClip().duration; A.parado.setEffectiveWeight((1-st.w)*(1-lat)); c.mixer.update(0); }
+  // câmera: média dos planos dos últimos 0,8 s (suave e só depende do tempo)
+  const shot=(tt)=>{
+    const q=lastSpeaker(tt), card=inCard(tt);
+    let s;
+    if(tt<3.4) s={x:posAt(TL.lauro,tt)*0.7, y:0.55, z:3.4};
+    else if(tt>TL.falas[16].e-0.2) s={x:0, y:0.6, z:3.5};
+    else if(tt>=TL.cusco.chamado[0] && tt<=TL.selo+1.0) s={x:0.0, y:0.5, z:2.9};
+    else if(q==='pia' && (tt-[...TL.falas].reverse().find(f=>tt>=f.s-0.3).s)<3) s={x:TL.pia.pos[0]*0.9, y:0.6, z:1.9};
+    else if(q==='lauro') s={x:TL.lauro.pos[0]*0.6, y:0.62, z:2.7};
+    else s={x:0.05, y:0.55, z:3.2};
+    // com quadro 2D: abre e sobe (personagens ficam na parte de baixo)
+    s={x:s.x*(1-card), y:s.y+(1.05-s.y)*card, z:s.z+(3.6-s.z)*card};
+    return s; };
+  let cx=0,cy=0,cz=0; for(let i=0;i<16;i++){const s=shot(t-i*0.05); cx+=s.x/16; cy+=s.y/16; cz+=s.z/16;}
+  cam.position.set(cx*0.75, cy+0.32+0.015*Math.sin(t*0.6), cz); cam.lookAt(cx, cy, 0);
+  r.render(scene,cam); return true;
+};
+window.DONE=true;
+</script></body></html>
