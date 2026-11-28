@@ -38,7 +38,8 @@ Este tema **não tem números confirmados para mostrar**, e a regra é não inve
 | 8 | Lauro | Bah, bah, bah! | Lauro rindo, de mão na barriga. Card verde `= QUE BELEZA 😂`. `aplauso` curto. |
 | 9 | Guria | Deixa eu tentar! Bah? | Guria dá um passo à frente, mãos na cintura (`hips`). Seta ↗ no fim. |
 | 10 | Lauro | Esse aí é o "bah, sério?". Tu aprende rápido, guria! | Card `= SÉRIO? 🤨`. Lauro com o polegar para cima (`thumbsUp`, mão com 5 dedos). |
-| — | Cusco | *(latido)* | **SELO DO CUSCO**, cerca de 0:35. |
+| 10b | Lauro | E aí, Cusco? Tu aprova? | Lauro aponta pro Cusco, câmera abre. O Cusco entra correndo. |
+| — | Cusco | *(latido)* | **SELO DO CUSCO** cai no latido, cerca de 0:51. |
 | 11 | Guria | E o capaz, tio? Na escola, capaz é quem consegue fazer as coisas. | Guria contando nos dedos (`count`). `CAPAZ` gigante entra. |
 | 12 | Lauro | No resto do Brasil, é. Aqui, depende do jeito de falar. Se eu digo "capaz que chova", é porque pode chover mesmo. | Nuvem chegando. Card `= É BEM POSSÍVEL 🌧️`. `chuva` baixinho. |
 | 13 | Guria | Tio… o Cusco comeu o teu chapéu. | Guria segurando o riso. O Cusco atrás, com a aba do chapéu na boca (`chew`). |
@@ -104,6 +105,8 @@ Este tema **não tem números confirmados para mostrar**, e a regra é não inve
 ```
 *(Cerca de 190 palavras, mais as pausas dos "bahs", o que dá cerca de 1:10 a 1:20.)*
 
+> **v3 (pedido do usuário):** o "Bah, bah, bah!" e a explicação dele ("de quem tá rindo à toa") saíram do vídeo; ficaram 4 bahs. Áudio de `audio/v08/curto_v4/`, acelerado só 1,08×. O latido do Cusco agora é o áudio enviado pelo usuário (`latido_cusco2.wav`).
+>
 > **v2 (pedido do usuário):** depois de cada "bah" o Lauro diz com todas as letras o que ele significa ("Quer dizer: …"), e o card de tradução vira nessa hora. Os 5 "bahs" gravados foram mantidos; só as 5 explicações são novas (`audio/v08/explica/`). Áudio montado de `audio/v08/curto_v2/` e acelerado 1,12× para caber em 1:30.
 
 **Ordem das falas (para montar):** L1, G1, L2, L3, L3b, L4, L4b, L5, L5b, L6, L6b, L7, L7b, G2, L8, *(selo do Cusco)*, G3, L9, G4, L10, G5, G6, L11, G7, L12.
