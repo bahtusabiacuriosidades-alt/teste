@@ -15,7 +15,7 @@ import words08 from './data/v08/words.json';
 import falas08 from './data/v08/falas.json';
 
 /* #008 (curto, vertical) — Um "bah", mil significados (e o "capaz" também), com a Guria */
-export const DURATION_08 = 76.3;
+export const DURATION_08 = 88.6;
 const rms = makeVoice(rms08 as number[]);
 const FALAS = falas08 as { n: number; quem: string; s: number; e: number }[];
 const F = (n: number) => FALAS.find((f) => f.n === n)!;
@@ -23,6 +23,9 @@ const quem = (t: number) => FALAS.find((f) => t >= f.s - 0.05 && t <= f.e + 0.05
 const talkL = (t: number) => (quem(t) === 'L' ? rms(t) : 0);
 const talkG = (t: number) => (quem(t) === 'G' ? rms(t) : 0);
 const WORDS = words08 as Word[];
+/* tempo de uma palavra (primeira ocorrência depois de `after`) */
+const norm = (x: string) => x.toLowerCase().replace(/[?!.,…"]/g, '');
+const W = (word: string, after = 0) => WORDS.find((x) => x.s >= after && norm(x.w) === norm(word))!.s;
 const FONT = 'Montserrat, "Noto Color Emoji", sans-serif';
 const jump = (t: number, at: number, dur: number, h: number) => (t > at && t < at + dur ? Math.sin((Math.PI * (t - at)) / dur) * h : 0);
 const pick = <T,>(t: number, list: [number, T][], def: T): T => {
@@ -32,15 +35,24 @@ const pick = <T,>(t: number, list: [number, T][], def: T): T => {
 };
 
 /* tempos das falas (do falas.json) */
-const B1 = F(4), B2 = F(5), B3 = F(6), B4 = F(7), B5 = F(8), GB = F(9), L10 = F(10), G11 = F(11), L12 = F(12), G13 = F(13), CZ = F(14), G15 = F(15), G16 = F(16), BC = F(17), GBF = F(18), FIM = F(19);
+const B1 = F(4), B2 = F(6), B3 = F(8), B4 = F(10), B5 = F(12), GB = F(14), L10 = F(15), G11 = F(16), L12 = F(17), G13 = F(18), CZ = F(19), G15 = F(20), G16 = F(21), BC = F(22), GBF = F(23), FIM = F(24);
+/* explicações do Lauro depois de cada bah: o card vira no "quer dizer…" */
+const EX = [F(5), F(7), F(9), F(11), F(13)];
+const QD = EX.map((e) => W('dizer', e.s) + 0.35);
+/* marcos tirados das palavras */
+const T_BAH = W('bah', 8), T_CAPAZ = W('capaz', 8), T_ENT = W('entonação', 8);
+const T_SERIO = W('sério', GB.e), T_RAPIDO = W('rápido', GB.e);
+const T_ESCOLA = W('escola', G11.s), T_CONSEGUE = W('consegue', G11.s), T_RESTO = W('no', L12.s - 1), T_DEPENDE = W('depende', L12.s);
+const T_SE = W('se', L12.s), T_PORQUE = W('porque', L12.s);
+const T_AGORA = W('agora', FIM.s), T_COMENTA = W('comenta', FIM.s), T_QUAL = W('qual', FIM.s), T_A = W('a', W('usa', FIM.s));
 /* selo do Cusco, no meio do vídeo (pausa entre as falas 10 e 11) */
 const SELO = L10.e + 0.55;
 
 const GROUND = 1868;
 const LS = 0.38, GS = 0.4;
-const lauroX = (t: number) => kf(t, [[0, -170], [2.3, 270], [8.4, 270], [9.6, 330], [33.0, 330], [34.0, 270], [63.6, 270], [64.8, 340]]);
+const lauroX = (t: number) => kf(t, [[0, -170], [2.3, 270], [7.4, 270], [8.6, 330], [L10.e + 0.3, 330], [L10.e + 1.3, 270], [FIM.s - 0.4, 270], [FIM.s + 0.8, 340]]);
 const lauroWalk = (t: number) => clamp(Math.abs(lauroX(t + 0.05) - lauroX(t - 0.05)) / 12);
-const guriaX = (t: number) => kf(t, [[0, 1300], [4.4, 1300], [5.3, 840], [25.0, 840], [25.5, 790], [56.0, 790], [56.6, 830], [63.6, 830], [64.8, 790]]);
+const guriaX = (t: number) => kf(t, [[0, 1300], [3.9, 1300], [4.8, 840], [GB.s - 0.5, 840], [GB.s, 790], [G16.s - 0.5, 790], [G16.s + 0.1, 830], [FIM.s - 0.4, 830], [FIM.s + 0.8, 790]]);
 const guriaWalk = (t: number) => clamp(Math.abs(guriaX(t + 0.05) - guriaX(t - 0.05)) / 12);
 
 /* ---------- câmera ---------- */
@@ -50,20 +62,20 @@ const GUR = (at: number, ease?: number, z = 1.36): Shot => ({ at, x: 760, y: 156
 const SHOTS: Shot[] = [
   { at: 0, x: -60, y: 1360, z: 1.35 },
   CARD(1.5, 1.08, 0.6),
-  GUR(5.5, 0.45),
-  CARD(8.4, 1.1, 0.7),
-  CARD(12.8, 1.16, 1.4),
-  CARD(B1.s - 0.1, 1.18, 0.25),
-  CARD(B2.s - 0.1, 1.08, 0.5),
-  CARD(B3.s - 0.1, 1.2, 0.2),
-  CARD(B4.s - 0.1, 1.1, 0.5),
-  CARD(B5.s - 0.1, 1.16, 0.3),
+  GUR(5.0, 0.45),
+  CARD(7.4, 1.1, 0.7),
+  CARD(T_ENT - 0.4, 1.16, 1.2),
+  CARD(B1.s - 0.1, 1.18, 0.25), CARD(QD[0] - 0.2, 1.17, 0.35),
+  CARD(B2.s - 0.1, 1.08, 0.5), CARD(QD[1] - 0.2, 1.17, 0.35),
+  CARD(B3.s - 0.1, 1.2, 0.2), CARD(QD[2] - 0.2, 1.17, 0.35),
+  CARD(B4.s - 0.1, 1.1, 0.5), CARD(QD[3] - 0.2, 1.17, 0.35),
+  CARD(B5.s - 0.1, 1.16, 0.3), CARD(QD[4] - 0.2, 1.17, 0.35),
   GUR(GB.s - 0.1, 0.4),
   CARD(L10.s + 0.6, 1.12, 0.6),
   WIDE(L10.e - 0.4, 0.6), // abre para o selo do Cusco
   GUR(G11.s - 0.2, 0.45),
-  CARD(37.1, 1.1, 0.5),
-  CARD(44.2, 1.15, 0.7),
+  CARD(T_CONSEGUE - 0.3, 1.1, 0.5),
+  CARD(T_SE, 1.15, 0.7),
   { at: G13.s - 0.2, x: 680, y: 1520, z: 1.3, ease: 0.5 }, // Guria e o Cusco
   CARD(CZ.s - 0.1, 1.2, 0.2),
   GUR(G15.s, 0.45),
@@ -71,48 +83,48 @@ const SHOTS: Shot[] = [
   CARD(BC.s - 0.1, 1.2, 0.2),
   CARD(GBF.s - 0.1, 1.14, 0.3),
   WIDE(FIM.s + 0.2, 0.8),
-  CARD(66.8, 1.1, 0.7),
-  { at: 71.0, x: 540, y: 1470, z: 1.15, ease: 0.6 },
-  WIDE(73.2, 0.8),
+  CARD(T_COMENTA - 0.1, 1.1, 0.7),
+  { at: T_A, x: 540, y: 1470, z: 1.15, ease: 0.6 },
+  WIDE(FIM.e + 0.1, 0.8),
 ];
-const PUNCHES = [1.7, B1.s, B3.s, B5.s, SELO, CZ.s, BC.s, 66.9];
+const PUNCHES = [1.5, B1.s, B3.s, B5.s, SELO, CZ.s, BC.s, T_COMENTA];
 
 /* ---------- cards ---------- */
 type Card = { a: number; b: number; draw: (t: number) => React.ReactNode };
-const TEASER: [number, string, string][] = [[1.9, '= QUE INCRÍVEL 🤩', COR.good], [2.5, '= QUE PENA 😞', COR.warn], [3.1, '= PARA COM ISSO 😤', COR.bad], [3.7, '= ECA 🤢', COR.eca], [4.3, '= QUE BELEZA 😂', COR.good], [4.9, '= ???', COR.ask]];
+const TEASER: [number, string, string][] = [[1.7, '= QUE INCRÍVEL 🤩', COR.good], [2.2, '= QUE PENA 😞', COR.warn], [2.7, '= PARA COM ISSO 😤', COR.bad], [3.2, '= ECA 🤢', COR.eca], [3.7, '= QUE BELEZA 😂', COR.good], [4.2, '= ???', COR.ask]];
 const CARDS: Card[] = [
-  { a: 0, b: 8.4, draw: (t) => <StageBah t={t} a={1.5} word="BAH" flips={TEASER} cena="pergunta" cenaAt={5.6} /> },
-  { a: 8.4, b: B1.s - 0.25, draw: (t) => <StageDuo t={t} a={8.4} bahT={10.35} capazT={11.25} setaT={13.2} /> },
-  { a: B1.s - 0.25, b: B2.s - 0.25, draw: (t) => <StageBah t={t} a={B1.s - 0.2} word="BAAAAH!" cena="xis" curve="up" vs={B1.s} ve={B1.e} stretch={[B1.s, B1.e]} flips={[[B1.e - 0.2, '= QUE INCRÍVEL 🤩', COR.good]]} /> },
-  { a: B2.s - 0.25, b: B3.s - 0.25, draw: (t) => <StageBah t={t} a={B2.s - 0.2} word="BAH…" cena="termica" curve="down" vs={B2.s} ve={B2.e} flips={[[B2.e - 0.1, '= QUE PENA 😞', COR.warn]]} /> },
-  { a: B3.s - 0.25, b: B4.s - 0.25, draw: (t) => <StageBah t={t} a={B3.s - 0.2} word="BAH!" cena="cuia" curve="short" vs={B3.s} ve={B3.e} flips={[[B3.e - 0.15, '= PARA COM ISSO 😤', COR.bad]]} /> },
-  { a: B4.s - 0.25, b: B5.s - 0.25, draw: (t) => <StageBah t={t} a={B4.s - 0.2} word="BAH." cena="lavado" curve="eca" vs={B4.s} ve={B4.e} flips={[[B4.e - 0.1, '= ECA 🤢', COR.eca]]} /> },
-  { a: B5.s - 0.25, b: GB.s - 0.3, draw: (t) => <StageBah t={t} a={B5.s - 0.2} word="BAH, BAH, BAH!" cena="riso" curve="triple" vs={B5.s} ve={B5.e} flips={[[B5.e - 0.2, '= QUE BELEZA 😂', COR.good]]} /> },
-  { a: GB.e - 0.9, b: L10.e - 0.4, draw: (t) => <StageBah t={t} a={GB.e - 0.85} word="BAH?" cena="pergunta" curve="upq" vs={GB.e - 0.6} ve={GB.e} flips={[[29.0, '= SÉRIO? 🤨', COR.info]]} /> },
-  { a: G11.s + 0.1, b: 44.2, draw: (t) => <StageBah t={t} a={G11.s + 0.1} word="CAPAZ" sub="NA ESCOLA" cena="livro" cenaAt={36.3} flips={[[37.4, '= QUE CONSEGUE 📚', COR.info], [41.9, '= NO RS, DEPENDE! 🤠', COR.warn]]} /> },
-  { a: 44.2, b: G13.s - 0.2, draw: (t) => <StageBah t={t} a={44.2} word="CAPAZ QUE CHOVA" cena="chuva" cenaAt={44.6} flips={[[46.4, '= É BEM POSSÍVEL 🌧️', COR.info]]} /> },
+  { a: 0, b: 7.4, draw: (t) => <StageBah t={t} a={1.3} word="BAH" flips={TEASER} cena="pergunta" cenaAt={5.0} /> },
+  { a: 7.4, b: B1.s - 0.25, draw: (t) => <StageDuo t={t} a={7.4} bahT={T_BAH} capazT={T_CAPAZ} setaT={T_ENT} /> },
+  { a: B1.s - 0.25, b: B2.s - 0.25, draw: (t) => <StageBah t={t} a={B1.s - 0.2} word="BAAAAH!" cena="xis" curve="up" vs={B1.s} ve={B1.e} stretch={[B1.s, B1.e]} flips={[[QD[0], '= QUE INCRÍVEL 🤩', COR.good]]} /> },
+  { a: B2.s - 0.25, b: B3.s - 0.25, draw: (t) => <StageBah t={t} a={B2.s - 0.2} word="BAH…" cena="termica" curve="down" vs={B2.s} ve={B2.e} flips={[[QD[1], '= QUE PENA 😞', COR.warn]]} /> },
+  { a: B3.s - 0.25, b: B4.s - 0.25, draw: (t) => <StageBah t={t} a={B3.s - 0.2} word="BAH!" cena="cuia" curve="short" vs={B3.s} ve={B3.e} flips={[[QD[2], '= PARA COM ISSO 😤', COR.bad]]} /> },
+  { a: B4.s - 0.25, b: B5.s - 0.25, draw: (t) => <StageBah t={t} a={B4.s - 0.2} word="BAH." cena="lavado" curve="eca" vs={B4.s} ve={B4.e} flips={[[QD[3], '= ECA 🤢', COR.eca]]} /> },
+  { a: B5.s - 0.25, b: GB.s - 0.3, draw: (t) => <StageBah t={t} a={B5.s - 0.2} word="BAH, BAH, BAH!" cena="riso" curve="triple" vs={B5.s} ve={B5.e} flips={[[QD[4], '= QUE BELEZA 😂', COR.good]]} /> },
+  { a: GB.e - 0.9, b: L10.e - 0.4, draw: (t) => <StageBah t={t} a={GB.e - 0.85} word="BAH?" cena="pergunta" curve="upq" vs={GB.e - 0.6} ve={GB.e} flips={[[T_SERIO, '= SÉRIO? 🤨', COR.info]]} /> },
+  { a: G11.s + 0.1, b: T_SE, draw: (t) => <StageBah t={t} a={G11.s + 0.1} word="CAPAZ" sub="NA ESCOLA" cena="livro" cenaAt={T_ESCOLA} flips={[[T_CONSEGUE, '= QUE CONSEGUE 📚', COR.info], [T_DEPENDE, '= NO RS, DEPENDE! 🤠', COR.warn]]} /> },
+  { a: T_SE, b: G13.s - 0.2, draw: (t) => <StageBah t={t} a={T_SE} word="CAPAZ QUE CHOVA" cena="chuva" cenaAt={T_SE + 0.3} flips={[[T_PORQUE, '= É BEM POSSÍVEL 🌧️', COR.info]]} /> },
   { a: CZ.s - 0.25, b: G15.e, draw: (t) => <StageBah t={t} a={CZ.s - 0.2} word="CAPAZ?!" cena="chapeu" curve="upq" vs={CZ.s} ve={CZ.e} flips={[[CZ.e - 0.1, '= COMO ASSIM?! 😳', COR.warn]]} /> },
   { a: G16.s + 0.5, b: BC.s - 0.25, draw: (t) => <StageBah t={t} a={G16.s + 0.5} word="23:59" sub="SÓ MAIS UM POUQUINHO…" cena="relogio" cenaAt={G16.s + 0.7} flips={[]} fill="#24303E" /> },
   { a: BC.s - 0.25, b: GBF.s - 0.2, draw: (t) => <StageBah t={t} a={BC.s - 0.2} word="BEM CAPAZ!" cena="xnao" curve="short" vs={BC.s} ve={BC.e} flips={[[BC.e - 0.2, '= NEM PENSAR ❌', COR.bad]]} /> },
   { a: GBF.s - 0.2, b: FIM.s + 0.2, draw: (t) => <StageBah t={t} a={GBF.s - 0.15} word="BAH…" cena="triste" curve="down" vs={GBF.s} ve={GBF.e} flips={[[GBF.e - 0.05, '= QUE PENA 😞', COR.warn]]} /> },
-  { a: 66.8, b: 77, draw: (t) => <StageTitleSerra t={t} at={66.9} kicker="COMENTA 👇 A TUA CIDADE" title="A MAIS CURTIDA É O PRÓXIMO VÍDEO" /> },
+  { a: T_COMENTA - 0.1, b: 99, draw: (t) => <StageTitleSerra t={t} at={T_COMENTA} kicker="COMENTA 👇 A TUA CIDADE" title="A MAIS CURTIDA É O PRÓXIMO VÍDEO" /> },
 ];
 const CUTS = CARDS.map((c) => c.a).filter((a) => a > 0);
 
-const LEXPR: [number, Expr][] = [[0, 'delight'], [1.4, 'talk'], [5.2, 'smile'], [8.4, 'talk'], [12.2, 'wink'], [13.0, 'talk'],
-  [B1.s - 0.1, 'delight'], [B2.s - 0.1, 'sad'], [B3.s - 0.1, 'angry'], [B4.s - 0.1, 'squint'], [B5.s - 0.1, 'laugh'], [GB.s - 0.2, 'smile'], [L10.s, 'laugh'], [29.8, 'talk'],
+const LEXPR: [number, Expr][] = [[0, 'delight'], [1.4, 'talk'], [4.7, 'smile'], [7.4, 'talk'], [T_CAPAZ + 0.4, 'wink'], [T_CAPAZ + 1.0, 'talk'],
+  [B1.s - 0.1, 'delight'], [B2.s - 0.1, 'sad'], [B3.s - 0.1, 'angry'], [B4.s - 0.1, 'squint'], [B5.s - 0.1, 'laugh'], [GB.s - 0.2, 'smile'], [L10.s, 'laugh'], [T_SERIO + 0.5, 'talk'],
   [SELO - 0.3, 'delight'], [SELO + 1.5, 'smile'], [L12.s, 'talk'], [G13.s, 'smile'], [CZ.s - 0.1, 'shock'], [G15.s + 0.3, 'squint'], [G15.s + 1.2, 'laugh'], [G16.s, 'smile'],
-  [BC.s - 0.1, 'stern'], [GBF.s + 0.2, 'smile'], [FIM.s, 'laugh'], [65.4, 'talk'], [72.6, 'wink'], [73.4, 'smile']];
-const LARM: [number, ArmPose][] = [[0, 'wave'], [2.6, 'down'], [8.6, 'pointUp'], [10.2, 'pointSide'], [14.9, 'down'],
-  [B1.s - 0.1, 'pointSide'], [B2.s - 0.1, 'down'], [B3.s - 0.1, 'wag'], [B4.s - 0.1, 'down'], [B5.s - 0.1, 'hold'], [GB.s, 'down'], [30.8, 'thumbsUp'], [32.6, 'down'],
-  [L12.s + 0.2, 'pointSide'], [44.4, 'pointUp'], [48.0, 'down'], [G15.s + 0.4, 'pointUp'], [G16.s, 'down'], [BC.s - 0.1, 'wag'], [BC.e + 0.4, 'down'],
-  [FIM.s, 'thumbsUp'], [65.4, 'pointSide'], [70.5, 'pointUp'], [72.4, 'down']];
-const GEXPR: [number, GuriaExpr][] = [[0, 'smile'], [5.5, 'talk'], [8.1, 'smile'], [B1.s, 'shock'], [B2.s, 'sad'], [B3.s, 'shock'], [B4.s, 'pout'], [B5.s, 'laugh'],
-  [GB.s, 'talk'], [GB.e, 'smile'], [30.0, 'laugh'], [32.6, 'smile'], [SELO, 'shock'], [SELO + 1.0, 'laugh'], [G11.s, 'talk'], [G11.e, 'smile'],
-  [G13.s, 'smug'], [G13.e, 'smile'], [CZ.s, 'smug'], [G15.s, 'laugh'], [G16.s, 'smug'], [BC.s, 'shock'], [GBF.s, 'pout'], [FIM.s + 1, 'smile'], [64.8, 'laugh'], [66.0, 'smile']];
-const GARMS: [number, GuriaArms][] = [[0, 'down'], [5.5, 'cross'], [8.1, 'down'], [B5.s, 'cheer'], [B5.e + 0.2, 'down'], [GB.s, 'hips'], [GB.e + 0.4, 'down'],
+  [BC.s - 0.1, 'stern'], [GBF.s + 0.2, 'smile'], [FIM.s, 'laugh'], [T_AGORA, 'talk'], [FIM.e - 0.6, 'wink'], [FIM.e + 0.2, 'smile']];
+const LARM: [number, ArmPose][] = [[0, 'wave'], [2.6, 'down'], [7.6, 'pointUp'], [T_BAH, 'pointSide'], [B1.s - 0.4, 'down'],
+  [B1.s - 0.1, 'pointSide'], [EX[0].s, 'pointUp'], [B2.s - 0.1, 'down'], [EX[1].s + 0.6, 'pointSide'], [B3.s - 0.1, 'wag'], [EX[2].s + 1.2, 'pointUp'], [B4.s - 0.1, 'down'], [EX[3].s + 0.6, 'pointSide'], [B5.s - 0.1, 'hold'], [EX[4].s + 0.6, 'pointUp'], [GB.s, 'down'], [T_RAPIDO, 'thumbsUp'], [L10.e, 'down'],
+  [L12.s + 0.2, 'pointSide'], [T_SE + 0.2, 'pointUp'], [L12.e, 'down'], [G15.s + 0.4, 'pointUp'], [G16.s, 'down'], [BC.s - 0.1, 'wag'], [BC.e + 0.4, 'down'],
+  [FIM.s, 'thumbsUp'], [T_AGORA, 'pointSide'], [T_QUAL, 'pointUp'], [FIM.e - 0.6, 'down']];
+const GEXPR: [number, GuriaExpr][] = [[0, 'smile'], [5.0, 'talk'], [7.2, 'smile'], [B1.s, 'shock'], [B2.s, 'sad'], [B3.s, 'shock'], [B4.s, 'pout'], [B5.s, 'laugh'],
+  [GB.s, 'talk'], [GB.e, 'smile'], [T_SERIO, 'laugh'], [L10.e, 'smile'], [SELO, 'shock'], [SELO + 1.0, 'laugh'], [G11.s, 'talk'], [G11.e, 'smile'],
+  [G13.s, 'smug'], [G13.e, 'smile'], [CZ.s, 'smug'], [G15.s, 'laugh'], [G16.s, 'smug'], [BC.s, 'shock'], [GBF.s, 'pout'], [FIM.s + 1, 'smile'], [FIM.s + 1.6, 'laugh'], [FIM.s + 2.8, 'smile']];
+const GARMS: [number, GuriaArms][] = [[0, 'down'], [5.0, 'cross'], [7.2, 'down'], [B5.s, 'cheer'], [B5.e + 0.2, 'down'], [GB.s, 'hips'], [GB.e + 0.4, 'down'],
   [G11.s, 'count'], [G11.e, 'down'], [G13.s, 'present'], [G13.e, 'down'], [G15.s, 'shrug'], [G15.e, 'down'], [G16.s, 'present'], [BC.s, 'down'], [GBF.s, 'cross'],
-  [FIM.s + 1.0, 'down'], [66.9, 'cheer'], [68.6, 'skirt'], [70.5, 'down'], [73.3, 'cheer']];
+  [FIM.s + 1.0, 'down'], [T_COMENTA, 'cheer'], [T_COMENTA + 1.7, 'skirt'], [T_A, 'down'], [FIM.e - 0.4, 'cheer']];
 
 const Chip: React.FC<{ t: number; a: number; b: number; text: string; kind?: 'bad' | 'good' | 'warn' | 'info'; y?: number }> = ({ t, a, b, text, kind = 'info', y = 300 }) => {
   if (t < a || t > b) return null;
@@ -128,14 +140,14 @@ const SFX: [string, number, number][] = [
   ['plim', 0.0, 0.3], ['whoosh', 1.4, 0.2], ...TEASER.map(([a]) => ['pop', a, 0.18] as [string, number, number]),
   ['patinhas', 4.4, 0.18], ['boing', 5.5, 0.18],
   ...CUTS.filter((c) => c > 8 && c < 66).map((c) => ['whoosh', c - 0.1, 0.14] as [string, number, number]),
-  ['pop', 10.35, 0.3], ['pop', 11.25, 0.3], ['riser', 13.0, 0.15],
-  ['plim', B1.e - 0.2, 0.3], ['toin', B2.e - 0.1, 0.25], ['erro', B3.s, 0.22], ['boing', B4.e - 0.1, 0.22], ['aplauso', B5.s, 0.15], ['ding', B5.e - 0.2, 0.22],
-  ['boing', GB.s + 0.2, 0.18], ['ding', 29.0, 0.25],
+  ['pop', T_BAH, 0.3], ['pop', T_CAPAZ, 0.3], ['riser', T_ENT - 0.2, 0.15],
+  ['plim', B1.e - 0.2, 0.3], ['ding', QD[0], 0.22], ['toin', B2.e - 0.1, 0.25], ['ding', QD[1], 0.2], ['erro', B3.s, 0.22], ['ding', QD[2], 0.2], ['boing', B4.e - 0.1, 0.22], ['ding', QD[3], 0.2], ['aplauso', B5.s, 0.15], ['ding', QD[4], 0.22],
+  ['boing', GB.s + 0.2, 0.18], ['ding', T_SERIO, 0.25],
   ['patinhas', SELO - 1.4, 0.3], ['latido', SELO - 0.05, 0.4], ['carimbo', SELO, 0.5], ['whoosh', SELO + 1.5, 0.22], ['patinhas', SELO + 1.6, 0.25],
-  ['pop', 37.4, 0.22], ['pop', 41.9, 0.22], ['chuva', 44.6, 0.1], ['ding', 46.4, 0.22],
+  ['pop', T_CONSEGUE, 0.22], ['pop', T_DEPENDE, 0.22], ['chuva', T_SE + 0.3, 0.1], ['ding', T_PORQUE, 0.22],
   ['latido', G13.e - 0.6, 0.2], ['scratch', CZ.s, 0.3], ['ding', CZ.e - 0.1, 0.2], ['boing', G15.s, 0.2],
   ['tictac', G16.s + 0.7, 0.12], ['buzina', BC.s, 0.22], ['toin', GBF.s, 0.25],
-  ['aplauso', FIM.s, 0.15], ['ding', 66.9, 0.28], ['plim', 69.0, 0.25], ['aplauso', 72.6, 0.2], ['latido', 72.9, 0.3],
+  ['aplauso', FIM.s, 0.15], ['ding', T_COMENTA, 0.28], ['plim', T_QUAL, 0.25], ['aplauso', FIM.e - 0.6, 0.2], ['latido', FIM.e - 0.3, 0.3],
 ];
 
 export const Video08: React.FC = () => {
@@ -145,8 +157,8 @@ export const Video08: React.FC = () => {
   const lastCut = CUTS.filter((c) => c <= t).pop() ?? -1;
   const flash = lastCut > 0 && t - lastCut < 0.08 ? 1 - (t - lastCut) / 0.08 : 0;
   const lx = lauroX(t), gx = guriaX(t);
-  const lHop = jump(t, 0.05, 0.4, 70) + jump(t, B1.s, 0.4, 90) + jump(t, B5.s, 0.35, 60) + jump(t, CZ.s, 0.35, 80) + jump(t, 72.6, 0.4, 90);
-  const gHop = jump(t, GB.s, 0.35, 90) + jump(t, SELO, 0.35, 110) + jump(t, G15.s, 0.35, 90) + jump(t, 66.9, 0.4, 100) + jump(t, 73.3, 0.4, 100);
+  const lHop = jump(t, 0.05, 0.4, 70) + jump(t, B1.s, 0.4, 90) + jump(t, B5.s, 0.35, 60) + jump(t, CZ.s, 0.35, 80) + jump(t, FIM.e - 0.6, 0.4, 90);
+  const gHop = jump(t, GB.s, 0.35, 90) + jump(t, SELO, 0.35, 110) + jump(t, G15.s, 0.35, 90) + jump(t, T_COMENTA, 0.4, 100) + jump(t, FIM.e - 0.4, 0.4, 100);
   /* Cusco: assiste aos bahs inclinando a cabeça, atravessa no selo, fica do lado da Guria na pegadinha do chapéu e no final */
   const cuscoSeloRun = (t > SELO - 1.5 && t < SELO - 0.1) || (t > SELO + 1.55 && t < SELO + 3.2);
   const cuscoSeloStop = t >= SELO - 0.1 && t <= SELO + 1.55;
@@ -164,7 +176,7 @@ export const Video08: React.FC = () => {
         <Cam t={t} shots={SHOTS} punches={PUNCHES}>
           <GuaibaWorld t={t} flags="rs" />
           {card && <g transform="translate(540,780) scale(0.82)">{card.draw(t)}</g>}
-          {t > 66.9 && t < 70.0 && <ConfettiC t={t} start={66.9} colors={['#2E7D32', '#C62828', MUST, '#fff']} />}
+          {t > T_COMENTA && t < T_COMENTA + 3.1 && <ConfettiC t={t} start={T_COMENTA} colors={['#2E7D32', '#C62828', MUST, '#fff']} />}
           {cuscoShow && (
             <g transform={`translate(${cuscoSeloRun || cuscoSeloStop ? cuscoX : cuscoSitX},${GROUND - 10})`}>
               {cuscoSeloRun ? (
@@ -177,7 +189,7 @@ export const Video08: React.FC = () => {
           <g transform={`translate(${lx},${GROUND}) scale(${LS})`}>
             <Lauro t={t} talk={talkL(t)} expr={pick(t, LEXPR, 'talk')} arm={pick(t, LARM, 'down')} armWobble={Math.sin(t * 5) * 5} walk={lauroWalk(t)} hop={lHop / LS}
               lean={t > B2.s && t < B2.e + 0.5 ? -4 : t > B4.s && t < B4.e + 0.4 ? 5 : 0}
-              cuiaRaise={t > 72.6 && t < 76.2 ? kf(t, [[72.6, 0], [73.0, 1]]) : 0} />
+              cuiaRaise={t > FIM.e - 0.6 && t < DURATION_08 - 0.2 ? kf(t, [[FIM.e - 0.6, 0], [FIM.e - 0.2, 1]]) : 0} />
           </g>
           <g transform={`translate(${gx},${GROUND}) scale(${-GS},${GS})`}>
             <Guria t={t} talk={talkG(t)} expr={pick(t, GEXPR, 'smile')} arms={pick(t, GARMS, 'down')} walk={guriaWalk(t)} hop={gHop / GS} gaze={quem(t) === 'L' ? 1 : 0.4}
@@ -187,17 +199,17 @@ export const Video08: React.FC = () => {
       </svg>
       <HUD num="#008" cat="🗣️ JEITO GAÚCHO" />
       <BigText t={t} start={0} end={1.4} lines={['BAH, TU', 'SABIA?']} y={380} size={110} />
-      <Chip t={t} a={2.0} b={5.0} text="🗣️ A MESMA PALAVRA, OUTRO SENTIDO" />
-      <Chip t={t} a={13.3} b={14.9} text="🎵 ENTONAÇÃO = O JEITO DE FALAR" kind="warn" />
-      <Chip t={t} a={40.0} b={41.8} text="🇧🇷 NO RESTO DO BRASIL: QUE CONSEGUE" />
+      <Chip t={t} a={1.8} b={4.6} text="🗣️ A MESMA PALAVRA, OUTRO SENTIDO" />
+      <Chip t={t} a={T_ENT} b={B1.s - 0.2} text="🎵 ENTONAÇÃO = O JEITO DE FALAR" kind="warn" />
+      <Chip t={t} a={T_RESTO} b={T_DEPENDE - 0.1} text="🇧🇷 NO RESTO DO BRASIL: QUE CONSEGUE" />
       <Chip t={t} a={G13.s + 0.6} b={CZ.s - 0.3} text="🎩 O CUSCO COMEU O CHAPÉU?" kind="warn" />
       <Chip t={t} a={G15.s + 0.2} b={G15.e + 0.2} text="😜 ERA PEGADINHA!" kind="good" />
-      <Chip t={t} a={68.8} b={72.4} text="🗣️ E QUAL BAH TU MAIS USA?" kind="warn" />
-      <Chip t={t} a={72.4} b={76.3} text="🏆 A CIDADE MAIS CURTIDA VENCE" kind="warn" />
+      <Chip t={t} a={T_QUAL - 0.2} b={T_A} text="🗣️ E QUAL BAH TU MAIS USA?" kind="warn" />
+      <Chip t={t} a={T_A} b={DURATION_08} text="🏆 A CIDADE MAIS CURTIDA VENCE" kind="warn" />
       <SeloCusco t={t} at={SELO} num="#008" tema="BAH E CAPAZ" cy={860} />
       <Captions t={t} hidden={t < 0.05 || (t > SELO && t < SELO + 1.9)} words={WORDS} y={1545} />
       {flash > 0 && <AbsoluteFill style={{ backgroundColor: `rgba(255,255,255,${flash * 0.8})` }} />}
-      {t > 75.8 && <AbsoluteFill style={{ backgroundColor: `rgba(0,0,0,${clamp((t - 75.8) / 0.5)})` }} />}
+      {t > DURATION_08 - 0.5 && <AbsoluteFill style={{ backgroundColor: `rgba(0,0,0,${clamp((t - DURATION_08 + 0.5) / 0.5)})` }} />}
       <Audio src={staticFile('audio/v08_voz.mp3')} />
       <Audio src={staticFile('audio/v08_musica.mp3')} volume={(f) => {
         const tt = f / FPS;
